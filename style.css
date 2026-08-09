@@ -336,7 +336,20 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 @keyframes stepIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .st__h{margin:2px 0 10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
 
-/* умови доставки */
+/* умови доставки — плавно виїжджають під кнопками способу */
+.condwrap{max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .42s var(--ease),opacity .3s var(--ease),margin .42s var(--ease)}
+.condwrap.open{opacity:1;margin-bottom:12px}
+
+/* «набір уже входить» — угорі списку додатків */
+.freebie{
+  display:flex;gap:11px;align-items:flex-start;margin:0 0 16px;padding:13px 14px;
+  background:rgba(99,180,74,.12);border:1px solid rgba(99,180,74,.35);border-radius:var(--r-s);
+}
+.freebie svg{width:18px;height:18px;color:#63B44A;flex-shrink:0;margin-top:1px}
+.freebie b{display:block;font-size:14px;font-weight:700;color:#8FD478;margin-bottom:2px}
+.freebie span{font-size:13px;color:var(--ink-2);line-height:1.45}
+
 .cond{padding:4px 0 2px}
 .cond__r{display:flex;justify-content:space-between;gap:14px;align-items:baseline;
   padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}

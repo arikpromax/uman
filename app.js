@@ -19,6 +19,7 @@ const ICON = {
   search:'<circle cx="11" cy="11" r="6.4"/><path d="m16 16 4 4"/>',
   close:'<path d="M6 6l12 12M18 6L6 18"/>',
   back:'<path d="M20 12H5M11 6l-6 6 6 6"/>',
+  check:'<path d="M20 6.5 9.5 17 4 11.5"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   clock:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.4l3.6 2.2"/>',
   card:'<rect x="2.8" y="5.4" width="18.4" height="13.2" rx="2"/><path d="M2.8 10h18.4"/>',
@@ -137,25 +138,40 @@ const discount = ()=>{
 };
 const payable = ()=>total()-discount();
 
-/* ---------- кроки кошика: cart → cond → addons → оформлення ---------- */
-let mode='Доставка';
+/* ---------- кроки кошика: cart (+умови) → addons → оформлення ---------- */
+let mode=null;          // поки не обрано — умови згорнуті
 let step='cart';
 let promo=null;
 
 function setStep(s){
   if(!$('#stCart')) return;
   step=s;
-  const map={cart:'#stCart',cond:'#stCond',add:'#stAdd'};
+  const map={cart:'#stCart',add:'#stAdd'};
   Object.entries(map).forEach(([k,sel])=>{
     const el=$(sel); el.hidden = k!==s;
     if(k===s){ el.classList.remove('in'); void el.offsetWidth; el.classList.add('in'); }
   });
   $('#foot1').hidden      = s!=='cart';
-  $('#toAdd').hidden      = s!=='cond';
   $('#toCheckout').hidden = s!=='add';
   $('#cartBack').hidden   = s==='cart';
-  if(s==='cond') renderCond();
-  if(s==='add')  renderAddons();
+  if(s==='add') renderAddons();
+}
+
+/* вибір способу: підсвітити й плавно висунути умови */
+function pickMode(m){
+  mode=m;
+  $$('#foot1 [data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
+  renderCond();
+  const w=$('#condWrap');
+  w.style.maxHeight = w.firstElementChild.scrollHeight + 'px';
+  w.classList.add('open');
+  $('#toAdd').hidden=false;
+}
+function resetMode(){
+  mode=null;
+  $$('#foot1 [data-mode]').forEach(b=>b.classList.remove('on'));
+  const w=$('#condWrap'); if(w){ w.classList.remove('open'); w.style.maxHeight='0px'; }
+  const t=$('#toAdd'); if(t) t.hidden=true;
 }
 
 /* умови доставки — «вилазять» після вибору способу */
@@ -184,6 +200,7 @@ function renderCond(){
 function renderAddons(){
   const list=ITEMS.filter(i=>i.add);
   $('#stAdd').innerHTML =
+    `<div class="freebie">${icon('check')}<span><b>Набір соусів уже входить</b>Соєвий соус, імбир і васабі — один набір до кожного ролу, безкоштовно.</span></div>` +
     `<p class="st__h">Додати до замовлення</p>` +
     list.map(m=>{
       const q=cart[m.id]||0;
@@ -193,8 +210,7 @@ function renderAddons(){
         ${q ? `<div class="qty"><button data-dec="${m.id}">−</button><i>${q}</i><button data-inc="${m.id}">+</button></div>`
             : `<button class="add add--sm" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>`}
       </div>`;
-    }).join('') +
-    `<p class="cond__n">До кожного ролу один набір соусів уже входить безкоштовно.</p>`;
+    }).join('');
 }
 
 function renderCart(){
@@ -204,7 +220,7 @@ function renderCart(){
   const body=$('#stCart'); if(!body) return;
   if(!n){
     body.innerHTML=`<div class="cart__empty">${art({t:'roll',ing:['ohir'],n:'порожньо'},110)}<div>Кошик порожній</div></div>`;
-    $('#cartFoot').hidden=true; promo=null; setStep('cart'); return;
+    $('#cartFoot').hidden=true; promo=null; resetMode(); setStep('cart'); return;
   }
   $('#cartFoot').hidden=false;
   body.innerHTML=Object.entries(cart).map(([id,q])=>{
@@ -219,8 +235,12 @@ function renderCart(){
 
   const free=t>=SHOP.freeFrom;
   $('#sumT').textContent=uah(payable());
-  if(step==='cond') renderCond();
-  if(step==='add')  renderAddons();
+  if(mode){
+    renderCond();
+    const w=$('#condWrap');
+    if(w.classList.contains('open')) w.style.maxHeight = w.firstElementChild.scrollHeight+'px';
+  }
+  if(step==='add') renderAddons();
   if($('#coBody') && !$('#checkout').hidden) renderCheckout();
   $('#progBar').style.width=Math.min(100,t/SHOP.freeFrom*100)+'%';
   $('#progBar').classList.toggle('done',free);
@@ -454,7 +474,6 @@ function mountShell(page){
       </div>
       <div class="cart__b">
         <div class="st" id="stCart"></div>
-        <div class="st" id="stCond" hidden></div>
         <div class="st" id="stAdd" hidden></div>
       </div>
       <div class="cart__f" id="cartFoot" hidden>
@@ -465,12 +484,12 @@ function mountShell(page){
         <div class="sum"><span>До сплати</span><b id="sumT">0 ₴</b></div>
         <div id="foot1">
           <div class="mode">
-            <button class="mbtn on" data-mode="Доставка">${icon('truck')}<span>Доставка</span></button>
+            <button class="mbtn" data-mode="Доставка">${icon('truck')}<span>Доставка</span></button>
             <button class="mbtn" data-mode="Самовиніс"><span>Самовиніс</span></button>
           </div>
-          <button class="btn btn--full" id="toCond"><span>Далі</span></button>
+          <div class="condwrap" id="condWrap"><div id="stCond"></div></div>
+          <button class="btn btn--full" id="toAdd" hidden><span>Далі</span></button>
         </div>
-        <button class="btn btn--full" id="toAdd" hidden><span>Далі</span></button>
         <button class="btn btn--full" id="toCheckout" hidden><span>Оформити</span></button>
       </div>
     </aside>
@@ -538,13 +557,8 @@ function mountShell(page){
   $$('.cart-btn').forEach(b=>{ if(b.id!=='cartClose') b.onclick=()=>openCart(true); });
   $('#cartClose').onclick=()=>openCart(false);
   $('#veil').onclick=()=>openCart(false);
-  $('#cartBack').onclick=()=>setStep(step==='add'?'cond':'cart');
-  // кнопки способу лише підсвічуються; далі — окремою кнопкою
-  $$('#foot1 [data-mode]').forEach(b=>b.onclick=()=>{
-    mode=b.dataset.mode;
-    $$('#foot1 [data-mode]').forEach(x=>x.classList.toggle('on',x===b));
-  });
-  $('#toCond').onclick=()=>setStep('cond');
+  $('#cartBack').onclick=()=>setStep('cart');
+  $$('#foot1 [data-mode]').forEach(b=>b.onclick=()=>pickMode(b.dataset.mode));
   $('#toAdd').onclick=()=>setStep('add');
   $('#toCheckout').onclick=openCheckout;
   $('#coBack').onclick=closeCheckout;

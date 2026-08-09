@@ -341,6 +341,12 @@ document.addEventListener('click',e=>{
   if(dec){ const id=dec.dataset.dec; cart[id]--; if(cart[id]<=0) delete cart[id]; save(); renderCart(); return; }
   const del=e.target.closest('[data-del]');
   if(del){ delete cart[del.dataset.del]; save(); renderCart(); return; }
+  const ps=e.target.closest('[data-pers]');
+  if(ps){
+    const el=$('#fPers');
+    el.value = Math.max(0, Math.min(20, (parseInt(el.value,10)||0) + (+ps.dataset.pers)));
+    return;
+  }
   const op=e.target.closest('[data-open]');
   if(op){ openProduct(op.dataset.open); return; }
 });
@@ -570,7 +576,14 @@ function mountShell(page){
           </div>
           <div class="fld two">
             <label>Коли<select id="fWhen"><option>Якнайшвидше</option><option>Через 1 годину</option><option>Через 2 години</option><option>На конкретний час</option></select></label>
-            <label>Приборів<input id="fPers" type="number" min="0" max="20" value="2"></label>
+            <div>
+              <span class="fld__l">Приборів</span>
+              <div class="stp">
+                <button type="button" data-pers="-1" aria-label="Менше">−</button>
+                <input id="fPers" type="text" inputmode="numeric" value="2" aria-label="Кількість приборів">
+                <button type="button" data-pers="1" aria-label="Більше">+</button>
+              </div>
+            </div>
           </div>
           <div class="fld" id="timeBox" hidden>
             <label>Час<input id="fTime" type="time" min="10:00" max="21:30" step="900"></label>
@@ -624,14 +637,25 @@ function mountShell(page){
 /* ============================================================
    ПОВНОЕКРАННА СТОРІНКА ПОЗИЦІЇ
    ============================================================ */
+/* що вже показували в цьому заході — щоб добірка не крутила одне й те саме */
+const seenPv = new Set();
+
 function alsoFor(m){
-  const same = ITEMS.filter(i=>i.c===m.c && i.id!==m.id);
-  const tops = ITEMS.filter(i=>i.top && i.id!==m.id && i.c!==m.c);
-  const seen = new Set();
-  return [...same,...tops].filter(i=>!seen.has(i.id) && seen.add(i.id)).slice(0,8);
+  // соуси й напої в «спробуйте також» не пропонуємо — там мають бути роли
+  const pool = ITEMS.filter(i=>i.id!==m.id && i.c!=='add');
+  const rank = i => (i.c===m.c ? 0 : 1);          // спершу з того ж розділу
+  let fresh = pool.filter(i=>!seenPv.has(i.id));
+  if(fresh.length < 6){                            // обійшли майже все — починаємо коло заново
+    seenPv.clear(); seenPv.add(m.id);
+    fresh = pool.filter(i=>!seenPv.has(i.id));
+  }
+  const res = [...fresh].sort((a,b)=>rank(a)-rank(b)).slice(0,8);
+  res.forEach(i=>seenPv.add(i.id));   // показане теж вважаємо переглянутим,
+  return res;                          // інакше наступна добірка повторить майже все
 }
 function openProduct(id){
   const m=byId(id); if(!m) return;
+  seenPv.add(id);
   const pv=$('#prod');
   const ing=(m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
   $('#pvTitle').textContent=m.n;
@@ -658,6 +682,7 @@ function openProduct(id){
 function closeProduct(){
   const pv=$('#prod'); if(!pv) return;
   pv.classList.remove('on');
+  seenPv.clear();                       // наступний захід починається з чистого аркуша
   setTimeout(()=>{ pv.hidden=true; syncLock(); },300);
 }
 

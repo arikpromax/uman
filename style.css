@@ -480,6 +480,19 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:0;border-color:var(--red)}
 .fld .bad{border-color:var(--red-hi)}
+/* свій лічильник: системні стрілочки в number виглядають чужорідно */
+.stp{display:flex;align-items:center;margin-top:5px;height:46px;
+  background:var(--glass-2);border:1px solid transparent;border-radius:var(--r-s);overflow:hidden}
+.stp button{width:46px;align-self:stretch;background:none;border:0;cursor:pointer;
+  color:var(--ink-2);font-size:20px;line-height:1;transition:background .25s,color .25s}
+.stp button:hover{background:var(--red-soft);color:#fff}
+.stp input{flex:1;min-width:0;margin:0;padding:0;text-align:center;
+  background:none;border:0;font-size:16px;font-weight:600}
+.stp input:focus{outline:0}
+.fld input[type=number]{-moz-appearance:textfield}
+.fld input[type=number]::-webkit-outer-spin-button,
+.fld input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
 .addr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
 @media(max-width:520px){.addr{grid-template-columns:1fr 1fr}}
 .fld__l+.pay{margin-top:6px}

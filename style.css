@@ -354,9 +354,18 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .add--sm{width:36px;height:36px}
 .add--sm svg{width:15px;height:15px}
 
-/* вибір способу — крок 1 */
-.mode{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.mode .btn{padding:15px 10px;font-size:14px}
+/* вибір способу — перемикач, а не перехід */
+.mode{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
+.mbtn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:15px 10px;border-radius:var(--r-s);cursor:pointer;
+  background:var(--glass-2);border:1px solid transparent;color:var(--ink-2);
+  font-size:14px;font-weight:600;
+  transition:background .25s,color .25s,border-color .25s;
+}
+.mbtn svg{width:18px;height:18px;flex-shrink:0}
+.mbtn:hover{color:var(--ink)}
+.mbtn.on{background:var(--red);border-color:var(--red-hi);color:#fff}
 
 /* ---------- ПОВНОЕКРАННЕ ОФОРМЛЕННЯ ---------- */
 .co{

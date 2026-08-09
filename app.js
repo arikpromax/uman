@@ -463,9 +463,12 @@ function mountShell(page){
           <div class="prog__b"><i id="progBar"></i></div>
         </div>
         <div class="sum"><span>До сплати</span><b id="sumT">0 ₴</b></div>
-        <div id="foot1" class="mode">
-          <button class="btn" data-mode="Доставка">${icon('truck')}<span>Доставка</span></button>
-          <button class="btn btn--glass" data-mode="Самовиніс"><span>Самовиніс</span></button>
+        <div id="foot1">
+          <div class="mode">
+            <button class="mbtn on" data-mode="Доставка">${icon('truck')}<span>Доставка</span></button>
+            <button class="mbtn" data-mode="Самовиніс"><span>Самовиніс</span></button>
+          </div>
+          <button class="btn btn--full" id="toCond"><span>Далі</span></button>
         </div>
         <button class="btn btn--full" id="toAdd" hidden><span>Далі</span></button>
         <button class="btn btn--full" id="toCheckout" hidden><span>Оформити</span></button>
@@ -522,7 +525,7 @@ function mountShell(page){
             </div>
           </div>
           <div class="fld"><label>Коментар<textarea id="fNote" rows="2" placeholder="Наприклад: без імбиру, дзвонити за 10 хв"></textarea></label></div>
-          <button class="btn btn--full" id="send">${icon('tg')}<span>Надіслати в Telegram</span></button>
+          <button class="btn btn--full" id="send"><span>Надіслати замовлення</span></button>
           <p class="co__note">Ми передзвонимо, щоб підтвердити замовлення.</p>
         </div>
       </div>
@@ -536,7 +539,12 @@ function mountShell(page){
   $('#cartClose').onclick=()=>openCart(false);
   $('#veil').onclick=()=>openCart(false);
   $('#cartBack').onclick=()=>setStep(step==='add'?'cond':'cart');
-  $$('#foot1 [data-mode]').forEach(b=>b.onclick=()=>{ mode=b.dataset.mode; setStep('cond'); });
+  // кнопки способу лише підсвічуються; далі — окремою кнопкою
+  $$('#foot1 [data-mode]').forEach(b=>b.onclick=()=>{
+    mode=b.dataset.mode;
+    $$('#foot1 [data-mode]').forEach(x=>x.classList.toggle('on',x===b));
+  });
+  $('#toCond').onclick=()=>setStep('cond');
   $('#toAdd').onclick=()=>setStep('add');
   $('#toCheckout').onclick=openCheckout;
   $('#coBack').onclick=closeCheckout;

@@ -9,27 +9,28 @@ const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 const uah = n => n.toLocaleString('uk-UA') + ' ₴';
 const byId = id => ITEMS.find(i=>i.id===id);
 
-/* ---------- сортування та фільтри ---------- */
+/* ---------- сортування: одна кнопка-перемикач, без панелі ---------- */
 const SORTS = [
-  {id:'pop',   n:'Популярні'},
-  {id:'cheap', n:'Спочатку дешеві'},
-  {id:'exp',   n:'Спочатку дорогі'}
+  {id:'pop',   n:'Популярні', f:(a,b)=>(b.top?1:0)-(a.top?1:0)},
+  {id:'cheap', n:'Дешевші',   f:(a,b)=>a.p-b.p},
+  {id:'exp',   n:'Дорожчі',   f:(a,b)=>b.p-a.p}
 ];
-const FTAGS = [
-  {id:'veg', n:'Без риби'},
-  {id:'hot', n:'Гострі'},
-  {id:'neu', n:'Новинки'}
-];
-const FSTATE = {sort:'pop', tags:new Set()};
+let sortI = 0;
+const applySort = list => [...list].sort(SORTS[sortI].f);
 
-function applyFilters(list){
-  let r = [...FSTATE.tags].reduce((a,t)=>a.filter(m=>m[t]), list);
-  if(FSTATE.sort==='cheap') r=[...r].sort((a,b)=>a.p-b.p);
-  if(FSTATE.sort==='exp')   r=[...r].sort((a,b)=>b.p-a.p);
-  if(FSTATE.sort==='pop')   r=[...r].sort((a,b)=>(b.top?1:0)-(a.top?1:0));
-  return r;
+function sortBtnHTML(){
+  return `<button class="filt-btn" id="sortBtn" aria-label="Змінити сортування">
+    ${icon('slid')}<span id="sortLbl">${SORTS[0].n}</span></button>`;
 }
-const filtersActive = ()=> FSTATE.sort!=='pop' || FSTATE.tags.size>0;
+function wireSort(onChange){
+  const b=$('#sortBtn'); if(!b) return;
+  b.onclick=()=>{
+    sortI=(sortI+1)%SORTS.length;
+    $('#sortLbl').textContent=SORTS[sortI].n;
+    b.classList.toggle('on',sortI!==0);
+    onChange();
+  };
+}
 
 /* ---------- ІКОНКИ (без емодзі) ---------- */
 const ICON = {
@@ -348,10 +349,17 @@ document.addEventListener('keydown',e=>{
   const c=e.target.closest('.card[data-open]');
   if(c){ e.preventDefault(); openProduct(c.dataset.open); }
 });
+/* одна панель могла зняти блокування прокрутки, поки інша ще відкрита */
+function syncLock(){
+  const on = $('#cart').classList.contains('on')
+          || ($('#checkout') && !$('#checkout').hidden)
+          || ($('#prod')     && !$('#prod').hidden);
+  document.body.classList.toggle('locked', on);
+}
 function openCart(v){
   $('#cart').classList.toggle('on',v);
   $('#veil').classList.toggle('on',v);
-  document.body.classList.toggle('locked',v);
+  syncLock();
 }
 
 /* ---------- повноекранне оформлення ---------- */
@@ -361,12 +369,12 @@ function openCheckout(){
   renderCheckout();
   const co=$('#checkout'); co.hidden=false;
   requestAnimationFrame(()=>co.classList.add('on'));
-  document.body.classList.add('locked');
+  syncLock();
 }
 function closeCheckout(){
   const co=$('#checkout');
   co.classList.remove('on');
-  setTimeout(()=>{ co.hidden=true; },320);
+  setTimeout(()=>{ co.hidden=true; syncLock(); },320);
 }
 function renderCheckout(){
   $('#coBody').innerHTML=Object.entries(cart).map(([id,q])=>{
@@ -392,10 +400,9 @@ function applyPromo(){
 
 document.addEventListener('keydown',e=>{
   if(e.key!=='Escape') return;
-  if($('#filt')    && !$('#filt').hidden)     openFilters(false);
-  else if($('#checkout') && !$('#checkout').hidden) closeCheckout();
-  else if($('#prod') && !$('#prod').hidden)   closeProduct();
-  else openCart(false);
+  if($('#checkout') && !$('#checkout').hidden) closeCheckout();
+  else if($('#cart').classList.contains('on')) openCart(false);
+  else if($('#prod') && !$('#prod').hidden)    closeProduct();
 });
 
 /* ============================================================
@@ -582,20 +589,6 @@ function mountShell(page){
       </div>
     </section>
 
-    <div class="fp" id="filt" hidden>
-      <div class="fp__box">
-        <div class="fp__h"><h3>Фільтри</h3><button class="icn" id="fClose" aria-label="Закрити">${icon('close')}</button></div>
-        <p class="fp__l">Сортування</p>
-        <div class="fp__g" id="fSort">${SORTS.map(s=>`<button data-sort="${s.id}">${s.n}</button>`).join('')}</div>
-        <p class="fp__l">Показати</p>
-        <div class="fp__g" id="fTags">${FTAGS.map(t=>`<button data-tag="${t.id}">${t.n}</button>`).join('')}</div>
-        <div class="fp__b">
-          <button class="btn btn--glass" id="fReset"><span>Скинути</span></button>
-          <button class="btn" id="fApply"><span>Показати</span></button>
-        </div>
-      </div>
-    </div>
-
     <section class="pv" id="prod" hidden aria-label="Позиція">
       <div class="co__bar">
         <button class="icn" id="pvBack" aria-label="Назад">${icon('back')}</button>
@@ -625,42 +618,7 @@ function mountShell(page){
   $('#fPromo').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); applyPromo(); }});
   $('#fWhen').onchange=e=>{ $('#timeBox').hidden = e.target.value!=='На конкретний час'; };
   $('#pvBack').onclick=closeProduct;
-  wireFilters();
   renderCart();
-}
-
-/* ============================================================
-   ПАНЕЛЬ ФІЛЬТРІВ
-   onApply задає сторінка: меню перемальовує список,
-   головна — переходить у меню з тими самими параметрами.
-   ============================================================ */
-let onFiltersApply = null;
-
-function paintFilters(){
-  $$('#fSort button').forEach(b=>b.classList.toggle('on',b.dataset.sort===FSTATE.sort));
-  $$('#fTags button').forEach(b=>b.classList.toggle('on',FSTATE.tags.has(b.dataset.tag)));
-  $$('.filt-btn').forEach(b=>b.classList.toggle('on',filtersActive()));
-}
-function openFilters(v){
-  const p=$('#filt'); if(!p) return;
-  if(v){ p.hidden=false; requestAnimationFrame(()=>p.classList.add('on')); paintFilters(); }
-  else { p.classList.remove('on'); setTimeout(()=>p.hidden=true,260); }
-  document.body.classList.toggle('locked',v);
-}
-function wireFilters(){
-  $('#fSort').onclick=e=>{ const b=e.target.closest('[data-sort]'); if(!b) return; FSTATE.sort=b.dataset.sort; paintFilters(); };
-  $('#fTags').onclick=e=>{
-    const b=e.target.closest('[data-tag]'); if(!b) return;
-    const t=b.dataset.tag; FSTATE.tags.has(t)?FSTATE.tags.delete(t):FSTATE.tags.add(t); paintFilters();
-  };
-  $('#fReset').onclick=()=>{ FSTATE.sort='pop'; FSTATE.tags.clear(); paintFilters(); };
-  $('#fClose').onclick=()=>openFilters(false);
-  $('#filt').onclick=e=>{ if(e.target.id==='filt') openFilters(false); };
-  $('#fApply').onclick=()=>{ openFilters(false); if(onFiltersApply) onFiltersApply(); };
-  paintFilters();
-}
-function filterBtnHTML(){
-  return `<button class="filt-btn" id="filtBtn">${icon('slid')}<span>Фільтри</span></button>`;
 }
 
 /* ============================================================
@@ -694,14 +652,13 @@ function openProduct(id){
   $('#pvAlso').innerHTML = also.length
     ? `<h3>Спробуйте також</h3><div class="row-slider">${also.map(cardHTML).join('')}</div>` : '';
   if(pv.hidden){ pv.hidden=false; requestAnimationFrame(()=>pv.classList.add('on')); }
-  document.body.classList.add('locked');
+  syncLock();
   pv.scrollTop=0;
 }
 function closeProduct(){
   const pv=$('#prod'); if(!pv) return;
   pv.classList.remove('on');
-  document.body.classList.remove('locked');
-  setTimeout(()=>{ pv.hidden=true; },300);
+  setTimeout(()=>{ pv.hidden=true; syncLock(); },300);
 }
 
 function footerHTML(){

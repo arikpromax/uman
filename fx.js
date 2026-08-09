@@ -64,11 +64,26 @@ if(FINE && !RM){
 }
 
 /* ---------- 5. поява блоків під час прокрутки ---------- */
+/* Показ — з підстраховкою. Якщо спостерігач з якоїсь причини не
+   спрацює, контент лишиться прозорим назавжди: для меню це смерть.
+   Тому: те, що вже у вікні, показуємо одразу, а решту ще й
+   домітаємо на прокрутці й раз на секунду. */
 const io = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('shown'); io.unobserve(e.target); }});
 },{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 
-const REVEAL = '.card, .grp, .info > div, .sec-h, .hours, .cat, .co__side, .co__form, .footer__in > div';
+function sweep(){
+  qq('.fx-rise:not(.shown)').forEach(el=>{
+    const r=el.getBoundingClientRect();
+    if(r.top < innerHeight && r.bottom > 0) el.classList.add('shown');
+  });
+}
+setInterval(sweep,1000);
+addEventListener('scroll',()=>{ clearTimeout(sweep._t); sweep._t=setTimeout(sweep,90); },{passive:true});
+
+// панелі оформлення сюди не беремо: вони стартують схованими,
+// і поки не відкриються, лишалися б прозорими
+const REVEAL = '.card, .grp, .info > div, .sec-h, .hours, .cat, .footer__in > div';
 function scan(){
   qq(REVEAL).forEach(el=>{
     if(el.dataset.fx) return;
@@ -77,8 +92,11 @@ function scan(){
     // сходинка затримки в межах свого ряду
     const sibs=[...el.parentElement.children].filter(x=>x.matches(REVEAL));
     el.style.setProperty('--d', Math.min(sibs.indexOf(el),7)*55 + 'ms');
-    io.observe(el);
+    const r=el.getBoundingClientRect();
+    if(r.top < innerHeight && r.bottom > -200) requestAnimationFrame(()=>el.classList.add('shown'));
+    else io.observe(el);
   });
+  requestAnimationFrame(sweep);
 }
 scan();
 

@@ -13,7 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  .catbar{position:sticky;top:74px;z-index:40;margin:14px -16px 0;padding:0 16px;
+  /* без відʼємних полів: вони давали зайву ширину і сторінку можна було тягнути вбік */
+  .catbar{position:sticky;top:74px;z-index:40;margin:14px 0 0;
     background:linear-gradient(#000 72%,rgba(0,0,0,0))}
   .cats--pill{padding:10px 0 12px}
   .cats--pill .cat{flex-direction:row;min-width:0;padding:10px 16px;gap:9px;font-size:14px}
@@ -73,13 +74,8 @@ let q   = par.get('q') || '';
 $('#q').value = q;
 $('#qx').hidden = !q;
 
-// фільтри можуть прийти з головної
-if(par.get('sort')) FSTATE.sort = par.get('sort');
-(par.get('f')||'').split(',').filter(Boolean).forEach(t=>FSTATE.tags.add(t));
-
-$('#filtSlot').outerHTML = filterBtnHTML();
-$('#filtBtn').onclick = ()=>openFilters(true);
-onFiltersApply = ()=>{ render(); paintFilters(); };
+$('#filtSlot').outerHTML = sortBtnHTML();
+wireSort(render);
 
 /* кирилиця ↔ латиниця: щоб «filadelfiya» знаходило «Філадельфію» */
 const FOLD = {а:'a',б:'b',в:'v',г:'h',ґ:'g',д:'d',е:'e',є:'ye',ж:'zh',з:'z',и:'y',і:'i',ї:'yi',й:'y',
@@ -95,18 +91,17 @@ function render(){
     }
     return nq ? true : (cat==='all' || m.c===cat);
   };
-  const found = applyFilters(ITEMS.filter(hit));
+  const found = applySort(ITEMS.filter(hit));
 
   $$('#cats .cat').forEach(a=>a.classList.toggle('on', !nq && a.dataset.c===cat));
-  paintFilters();
 
   if(!found.length){
     $('#list').innerHTML = `<div class="empty">Нічого не знайшлося. Спробуйте іншу назву або <a href="menu.html" style="color:var(--red-hi)">усе меню</a>.</div>`;
     return;
   }
-  // при пошуку або активному сортуванні показуємо єдиним списком
-  if(nq || FSTATE.sort!=='pop' || FSTATE.tags.size){
-    $('#list').innerHTML = `<div class="grp"><h2>${nq?'Знайдено':'Показано'}: ${found.length}</h2><div class="grid">${found.map(cardHTML).join('')}</div></div>`;
+  // при пошуку або зміненому сортуванні показуємо єдиним списком
+  if(nq || sortI!==0){
+    $('#list').innerHTML = `<div class="grp"><h2>${nq?'Знайдено':SORTS[sortI].n}: ${found.length}</h2><div class="grid">${found.map(cardHTML).join('')}</div></div>`;
     return;
   }
   const groups = cat==='all' ? CATS : CATS.filter(c=>c.id===cat);

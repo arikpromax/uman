@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-  .catbar{position:sticky;top:74px;z-index:40;margin:0 -16px;padding:0 16px;
+  .catbar{position:sticky;top:74px;z-index:40;margin:14px -16px 0;padding:0 16px;
     background:linear-gradient(#000 72%,rgba(0,0,0,0))}
   .cats--pill{padding:10px 0 12px}
   .cats--pill .cat{flex-direction:row;min-width:0;padding:10px 16px;gap:9px;font-size:14px}
@@ -41,6 +41,7 @@
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
     </label>
+    <span id="filtSlot"></span>
   </div>
 
   <div class="catbar"><div class="cats cats--pill" id="cats"></div></div>
@@ -72,6 +73,14 @@ let q   = par.get('q') || '';
 $('#q').value = q;
 $('#qx').hidden = !q;
 
+// фільтри можуть прийти з головної
+if(par.get('sort')) FSTATE.sort = par.get('sort');
+(par.get('f')||'').split(',').filter(Boolean).forEach(t=>FSTATE.tags.add(t));
+
+$('#filtSlot').outerHTML = filterBtnHTML();
+$('#filtBtn').onclick = ()=>openFilters(true);
+onFiltersApply = ()=>{ render(); paintFilters(); };
+
 /* кирилиця ↔ латиниця: щоб «filadelfiya» знаходило «Філадельфію» */
 const FOLD = {а:'a',б:'b',в:'v',г:'h',ґ:'g',д:'d',е:'e',є:'ye',ж:'zh',з:'z',и:'y',і:'i',ї:'yi',й:'y',
   к:'k',л:'l',м:'m',н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'kh',ц:'ts',ч:'ch',ш:'sh',щ:'shch',ь:'',ю:'yu',я:'ya',ʼ:'',"'":''};
@@ -86,21 +95,23 @@ function render(){
     }
     return nq ? true : (cat==='all' || m.c===cat);
   };
-  const found = ITEMS.filter(hit);
+  const found = applyFilters(ITEMS.filter(hit));
 
   $$('#cats .cat').forEach(a=>a.classList.toggle('on', !nq && a.dataset.c===cat));
+  paintFilters();
 
   if(!found.length){
     $('#list').innerHTML = `<div class="empty">Нічого не знайшлося. Спробуйте іншу назву або <a href="menu.html" style="color:var(--red-hi)">усе меню</a>.</div>`;
     return;
   }
-  if(nq){
-    $('#list').innerHTML = `<div class="grp"><h2>Знайдено: ${found.length}</h2><div class="grid">${found.map(cardHTML).join('')}</div></div>`;
+  // при пошуку або активному сортуванні показуємо єдиним списком
+  if(nq || FSTATE.sort!=='pop' || FSTATE.tags.size){
+    $('#list').innerHTML = `<div class="grp"><h2>${nq?'Знайдено':'Показано'}: ${found.length}</h2><div class="grid">${found.map(cardHTML).join('')}</div></div>`;
     return;
   }
   const groups = cat==='all' ? CATS : CATS.filter(c=>c.id===cat);
   $('#list').innerHTML = groups.map(c=>{
-    const its = ITEMS.filter(i=>i.c===c.id);
+    const its = found.filter(i=>i.c===c.id);
     if(!its.length) return '';
     return `<section class="grp" id="c-${c.id}"><h2>${c.n}</h2><div class="grid">${its.map(cardHTML).join('')}</div></section>`;
   }).join('');

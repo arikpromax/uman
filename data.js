@@ -228,11 +228,13 @@ const PROMO = {};
 
 /* сети теж стають позиціями каталогу */
 SETS.forEach(s=>{
-  ITEMS.push({
+  const o = {
     id:s.id, c:'set', n:'Сет «'+s.n+'»', p:s.p, ok:1,
     w:[s.pcs,s.w].filter(Boolean).join(' · '),
-    t:'set', ing:s.ing, list:s.list, week:s.week, top:s.p>=999&&s.p<=1249
-  });
+    t:'set', ing:s.ing, list:s.list, week:s.week
+  };
+  if(s.p>=999 && s.p<=1249) o.top = 1;   // так само, як у позицій меню
+  ITEMS.push(o);
 });
 
 /* банери на головній — з реальних сетів */

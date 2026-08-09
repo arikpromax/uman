@@ -18,6 +18,7 @@ const ICON = {
   truck:'<path d="M2.6 16.4h1.8m13.2 0h2M4.4 16.4a2.4 2.4 0 1 0 4.8 0 2.4 2.4 0 1 0-4.8 0M15 16.4a2.4 2.4 0 1 0 4.8 0 2.4 2.4 0 1 0-4.8 0"/><path d="M4.4 16.4V6.6h9.2v9.8M13.6 9.6h3.6l2.6 4.4v2.4"/>',
   search:'<circle cx="11" cy="11" r="6.4"/><path d="m16 16 4 4"/>',
   close:'<path d="M6 6l12 12M18 6L6 18"/>',
+  back:'<path d="M20 12H5M11 6l-6 6 6 6"/>',
   plus:'<path d="M12 5v14M5 12h14"/>',
   clock:'<circle cx="12" cy="12" r="8.6"/><path d="M12 7v5.4l3.6 2.2"/>',
   card:'<rect x="2.8" y="5.4" width="18.4" height="13.2" rx="2"/><path d="M2.8 10h18.4"/>',
@@ -92,6 +93,18 @@ function art(item,size){
     o+=`<circle cx="${c}" cy="${c}" r="${c*.3}" fill="${col('perec')}" opacity=".3"/>`;
     return o+'</svg>';
   }
+  if(t==='stick'){
+    o+=`<rect x="${s*.30}" y="${s*.10}" width="${s*.09}" height="${s*.80}" rx="${s*.03}" fill="${col(ings[0])}" transform="rotate(-7 ${c} ${c})"/>`;
+    o+=`<rect x="${s*.58}" y="${s*.10}" width="${s*.09}" height="${s*.80}" rx="${s*.03}" fill="${col(ings[0])}" transform="rotate(7 ${c} ${c})"/>`;
+    o+=`<rect x="${s*.27}" y="${s*.10}" width="${s*.44}" height="${s*.16}" rx="${s*.04}" fill="#2A2A2E"/>`;
+    return o+'</svg>';
+  }
+  if(t==='sauce'){
+    o+=`<path d="M${s*.34} ${s*.26} h${s*.32} l${s*.06} ${s*.56} a${s*.05} ${s*.05} 0 0 1 -${s*.05} ${s*.05} h-${s*.34} a${s*.05} ${s*.05} 0 0 1 -${s*.05} -${s*.05} z" fill="${col(ings[0])}" opacity=".92"/>`;
+    o+=`<rect x="${s*.40}" y="${s*.14}" width="${s*.20}" height="${s*.13}" rx="${s*.03}" fill="#2A2A2E"/>`;
+    o+=`<rect x="${s*.37}" y="${s*.46}" width="${s*.26}" height="${s*.22}" rx="2" fill="#F7F2E7" opacity=".88"/>`;
+    return o+'</svg>';
+  }
   if(t==='drink'){
     o+=`<rect x="${c-s*.22}" y="${s*.15}" width="${s*.44}" height="${s*.72}" rx="${s*.07}" fill="${col(ings[0])}" opacity=".92"/>`;
     o+=`<rect x="${c-s*.1}" y="${s*.06}" width="${s*.2}" height="${s*.11}" rx="${s*.03}" fill="#2A2A2E"/>`;
@@ -117,24 +130,81 @@ try{ cart=JSON.parse(localStorage.getItem('fuji_cart')||'{}'); }catch(e){ cart={
 const save  = ()=>localStorage.setItem('fuji_cart',JSON.stringify(cart));
 const count = ()=>Object.values(cart).reduce((a,b)=>a+b,0);
 const total = ()=>Object.entries(cart).reduce((a,[id,q])=>{const m=byId(id);return a+(m?m.p*q:0);},0);
+const discount = ()=>{
+  if(!promo) return 0;
+  const t=total();
+  return promo.type==='%' ? Math.round(t*promo.off/100) : Math.min(promo.off,t);
+};
+const payable = ()=>total()-discount();
 
-/* крок 1 — тільки список і вибір способу; крок 2 — контакти */
+/* ---------- кроки кошика: cart → cond → addons → оформлення ---------- */
 let mode='Доставка';
+let step='cart';
+let promo=null;
+
 function setStep(s){
-  const one=$('#step1'), two=$('#step2'); if(!one) return;
-  one.hidden = s!==1; two.hidden = s!==2;
-  const ad=$('#fAddr'); if(ad){ ad.hidden = mode==='Самовиніс'; if(ad.hidden) ad.value=''; }
-  if(s===2) setTimeout(()=>$('#fName')?.focus(),80);
+  if(!$('#stCart')) return;
+  step=s;
+  const map={cart:'#stCart',cond:'#stCond',add:'#stAdd'};
+  Object.entries(map).forEach(([k,sel])=>{
+    const el=$(sel); el.hidden = k!==s;
+    if(k===s){ el.classList.remove('in'); void el.offsetWidth; el.classList.add('in'); }
+  });
+  $('#foot1').hidden      = s!=='cart';
+  $('#toAdd').hidden      = s!=='cond';
+  $('#toCheckout').hidden = s!=='add';
+  $('#cartBack').hidden   = s==='cart';
+  if(s==='cond') renderCond();
+  if(s==='add')  renderAddons();
+}
+
+/* умови доставки — «вилазять» після вибору способу */
+function renderCond(){
+  const t=total(), free=t>=SHOP.freeFrom;
+  $('#stCond').innerHTML = mode==='Самовиніс'
+    ? `<div class="cond">
+         <div class="cond__r"><span>Спосіб</span><b>Самовиніс</b></div>
+         <div class="cond__r"><span>Мінімальна сума</span><b>${SHOP.minOrder} ₴</b></div>
+         <div class="cond__r"><span>Готовність</span><b>${SHOP.pickupTime}</b></div>
+         <div class="cond__r"><span>Графік</span><b>${SHOP.hours}</b></div>
+         <p class="cond__n">Адресу самовинесення підтвердимо дзвінком.</p>
+       </div>`
+    : `<div class="cond">
+         <div class="cond__r"><span>Мінімальна сума</span><b>${SHOP.minOrder} ₴</b></div>
+         <div class="cond__r ${free?'ok':''}"><span>Безкоштовно від</span><b>${SHOP.freeFrom} ₴</b></div>
+         <div class="cond__r"><span>По місту</span><b>${free?'безкоштовно':'за тарифом'}</b></div>
+         <div class="cond__r"><span>Понад ${SHOP.farKm} км</span><b>+${SHOP.farFee} ₴ за км</b></div>
+         <p class="cond__n">${free
+            ? 'Доставка по Умані безкоштовна — сума вже достатня.'
+            : `Додайте ще ${uah(SHOP.freeFrom-t)}, щоб доставка стала безкоштовною.`}</p>
+       </div>`;
+}
+
+/* додатки перед оформленням */
+function renderAddons(){
+  const list=ITEMS.filter(i=>i.add);
+  $('#stAdd').innerHTML =
+    `<p class="st__h">Додати до замовлення</p>` +
+    list.map(m=>{
+      const q=cart[m.id]||0;
+      return `<div class="ad">
+        <div class="ad__a">${art(m,42)}</div>
+        <div class="ad__t"><b>${m.n}</b><span>${m.w||''} · ${m.p} ₴</span></div>
+        ${q ? `<div class="qty"><button data-dec="${m.id}">−</button><i>${q}</i><button data-inc="${m.id}">+</button></div>`
+            : `<button class="add add--sm" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>`}
+      </div>`;
+    }).join('') +
+    `<p class="cond__n">До кожного ролу один набір соусів уже входить безкоштовно.</p>`;
 }
 
 function renderCart(){
   const n=count(), t=total();
   $$('.cart-btn i').forEach(e=>{ e.textContent=n; e.classList.toggle('on',n>0); });
 
-  const body=$('#cartBody'); if(!body) return;
+  const body=$('#stCart'); if(!body) return;
   if(!n){
     body.innerHTML=`<div class="cart__empty">${art({t:'roll',ing:['ohir'],n:'порожньо'},110)}<div>Кошик порожній</div></div>`;
-    $('#cartFoot').hidden=true; setStep(1); return;
+    $('#cartFoot').hidden=true; promo=null; setStep('cart'); return;
   }
   $('#cartFoot').hidden=false;
   body.innerHTML=Object.entries(cart).map(([id,q])=>{
@@ -148,7 +218,10 @@ function renderCart(){
   }).join('');
 
   const free=t>=SHOP.freeFrom;
-  $('#sumT').textContent=uah(t);
+  $('#sumT').textContent=uah(payable());
+  if(step==='cond') renderCond();
+  if(step==='add')  renderAddons();
+  if($('#coBody') && !$('#checkout').hidden) renderCheckout();
   $('#progBar').style.width=Math.min(100,t/SHOP.freeFrom*100)+'%';
   $('#progBar').classList.toggle('done',free);
   if(t<SHOP.minOrder){
@@ -230,7 +303,48 @@ function openCart(v){
   $('#veil').classList.toggle('on',v);
   document.body.classList.toggle('locked',v);
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') openCart(false); });
+
+/* ---------- повноекранне оформлення ---------- */
+function openCheckout(){
+  if(total()<SHOP.minOrder){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return; }
+  $('#addrBox').hidden = mode==='Самовиніс';
+  renderCheckout();
+  const co=$('#checkout'); co.hidden=false;
+  requestAnimationFrame(()=>co.classList.add('on'));
+  document.body.classList.add('locked');
+}
+function closeCheckout(){
+  const co=$('#checkout');
+  co.classList.remove('on');
+  setTimeout(()=>{ co.hidden=true; },320);
+}
+function renderCheckout(){
+  $('#coBody').innerHTML=Object.entries(cart).map(([id,q])=>{
+    const m=byId(id); if(!m) return '';
+    return `<div class="co__l"><span>${m.n} <em>× ${q}</em></span><b>${uah(m.p*q)}</b></div>`;
+  }).join('');
+  const d=discount();
+  $('#coSum').innerHTML =
+    `<div class="co__l"><span>Сума</span><b>${uah(total())}</b></div>` +
+    (d?`<div class="co__l co__l--off"><span>Промокод ${promo.n||''}</span><b>−${uah(d)}</b></div>`:'') +
+    `<div class="co__l"><span>${mode}</span><b>${mode==='Доставка'?(total()>=SHOP.freeFrom?'безкоштовно':'за тарифом'):SHOP.pickupTime}</b></div>` +
+    `<div class="co__l co__l--big"><span>До сплати</span><b>${uah(payable())}</b></div>`;
+}
+function applyPromo(){
+  const code=($('#fPromo').value||'').trim().toUpperCase();
+  const msg=$('#promoMsg');
+  if(!code){ msg.textContent=''; return; }
+  const p=PROMO[code];
+  if(p){ promo={...p,code}; msg.className='promo__m ok'; msg.textContent='Промокод застосовано: '+(p.n||code); }
+  else  { promo=null;       msg.className='promo__m';    msg.textContent='Такого промокоду немає'; }
+  renderCheckout(); renderCart();
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Escape') return;
+  if($('#checkout') && !$('#checkout').hidden) closeCheckout();
+  else openCart(false);
+});
 
 /* ============================================================
    ЗАМОВЛЕННЯ В TELEGRAM
@@ -239,21 +353,28 @@ function orderText(){
   const lines=Object.entries(cart).map(([id,q],i)=>{
     const m=byId(id); return `${i+1}. ${m.n} — ${q} × ${m.p} = ${m.p*q} ₴`;
   });
-  const t=total(), free=t>=SHOP.freeFrom;
+  const t=total(), d=discount(), free=t>=SHOP.freeFrom;
   const v=s=>($('#'+s)?.value||'').trim();
   const pay=$('input[name=pay]:checked')?.value||'—';
+  const addr=[v('fStreet'),v('fHouse')&&'буд. '+v('fHouse'),v('fFlat')&&'кв. '+v('fFlat'),
+              v('fEnt')&&'підʼїзд '+v('fEnt'),v('fCode')&&'код '+v('fCode')].filter(Boolean).join(', ');
+  const when=v('fWhen')==='На конкретний час' ? 'на '+(v('fTime')||'—') : v('fWhen');
   return [
     'НОВЕ ЗАМОВЛЕННЯ · FUJI SUSHI',
     '——————————————',
     ...lines,
     '——————————————',
     `Сума: ${t} ₴`,
+    ...(d ? [`Промокод ${promo.code}: −${d} ₴`] : []),
+    `До сплати: ${payable()} ₴`,
     `Спосіб: ${mode}` + (mode==='Доставка' ? ` (${free?'безкоштовно':'за тарифом'})` : ''),
     `Оплата: ${pay}`,
+    `Коли: ${when}`,
+    `Приборів: ${v('fPers')||'—'}`,
     '',
     `Імʼя: ${v('fName')||'—'}`,
     `Телефон: ${v('fTel')||'—'}`,
-    ...(mode==='Доставка' ? [`Адреса: ${v('fAddr')||'—'}`] : []),
+    ...(mode==='Доставка' ? [`Адреса: ${addr||'—'}`] : []),
     `Коментар: ${v('fNote')||'—'}`
   ].join('\n');
 }
@@ -262,12 +383,13 @@ function validate(){
   if(total()<SHOP.minOrder){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return false; }
   let ok=true;
   const need=[['fName',2],['fTel',9]];
-  if(mode==='Доставка') need.push(['fAddr',4]);
+  if(mode==='Доставка') need.push(['fStreet',3],['fHouse',1]);
   need.forEach(([id,min])=>{
-    const el=$('#'+id), bad=el.value.trim().length<min;
+    const el=$('#'+id); if(!el) return;
+    const bad=el.value.trim().length<min;
     el.classList.toggle('bad',bad); if(bad) ok=false;
   });
-  if(!ok) toast(mode==='Доставка' ? 'Заповніть імʼя, телефон і адресу' : 'Заповніть імʼя і телефон');
+  if(!ok) toast(mode==='Доставка' ? 'Заповніть імʼя, телефон, вулицю і будинок' : 'Заповніть імʼя і телефон');
   return ok;
 }
 async function sendOrder(){
@@ -283,9 +405,9 @@ async function sendOrder(){
       });
       const j=await r.json();
       if(j.ok){
-        cart={}; save(); renderCart(); setStep(1);
+        cart={}; promo=null; save(); renderCart(); setStep('cart');
         toast('Замовлення надіслано — ми передзвонимо');
-        setTimeout(()=>openCart(false),1200);
+        setTimeout(()=>{ closeCheckout(); openCart(false); },1200);
       }else toast('Telegram не прийняв: '+(j.description||'помилка'));
     }catch(err){ toast('Немає звʼязку з Telegram — подзвоніть, будь ласка'); }
   }else{
@@ -326,40 +448,85 @@ function mountShell(page){
     <div class="veil" id="veil"></div>
     <aside class="cart" id="cart" aria-label="Кошик">
       <div class="cart__h">
+        <button class="icn" id="cartBack" aria-label="Назад" hidden>${icon('back')}</button>
         <h3>Кошик</h3>
         <button class="icn" id="cartClose" aria-label="Закрити">${icon('close')}</button>
       </div>
-      <div class="cart__b" id="cartBody"></div>
+      <div class="cart__b">
+        <div class="st" id="stCart"></div>
+        <div class="st" id="stCond" hidden></div>
+        <div class="st" id="stAdd" hidden></div>
+      </div>
       <div class="cart__f" id="cartFoot" hidden>
         <div class="prog">
           <div class="prog__t"><span id="progTxt"></span><b id="progLeft"></b></div>
           <div class="prog__b"><i id="progBar"></i></div>
         </div>
         <div class="sum"><span>До сплати</span><b id="sumT">0 ₴</b></div>
-
-        <div class="mode" id="step1">
+        <div id="foot1" class="mode">
           <button class="btn" data-mode="Доставка">${icon('truck')}<span>Доставка</span></button>
           <button class="btn btn--glass" data-mode="Самовиніс"><span>Самовиніс</span></button>
         </div>
+        <button class="btn btn--full" id="toAdd" hidden><span>Далі</span></button>
+        <button class="btn btn--full" id="toCheckout" hidden><span>Оформити</span></button>
+      </div>
+    </aside>
 
-        <div id="step2" hidden>
-          <button class="back" id="back">← Назад</button>
-          <div class="frm">
-            <div class="two">
-              <input id="fName" type="text" placeholder="Імʼя" autocomplete="name">
-              <input id="fTel" type="tel" placeholder="Телефон" autocomplete="tel">
+    <section class="co" id="checkout" hidden aria-label="Оформлення">
+      <div class="co__bar">
+        <button class="icn" id="coBack" aria-label="Назад">${icon('back')}</button>
+        <h2>Оформлення</h2>
+        <button class="icn" id="coClose" aria-label="Закрити">${icon('close')}</button>
+      </div>
+      <div class="co__in">
+        <div class="co__side">
+          <h3>Ваше замовлення</h3>
+          <div id="coBody"></div>
+          <div class="co__sum" id="coSum"></div>
+          <div class="promo">
+            <button class="promo__b" id="promoOpen">+ Додати промокод</button>
+            <div class="promo__f" id="promoF" hidden>
+              <input id="fPromo" type="text" placeholder="Промокод" autocomplete="off" spellcheck="false">
+              <button class="btn btn--sm" id="promoApply"><span>Застосувати</span></button>
             </div>
-            <input id="fAddr" type="text" placeholder="Адреса доставки">
-            <textarea id="fNote" rows="2" placeholder="Коментар"></textarea>
+            <p class="promo__m" id="promoMsg"></p>
+          </div>
+        </div>
+
+        <div class="co__form">
+          <div class="fld two">
+            <label>Імʼя<input id="fName" type="text" placeholder="Оксана" autocomplete="name"></label>
+            <label>Телефон<input id="fTel" type="tel" placeholder="0XX XXX XX XX" autocomplete="tel"></label>
+          </div>
+          <div class="fld" id="addrBox">
+            <label>Адреса доставки<input id="fStreet" type="text" placeholder="Вулиця"></label>
+            <div class="addr">
+              <input id="fHouse" type="text" placeholder="Будинок">
+              <input id="fFlat"  type="text" placeholder="Квартира">
+              <input id="fEnt"   type="text" placeholder="Підʼїзд">
+              <input id="fCode"  type="text" placeholder="Код домофона">
+            </div>
+          </div>
+          <div class="fld two">
+            <label>Коли<select id="fWhen"><option>Якнайшвидше</option><option>Через 1 годину</option><option>Через 2 години</option><option>На конкретний час</option></select></label>
+            <label>Приборів<input id="fPers" type="number" min="0" max="20" value="2"></label>
+          </div>
+          <div class="fld" id="timeBox" hidden>
+            <label>Час<input id="fTime" type="time" min="10:00" max="21:30" step="900"></label>
+          </div>
+          <div class="fld">
+            <span class="fld__l">Оплата</span>
             <div class="pay">
               <label><input type="radio" name="pay" value="Готівкою" checked><span>Готівкою</span></label>
               <label><input type="radio" name="pay" value="Карткою"><span>Карткою</span></label>
             </div>
-            <button class="btn btn--full" id="send">${icon('tg')}<span>Надіслати в Telegram</span></button>
           </div>
+          <div class="fld"><label>Коментар<textarea id="fNote" rows="2" placeholder="Наприклад: без імбиру, дзвонити за 10 хв"></textarea></label></div>
+          <button class="btn btn--full" id="send">${icon('tg')}<span>Надіслати в Telegram</span></button>
+          <p class="co__note">Ми передзвонимо, щоб підтвердити замовлення.</p>
         </div>
       </div>
-    </aside>`;
+    </section>`;
 
   // тост живе поза обгорткою кошика, щоб його не обрізало
   const t=document.createElement('div'); t.className='toast'; t.id='toast';
@@ -368,9 +535,17 @@ function mountShell(page){
   $$('.cart-btn').forEach(b=>{ if(b.id!=='cartClose') b.onclick=()=>openCart(true); });
   $('#cartClose').onclick=()=>openCart(false);
   $('#veil').onclick=()=>openCart(false);
+  $('#cartBack').onclick=()=>setStep(step==='add'?'cond':'cart');
+  $$('#foot1 [data-mode]').forEach(b=>b.onclick=()=>{ mode=b.dataset.mode; setStep('cond'); });
+  $('#toAdd').onclick=()=>setStep('add');
+  $('#toCheckout').onclick=openCheckout;
+  $('#coBack').onclick=closeCheckout;
+  $('#coClose').onclick=()=>{ closeCheckout(); openCart(false); };
   $('#send').onclick=sendOrder;
-  $('#back').onclick=()=>setStep(1);
-  $$('#step1 [data-mode]').forEach(b=>b.onclick=()=>{ mode=b.dataset.mode; setStep(2); });
+  $('#promoOpen').onclick=()=>{ $('#promoF').hidden=false; $('#promoOpen').hidden=true; $('#fPromo').focus(); };
+  $('#promoApply').onclick=applyPromo;
+  $('#fPromo').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); applyPromo(); }});
+  $('#fWhen').onchange=e=>{ $('#timeBox').hidden = e.target.value!=='На конкретний час'; };
   renderCart();
 }
 

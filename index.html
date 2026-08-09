@@ -4,1202 +4,137 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Fuji Sushi — доставка суші в Умані</title>
-<meta name="description" content="Fuji Sushi — роли, сети та вок з доставкою по Умані. Вт–Нд 10:00–22:00, понеділок — санітарний день. Безкоштовна доставка від 499 ₴. Замовлення: 098 000 77 92.">
-<meta name="theme-color" content="#F2ECDE">
+<meta name="description" content="Fuji Sushi — роли, сети та вок з доставкою по Умані. Вт–нд 10:00–22:00. Безкоштовна доставка від 499 ₴. Замовлення: (098) 000 77 92.">
+<meta name="theme-color" content="#000000">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Fuji Sushi — доставка суші в Умані">
-<meta property="og:description" content="Роли, сети та вок з доставкою по Умані. Вт–Нд 10:00–22:00. Безкоштовно від 499 ₴.">
-<meta property="og:locale" content="uk_UA">
+<meta property="og:description" content="Роли, сети та вок з доставкою по Умані. Безкоштовно від 499 ₴.">
 <meta property="og:image" content="logo.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23C8402B'/%3E%3Cpath d='M8 48c10-1 15-5 19-13l4-7c1-2 3-2 4 0l4 7c4 8 9 12 19 13z' fill='%23F7F2E6'/%3E%3Cpath d='M18 26h28v4H18zM22 30h4v18h-4zM38 30h4v18h-4z' fill='%23161616'/%3E%3C/svg%3E">
+<meta property="og:locale" content="uk_UA">
+<link rel="icon" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Unbounded:wght@200;300;400;600;800&display=swap" rel="stylesheet">
-
-<style>
-/* ============================================================
-   FUJI SUSHI — Умань.  Один файл, без бекенду.
-   Меню редагується в масиві MENU (блок «ДАНІ» внизу).
-   ============================================================ */
-
-/* ---------- ТОКЕНИ ---------- */
-:root{
-  --paper:#F2ECDE; --paper-2:#E8DFCB; --card:#FCF8F0;
-  --ink:#12171B; --ink-soft:#5A646C;
-  --indigo:#123A5A; --indigo-deep:#0B2438;
-  --btn:#123A5A;
-  --shu:#C8402B; --shu-soft:#E3644A; --gold:#A9822C;
-  --line:rgba(18,58,90,.18); --line-soft:rgba(18,58,90,.09);
-  --shadow:0 24px 60px -30px rgba(11,36,56,.45);
-  --shadow-s:0 10px 30px -18px rgba(11,36,56,.5);
-  --sky-1:#F4EEE1; --sky-2:#EADFC8;
-  --sun:#C8402B; --sun-glow:rgba(200,64,43,.13);
-  --fuji-far:#9FB2C0; --fuji-body:#1B4A6E; --fuji-snow:#F7F2E6; --fuji-fore:#0E3049;
-  --cloud:#F6F0E3; --star:transparent;
-  --r:0px; --max:1280px; --ease:cubic-bezier(.22,.9,.28,1);
-}
-html[data-theme="night"]{
-  --paper:#0B1620; --paper-2:#08111A; --card:#11202C;
-  --ink:#F0E8D9; --ink-soft:#93A5B4;
-  --indigo:#8CB6D8; --indigo-deep:#050D14;
-  --btn:#22506F;
-  --shu:#E4593F; --shu-soft:#F07A5F; --gold:#D9B65E;
-  --line:rgba(180,208,230,.20); --line-soft:rgba(180,208,230,.10);
-  --shadow:0 24px 60px -30px rgba(0,0,0,.8);
-  --shadow-s:0 10px 30px -18px rgba(0,0,0,.9);
-  --sky-1:#0C1926; --sky-2:#071119;
-  --sun:#E9D9A6; --sun-glow:rgba(233,217,166,.10);
-  --fuji-far:#1B3346; --fuji-body:#12293C; --fuji-snow:#C8D8E4; --fuji-fore:#050E16;
-  --cloud:#16283A; --star:rgba(240,232,217,.85);
-}
-
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:17px;line-height:1.6;overflow-x:hidden;
-  transition:background .5s var(--ease),color .5s var(--ease);
-}
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity:.055;mix-blend-mode:multiply;
-}
-html[data-theme="night"] body::before{opacity:.09;mix-blend-mode:screen}
-body.locked{overflow:hidden}
-body.has-check{padding-bottom:76px}
-img,svg{display:block;max-width:100%}
-button,input,select,textarea{font:inherit;color:inherit}
-a{color:inherit;text-decoration:none}
-::selection{background:var(--shu);color:#fff}
-
-h1,h2,h3,.disp{font-family:'Unbounded',ui-sans-serif,system-ui,sans-serif;font-weight:300;letter-spacing:-.02em;line-height:1.05;margin:0}
-.wrap{width:min(100% - 40px,var(--max));margin-inline:auto;position:relative;z-index:1}
-@media(max-width:640px){.wrap{width:calc(100% - 32px)}}
-.kicker{font-size:11px;letter-spacing:.32em;text-transform:uppercase;font-weight:700;color:var(--shu);display:flex;align-items:center;gap:12px}
-.kicker::before{content:'';width:34px;height:1px;background:currentColor;opacity:.6}
-.jp{font-family:'Hiragino Mincho ProN','Yu Mincho','Noto Serif JP',serif}
-.vert{writing-mode:vertical-rl;text-orientation:upright;letter-spacing:.25em}
-
-/* ---------- КНОПКИ ---------- */
-.btn{
-  --bg:var(--btn);--fg:#F6F1E6;
-  display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  padding:16px 30px;background:var(--bg);color:var(--fg);
-  border:1px solid var(--bg);border-radius:var(--r);cursor:pointer;
-  font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
-  position:relative;overflow:hidden;transition:transform .45s var(--ease),box-shadow .45s var(--ease);
-}
-.btn span{position:relative;z-index:1}
-.btn::after{content:'';position:absolute;inset:0;background:var(--shu);transform:translateY(101%);transition:transform .5s var(--ease)}
-.btn:hover::after{transform:translateY(0)}
-.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-s)}
-.btn:active{transform:translateY(0)}
-.btn--ghost{--bg:transparent;--fg:var(--ink);border-color:var(--line)}
-.btn--ghost:hover{--fg:#F6F1E6}
-.btn--shu{--bg:var(--shu)}
-.btn--shu::after{background:var(--btn)}
-.btn--sm{padding:12px 20px;font-size:11px}
-.btn--full{width:100%}
-
-/* ---------- ХЕДЕР ---------- */
-.hdr{position:fixed;inset:0 0 auto;z-index:60;display:flex;align-items:center;height:84px;border-bottom:1px solid transparent;transition:height .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease)}
-.hdr.stuck{height:66px;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(16px) saturate(1.4);border-bottom-color:var(--line-soft)}
-.hdr__in{width:min(100% - 40px,var(--max));margin-inline:auto;display:flex;align-items:center;gap:28px}
-@media(max-width:640px){.hdr__in{width:calc(100% - 32px)}}
-.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.logo__i{width:42px;height:42px;border-radius:50%;object-fit:cover;transition:transform .5s var(--ease)}
-.logo:hover .logo__i{transform:rotate(-8deg) scale(1.06)}
-.logo__n{font-family:'Unbounded';font-weight:600;font-size:19px;letter-spacing:.1em;line-height:1}
-.logo__s{font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;display:block}
-.nav{display:flex;gap:30px;margin-left:auto}
-.nav a{font-size:12.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;position:relative;padding:4px 0}
-.nav a::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--shu);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease)}
-.nav a:hover::after,.nav a.active::after{transform:scaleX(1);transform-origin:left}
-.hdr__act{display:flex;align-items:center;gap:12px;margin-left:auto}
-.nav+.hdr__act{margin-left:0}
-.tel{font-family:'Unbounded';font-weight:400;font-size:14px;white-space:nowrap}
-.tel:hover{color:var(--shu)}
-.icnbtn{width:44px;height:44px;display:grid;place-items:center;cursor:pointer;background:transparent;border:1px solid var(--line);border-radius:var(--r);transition:background .3s,color .3s,border-color .3s;flex-shrink:0}
-.icnbtn:hover{background:var(--btn);color:#F6F1E6;border-color:var(--btn)}
-.icnbtn svg{width:19px;height:19px}
-.burger{display:none}
-@media(max-width:1260px){.nav{gap:22px}.nav a{font-size:11.5px}.tel{display:none}}
-@media(max-width:1080px){.nav{display:none}.burger{display:grid}.tel{display:none}.nav+.hdr__act{margin-left:auto}}
-@media(max-width:430px){.hdr__in{gap:12px}.logo__i{width:36px;height:36px}.logo__n{font-size:17px}.logo__s{display:none}.icnbtn{width:40px;height:40px}.hdr__act{gap:8px}}
-
-.mnav{position:fixed;inset:0;z-index:70;background:var(--paper);display:flex;flex-direction:column;justify-content:center;padding:0 28px;clip-path:inset(0 0 100% 0);transition:clip-path .7s var(--ease)}
-.mnav.on{clip-path:inset(0 0 0 0)}
-.mnav a{font-family:'Unbounded';font-weight:300;font-size:clamp(28px,8vw,48px);padding:9px 0;border-bottom:1px solid var(--line-soft);display:flex;align-items:baseline;gap:16px;opacity:0;transform:translateY(24px)}
-.mnav.on a{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease)}
-.mnav.on a:nth-child(2){transition-delay:.14s}.mnav.on a:nth-child(3){transition-delay:.19s}
-.mnav.on a:nth-child(4){transition-delay:.24s}.mnav.on a:nth-child(5){transition-delay:.29s}
-.mnav.on a:nth-child(6){transition-delay:.34s}
-.mnav a i{font-style:normal;font-size:12px;color:var(--shu);font-family:'Manrope';font-weight:700}
-.mnav__x{position:absolute;top:22px;right:22px}
-.mnav__b{position:absolute;left:28px;right:28px;bottom:32px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;font-size:14px;color:var(--ink-soft)}
-
-/* ---------- ГЕРОЙ ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden}
-.hero__art{position:absolute;inset:0;z-index:0}
-.hero__art svg{width:100%;height:100%}
-.hero__art::after{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    linear-gradient(180deg,transparent 56%,var(--sky-1) 100%),
-    linear-gradient(90deg,var(--sky-1) 0%,color-mix(in srgb,var(--sky-1) 66%,transparent) 33%,transparent 60%);
-}
-@media(max-width:760px){
-  .hero__art::after{
-    background:
-      linear-gradient(180deg,transparent 66%,var(--sky-1) 100%),
-      linear-gradient(180deg,color-mix(in srgb,var(--sky-1) 88%,transparent) 0%,color-mix(in srgb,var(--sky-1) 78%,transparent) 44%,color-mix(in srgb,var(--sky-1) 42%,transparent) 68%,transparent 88%);
-  }
-}
-.hero__in{position:relative;z-index:2;width:min(100% - 40px,var(--max));margin-inline:auto;padding:clamp(98px,13vh,150px) 0 clamp(30px,5vh,60px)}
-@media(max-width:640px){.hero__in{width:calc(100% - 32px);padding:112px 0 30px}}
-.hero h1{font-size:clamp(34px,min(6.1vw,8.4vh),78px);font-weight:200;max-width:15ch;margin:clamp(12px,2vh,22px) 0 0}
-.hero h1 em{font-style:normal;font-weight:600;color:var(--shu)}
-.hero__sub{max-width:42ch;margin:clamp(14px,2.4vh,26px) 0 0;font-size:clamp(15px,1.5vw,18px);color:var(--ink-soft)}
-.hero__cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(20px,3.4vh,36px)}
-.hero__vert{position:absolute;right:34px;top:19vh;z-index:2;font-size:clamp(26px,3.6vw,52px);color:var(--indigo);opacity:.2;user-select:none}
-@media(max-width:1180px){.hero__vert{display:none}}
-.hero__facts{display:flex;flex-wrap:wrap;margin-top:clamp(22px,4vh,48px);border-top:1px solid var(--line)}
-.hero__facts div{flex:1 1 160px;padding:clamp(11px,1.8vh,20px) 22px 0 0;border-right:1px solid var(--line-soft)}
-.hero__facts div:last-child{border-right:0}
-.hero__facts b{display:block;font-family:'Unbounded';font-weight:400;font-size:clamp(18px,2.4vw,26px)}
-.hero__facts span{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
-@media(max-width:520px){
-  .hero__cta .btn{flex:1 1 auto;padding:14px 16px;font-size:11px;letter-spacing:.1em}
-  .hero__facts div{flex:1 1 40%;padding-top:12px}
-  .hero__facts span{font-size:10.5px;letter-spacing:.12em}
-}
-
-/* ---------- СМУГА «ПОНЕДІЛОК» ---------- */
-.sanitary{background:var(--indigo-deep);color:#E9E1D1;position:relative;z-index:2}
-.sanitary .wrap{display:flex;align-items:center;gap:clamp(16px,3vw,40px);flex-wrap:wrap;padding:20px 0}
-.sanitary svg{width:30px;height:30px;color:var(--shu-soft);flex-shrink:0}
-.sanitary b{font-family:'Unbounded';font-weight:400;font-size:clamp(15px,1.8vw,19px)}
-.sanitary span{font-size:14px;color:#9FB3C4}
-
-/* ---------- СЕКЦІЇ ---------- */
-section{position:relative;z-index:1}
-.sec{padding:clamp(72px,10vw,140px) 0}
-.sec--tint{background:var(--paper-2)}
-.sec__h{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-bottom:clamp(36px,5vw,60px)}
-.sec__h h2{font-size:clamp(30px,5vw,62px);font-weight:200;max-width:16ch;margin-top:16px}
-.sec__h p{max-width:40ch;color:var(--ink-soft);margin:0;font-size:15.5px}
-.wave{color:var(--indigo);opacity:.5;overflow:hidden;height:48px}
-.wave svg{width:100%;height:48px}
-.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-
-/* ---------- СЕТИ ---------- */
-.sets{display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
-.st{background:var(--card);padding:24px 22px 22px;display:flex;flex-direction:column;position:relative;overflow:hidden;transition:background .4s var(--ease)}
-.st:hover{background:var(--paper)}
-html[data-theme="night"] .st:hover{background:#16293a}
-.st__art{position:absolute;right:-44px;top:-32px;width:152px;height:152px;opacity:.08;pointer-events:none;transition:transform .8s var(--ease)}
-.st:hover .st__art{transform:rotate(14deg) scale(1.12)}
-.st__tag{position:absolute;top:0;left:0;background:var(--shu);color:#fff;font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px}
-.st h3{font-size:23px;font-weight:400;margin:0;padding-right:52px}
-.st__meta{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin-top:9px;display:flex;gap:12px;flex-wrap:wrap}
-.st__list{margin:16px 0 0;padding:0;list-style:none;font-size:13.5px;color:var(--ink-soft);line-height:1.45;flex:1}
-.st__list li{padding:5px 0 5px 15px;position:relative;border-bottom:1px solid var(--line-soft)}
-.st__list li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;background:var(--shu);opacity:.7}
-.st__b{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-.st__p{font-family:'Unbounded';font-weight:400;font-size:27px;white-space:nowrap}
-.st__p sup{font-size:12px;margin-left:2px;opacity:.6}
-.st__add{
-  width:42px;height:42px;flex-shrink:0;display:grid;place-items:center;cursor:pointer;
-  background:var(--btn);color:#F6F1E6;border:0;border-radius:var(--r);
-  transition:background .3s,transform .3s var(--ease)
-}
-.st__add:hover{background:var(--shu);transform:rotate(90deg)}
-.st__add svg{width:16px;height:16px}
-@media(max-width:430px){.sets{grid-template-columns:1fr}}
-
-/* ---------- ФІЛЬТРИ МЕНЮ ---------- */
-.mfilter{
-  position:sticky;top:64px;z-index:30;margin:0 0 clamp(24px,3vw,36px);
-  background:color-mix(in srgb,var(--paper-2) 94%,transparent);
-  backdrop-filter:blur(14px) saturate(1.3);
-  border-block:1px solid var(--line-soft);
-}
-.mfilter__in{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0}
-.chip{
-  padding:9px 17px;border:1px solid var(--line);background:transparent;cursor:pointer;
-  font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;
-  border-radius:var(--r);transition:background .3s,color .3s,border-color .3s;
-}
-.chip:hover{border-color:var(--indigo)}
-.chip.on{background:var(--btn);color:#F6F1E6;border-color:var(--btn)}
-.chip i{font-style:normal;opacity:.55;margin-left:6px;font-size:11px}
-@media(max-width:430px){.chip{padding:9px 13px;font-size:11px;letter-spacing:.06em}}
-
-/* ---------- ПРАЙС-АРКУШ ---------- */
-.sheet{columns:2;column-gap:clamp(34px,5vw,72px)}
-@media(max-width:880px){.sheet{columns:1}}
-.grp{break-inside:avoid;margin-bottom:clamp(30px,4vw,48px)}
-.grp__h{display:flex;align-items:baseline;gap:14px;padding-bottom:10px;border-bottom:1.5px solid var(--ink)}
-.grp__h h3{font-size:clamp(19px,2.2vw,26px);font-weight:400;font-family:'Unbounded'}
-.grp__h span{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-left:auto;white-space:nowrap}
-.row{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-soft);cursor:pointer;transition:padding-left .35s var(--ease)}
-.row:hover{padding-left:8px}
-.row__a{width:44px;height:44px;flex-shrink:0}
-.row__a svg{width:100%;height:100%;transition:transform .5s var(--ease)}
-.row:hover .row__a svg{transform:rotate(-10deg) scale(1.08)}
-.row__t{flex:1;min-width:0}
-.row__n{font-size:15.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.row__i{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
-.row__d{flex:1;border-bottom:1px dotted var(--line);align-self:flex-end;margin-bottom:7px;min-width:14px}
-.row__p{font-family:'Unbounded';font-weight:400;font-size:17px;white-space:nowrap}
-.row__p sup{font-size:10px;opacity:.6;margin-left:1px}
-.row__p--ok{color:var(--shu)} /* ціна підтверджена дописом в Instagram */
-.row__add{width:32px;height:32px;flex-shrink:0;display:grid;place-items:center;border:1px solid var(--line);background:transparent;cursor:pointer;transition:background .3s,color .3s,border-color .3s,transform .3s}
-.row:hover .row__add{background:var(--btn);color:#F6F1E6;border-color:var(--btn)}
-.row__add svg{width:14px;height:14px}
-.tag{font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:3px 7px;background:var(--shu);color:#fff}
-.tag--v{background:#4E7A3A}
-.tag--n{background:var(--gold)}
-.sheet__note{margin-top:26px;font-size:13.5px;color:var(--ink-soft);max-width:60ch}
-/* на вузьких екранах крапковий лідер лише крав місце в назви */
-@media(max-width:600px){
-  .row{gap:11px;padding:13px 0}
-  .row:hover{padding-left:0}
-  .row__a{width:38px;height:38px}
-  .row__d{display:none}
-  .row__n{font-size:14.5px;gap:6px}
-  .row__i{font-size:12px}
-  .row__p{font-size:16px;min-width:58px;text-align:right}
-  .row__add{width:30px;height:30px}
-  .grp__h h3{font-size:20px}
-}
-
-/* ---------- ЛАНЧІ ---------- */
-.lunch{display:grid;grid-template-columns:1.1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
-@media(max-width:820px){.lunch{grid-template-columns:1fr}}
-.lunch>div{background:var(--card);padding:clamp(28px,4vw,46px)}
-.lunch h3{font-size:clamp(24px,3.2vw,38px);font-weight:200;margin-bottom:16px}
-.lunch p{color:var(--ink-soft);font-size:15.5px;margin:0 0 22px}
-.lunch__t{display:flex;align-items:baseline;gap:12px;font-family:'Unbounded';font-weight:300;font-size:clamp(28px,3.6vw,44px)}
-.lunch__t span{font-family:'Manrope';font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
-
-/* ---------- ДОСТАВКА ---------- */
-.two{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-soft);border:1px solid var(--line-soft)}
-@media(max-width:820px){.two{grid-template-columns:1fr}}
-.two>div{background:var(--card);padding:clamp(28px,4vw,46px)}
-.two h3{font-size:clamp(22px,2.6vw,30px);font-weight:300;margin-bottom:22px}
-.dl{margin:0;font-size:15px}
-.dl div{display:flex;justify-content:space-between;gap:18px;padding:13px 0;border-bottom:1px solid var(--line-soft)}
-.dl div:last-child{border-bottom:0}
-.dl dt{color:var(--ink-soft)}
-.dl dd{margin:0;font-weight:600;text-align:right}
-.note{margin-top:22px;padding:16px 18px;background:color-mix(in srgb,var(--shu) 9%,transparent);border-left:2px solid var(--shu);font-size:14px}
-
-/* ---------- INSTAGRAM-ХАЙЛАЙТИ ---------- */
-.hl{display:flex;gap:clamp(16px,3vw,34px);overflow-x:auto;padding:6px 0 18px;scrollbar-width:none}
-.hl::-webkit-scrollbar{display:none}
-.hl a{flex-shrink:0;width:clamp(92px,12vw,130px);text-align:center}
-.hl__r{width:100%;aspect-ratio:1;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,var(--shu),var(--gold),var(--indigo),var(--shu));transition:transform .5s var(--ease)}
-.hl a:hover .hl__r{transform:scale(1.06) rotate(6deg)}
-.hl__i{width:100%;height:100%;border-radius:50%;background:var(--card);display:grid;place-items:center;overflow:hidden}
-.hl__i svg{width:74%;height:74%}
-.hl b{display:block;margin-top:12px;font-size:12.5px;font-weight:700}
-.igbar{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
-.igbar__n{display:flex;gap:clamp(24px,4vw,54px)}
-.igbar__n div b{display:block;font-family:'Unbounded';font-weight:400;font-size:clamp(20px,2.6vw,28px)}
-.igbar__n div span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
-
-/* ---------- ФУТЕР ---------- */
-.ftr{background:var(--indigo-deep);color:#E9E1D1;padding:clamp(60px,8vw,110px) 0 34px;position:relative;z-index:1}
-.ftr a:hover{color:var(--shu-soft)}
-.ftr__top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;padding-bottom:50px;border-bottom:1px solid rgba(233,225,209,.14)}
-@media(max-width:820px){.ftr__top{grid-template-columns:1fr;gap:34px}}
-.ftr h2{font-size:clamp(28px,4vw,46px);font-weight:200;margin-bottom:18px}
-.ftr h4{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#9FB3C4;margin:0 0 16px;font-weight:700;font-family:'Manrope'}
-.ftr ul{list-style:none;margin:0;padding:0;font-size:15px}
-.ftr li{padding:6px 0}
-.ftr__big{font-family:'Unbounded';font-weight:300;font-size:clamp(22px,3vw,34px);display:block;padding:4px 0}
-.ftr__bot{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;padding-top:26px;font-size:12.5px;color:#8FA3B4}
-
-/* ---------- ЧЕК (нижній аркуш) ---------- */
-.check{
-  position:fixed;left:0;right:0;bottom:0;z-index:75;
-  background:var(--card);border-top:1px solid var(--line);box-shadow:0 -20px 50px -30px rgba(11,36,56,.5);
-  transform:translateY(101%);transition:transform .55s var(--ease);
-}
-.check.on{transform:none}
-.check__bar{width:min(100% - 40px,var(--max));margin-inline:auto;display:flex;align-items:center;gap:16px;padding:14px 0;cursor:pointer}
-@media(max-width:640px){.check__bar{width:calc(100% - 32px);gap:10px}}
-.check__bar b{font-family:'Unbounded';font-weight:400;font-size:19px;white-space:nowrap}
-.check__bar em{font-style:normal;font-size:12.5px;color:var(--ink-soft);letter-spacing:.1em;text-transform:uppercase}
-.check__bar .btn{margin-left:auto}
-.check__chev{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line);transition:transform .45s var(--ease);flex-shrink:0}
-.check.open .check__chev{transform:rotate(180deg)}
-.check__body{max-height:0;overflow:hidden;transition:max-height .55s var(--ease)}
-.check.open .check__body{max-height:min(66vh,620px);overflow-y:auto}
-.check__in{width:min(100% - 40px,var(--max));margin-inline:auto;padding:6px 0 26px;border-top:1px solid var(--line-soft)}
-@media(max-width:640px){.check__in{width:calc(100% - 32px)}}
-.ci{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line-soft)}
-.ci__a{width:44px;height:44px;flex-shrink:0}
-.ci__t{flex:1;min-width:0}
-.ci__t b{display:block;font-size:14.5px;font-weight:700}
-.ci__t span{font-size:12px;color:var(--ink-soft)}
-.qty{display:flex;align-items:center;border:1px solid var(--line)}
-.qty button{width:30px;height:30px;background:none;border:0;cursor:pointer;font-size:16px;line-height:1;transition:background .25s}
-.qty button:hover{background:var(--btn);color:#F6F1E6}
-.qty i{font-style:normal;min-width:26px;text-align:center;font-size:13px;font-weight:700}
-.ci__p{font-family:'Unbounded';font-size:14px;min-width:62px;text-align:right}
-.prog{margin:18px 0 6px}
-.prog__t{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-bottom:7px}
-.prog__t b{color:var(--shu)}
-.prog__b{height:3px;background:var(--line);overflow:hidden}
-.prog__b i{display:block;height:100%;background:var(--shu);width:0;transition:width .5s var(--ease)}
-.prog__b i.done{background:#4E7A3A}
-.frm{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 0}
-@media(max-width:700px){.frm{grid-template-columns:1fr}}
-.frm label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:5px}
-.frm input{width:100%;padding:12px 14px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);font-size:15px;transition:border-color .3s}
-.frm input:focus{outline:0;border-color:var(--indigo)}
-.frm .bad{border-color:var(--shu)}
-.check__act{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.check__act .btn{flex:1 1 200px}
-.fly{position:fixed;z-index:95;pointer-events:none;width:64px;height:64px;transition:all .8s cubic-bezier(.5,-.3,.7,.5)}
-.toast{
-  position:fixed;left:50%;bottom:110px;transform:translate(-50%,140%);z-index:100;
-  opacity:0;pointer-events:none;white-space:nowrap;max-width:calc(100vw - 32px);
-  background:var(--indigo-deep);color:#F0E8D9;padding:14px 24px;font-size:14px;
-  transition:transform .5s var(--ease),opacity .3s;box-shadow:var(--shadow)
-}
-.toast.on{transform:translate(-50%,0);opacity:1}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ================= ХЕДЕР ================= -->
-<header class="hdr" id="hdr">
-  <div class="hdr__in">
-    <a href="#home" class="logo" aria-label="Fuji Sushi — на початок">
-      <img src="logo.jpg" alt="Fuji Sushi" width="42" height="42" class="logo__i">
-      <span>
-        <span class="logo__n">FUJI</span>
-        <span class="logo__s">суші · Умань</span>
-      </span>
-    </a>
-
-    <nav class="nav">
-      <a href="#sets">Сети тижня</a>
-      <a href="#menu">Меню</a>
-      <a href="#lunch">Ланчі</a>
-      <a href="#delivery">Доставка</a>
-      <a href="#insta">Instagram</a>
-      <a href="#contacts">Контакти</a>
-    </nav>
-
-    <div class="hdr__act">
-      <a class="tel" href="tel:+380980007792">098 000 77 92</a>
-      <button class="icnbtn" id="themeBtn" aria-label="Змінити тему">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.6"/><path d="M12 2v2.4M12 19.6V22M2 12h2.4M19.6 12H22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M19.1 4.9l-1.7 1.7M6.6 17.4l-1.7 1.7" stroke-linecap="round"/></svg>
-      </button>
-      <button class="icnbtn burger" id="burger" aria-label="Меню">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 7h18M3 12h18M3 17h18" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
-
-<div class="mnav" id="mnav">
-  <button class="icnbtn mnav__x" id="mnavX" aria-label="Закрити">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
-  </button>
-  <a href="#sets"><i>01</i>Сети тижня</a>
-  <a href="#menu"><i>02</i>Меню</a>
-  <a href="#lunch"><i>03</i>Ланчі</a>
-  <a href="#delivery"><i>04</i>Доставка</a>
-  <a href="#insta"><i>05</i>Instagram</a>
-  <div class="mnav__b">
-    <a href="tel:+380980007792" class="tel" style="display:block">098 000 77 92</a>
-    <span>Вт–Нд 10:00–22:00</span>
-  </div>
+<div class="glows" aria-hidden="true">
+  <span class="glow glow-1"></span><span class="glow glow-2"></span><span class="glow glow-3"></span>
 </div>
 
-<!-- ================= ГЕРОЙ ================= -->
-<section class="hero" id="home">
-  <div class="hero__art" aria-hidden="true">
-    <svg viewBox="0 0 1440 860" preserveAspectRatio="xMidYMax slice">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="var(--sky-1)"/><stop offset="100%" stop-color="var(--sky-2)"/>
-        </linearGradient>
-        <radialGradient id="glow"><stop offset="0%" stop-color="var(--sun-glow)"/><stop offset="100%" stop-color="transparent"/></radialGradient>
-      </defs>
+<header class="header" id="hdr"></header>
 
-      <rect width="1440" height="860" fill="url(#sky)"/>
+<main class="page wrap">
+  <h1 class="h1">Fuji Sushi — доставка суші в Умані</h1>
 
-      <g fill="var(--star)">
-        <circle cx="140" cy="120" r="1.6"/><circle cx="320" cy="70" r="1.2"/><circle cx="470" cy="170" r="1.7"/>
-        <circle cx="620" cy="90" r="1.1"/><circle cx="1180" cy="120" r="1.5"/><circle cx="1310" cy="230" r="1.2"/>
-        <circle cx="1050" cy="60" r="1.3"/><circle cx="230" cy="260" r="1.1"/><circle cx="820" cy="150" r="1.4"/>
-        <circle cx="1390" cy="90" r="1.2"/><circle cx="60" cy="320" r="1.3"/><circle cx="700" cy="240" r="1"/>
-      </g>
+  <div class="banners" id="banners"></div>
+  <div class="dots" id="dots"></div>
 
-      <g id="sunG">
-        <circle cx="1108" cy="228" r="330" fill="url(#glow)"/>
-        <circle cx="1108" cy="228" r="122" fill="var(--sun)"/>
-      </g>
+  <div class="cats" id="cats"></div>
 
-      <g id="farG">
-        <path d="M0 612 L150 528 L268 596 L392 512 L520 604 L676 552 L830 618 L1010 540 L1168 610 L1300 534 L1440 600 L1440 860 L0 860Z" fill="var(--fuji-far)" opacity=".55"/>
-      </g>
-
-      <g transform="translate(196,0)"><g id="fujiG">
-        <path d="M240 700 C430 694 520 660 590 530 L706 342 C712 330 728 330 734 342 L850 530 C920 660 1010 694 1200 700 Z" fill="var(--fuji-body)"/>
-        <path d="M630 466 L654 444 L676 470 L700 440 L720 462 L740 440 L764 470 L786 444 L810 466 L720 334 Z" fill="var(--fuji-snow)"/>
-        <g fill="var(--cloud)" opacity=".85">
-          <rect x="404" y="556" width="292" height="13" rx="6.5"/>
-          <rect x="470" y="586" width="180" height="10" rx="5"/>
-          <rect x="796" y="574" width="248" height="12" rx="6"/>
-          <rect x="860" y="602" width="132" height="9" rx="4.5"/>
-        </g>
-      </g></g>
-
-      <g stroke="var(--fuji-body)" stroke-width="2.4" fill="none" opacity=".5" stroke-linecap="round">
-        <path d="M1214 452c8-8 15-8 22 0 7-8 14-8 22 0"/>
-        <path d="M1288 496c6-6 11-6 16 0 5-6 10-6 16 0"/>
-        <path d="M1172 512c5-5 9-5 13 0 4-5 8-5 13 0"/>
-      </g>
-
-      <g id="foreG">
-        <path d="M0 736 C190 706 340 762 520 744 C700 726 862 776 1042 750 C1188 730 1320 764 1440 742 L1440 860 L0 860Z" fill="var(--fuji-fore)"/>
-      </g>
-
-      <!-- торі — з їхнього логотипа -->
-      <g id="toriiG" fill="var(--indigo-deep)" transform="translate(920,605) scale(0.72)">
-        <path d="M0 2 q104 -18 208 0 l0 15 q-104 -16 -208 0 z"/>
-        <rect x="22" y="22" width="164" height="11"/>
-        <rect x="98" y="33" width="12" height="35"/>
-        <rect x="36" y="68" width="136" height="10"/>
-        <path d="M46 33 h17 l7 167 h-31 z"/>
-        <path d="M145 33 h17 l7 167 h-31 z"/>
-      </g>
-    </svg>
+  <div class="searchbar">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6.4"/><path d="m16 16 4 4"/></svg>
+      <input id="q" type="search" placeholder="Пошук по меню" autocomplete="off">
+    </label>
   </div>
 
-  <span class="hero__vert vert jp" aria-hidden="true">富士寿司</span>
-
-  <div class="hero__in">
-    <div class="kicker">Умань · вт–нд 10:00–22:00</div>
-    <h1>Сет, який<br>закриває<br>усе <em>«хочеться»</em>.</h1>
-    <p class="hero__sub">Fuji Sushi — доставка суші в Умані. Роли, вок і великі сети на компанію. Замовлення приймаємо телефоном, готуємо після підтвердження.</p>
-    <div class="hero__cta">
-      <a href="tel:+380980007792" class="btn btn--shu"><span>098 000 77 92</span></a>
-      <a href="#sets" class="btn btn--ghost"><span>Сети тижня</span></a>
-    </div>
-
-    <div class="hero__facts">
-      <div><b>769&nbsp;₴</b><span>сети тижня — від</span></div>
-      <div><b>499&nbsp;₴</b><span>безкоштовна доставка від</span></div>
-      <div><b>Вт–Нд</b><span>10:00 – 22:00</span></div>
-      <div><b>5&nbsp;281</b><span>читачів в Instagram</span></div>
-    </div>
+  <div class="sec-h">
+    <h2>Топові позиції</h2>
+    <a href="menu.html">Усе меню</a>
   </div>
-</section>
+  <div class="row-slider" id="tops"></div>
 
-<!-- ================= САНІТАРНИЙ ДЕНЬ ================= -->
-<div class="sanitary">
-  <div class="wrap">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 10h18M8 3v4M16 3v4" stroke-linecap="round"/><path d="M9.5 15.5l5 3M14.5 15.5l-5 3" stroke-linecap="round"/></svg>
-    <b>Понеділок — санітарний день</b>
-    <span>Один день на тиждень кухня стоїть на повному митті. Решту тижня — вт–нд з 10:00 до 22:00.</span>
+  <div class="center">
+    <a class="btn btn--wide" href="menu.html">Перейти до меню</a>
   </div>
-</div>
 
-<!-- ================= СЕТИ ТИЖНЯ ================= -->
-<section class="sec" id="sets">
-  <div class="wrap">
-    <div class="sec__h rv">
+  <div class="hours"><i></i> Працюємо вт–нд з 10:00 до 22:00 <em>· понеділок — санітарний день</em></div>
+
+  <section id="delivery">
+    <div class="sec-h"><h2>Доставка та оплата</h2></div>
+    <div class="info">
       <div>
-        <div class="kicker">Сети тижня</div>
-        <h2>Чотири сети, заради яких<br>збирають компанію</h2>
-      </div>
-      <p>Склад і ціни — ті самі, що ми публікуємо в Instagram. Нічого не прибрано і не додано «на око».</p>
-    </div>
-    <div class="wset rv" id="wsetRow"></div>
-  </div>
-</section>
-
-<div class="wave" data-wave></div>
-
-<!-- ================= МЕНЮ — ПРАЙС-АРКУШ ================= -->
-<section class="sec sec--tint" id="menu">
-  <div class="wrap">
-    <div class="sec__h rv">
-      <div>
-        <div class="kicker">Меню</div>
-        <h2>Прайс-аркуш</h2>
-      </div>
-      <p>До кожного ролу — один набір соусів (соєвий, імбир, васабі) безкоштовно. Натисніть на рядок, щоб додати позицію в чек унизу екрана.</p>
-    </div>
-    <div class="mfilter"><div class="mfilter__in" id="filters"></div></div>
-    <div class="sheet" id="sheet"></div>
-    <p class="sheet__note" id="sheetNote"></p>
-  </div>
-</section>
-
-<div class="wave" data-wave></div>
-
-<!-- ================= ЛАНЧІ ================= -->
-<section class="sec" id="lunch">
-  <div class="wrap">
-    <div class="lunch rv">
-      <div>
-        <div class="kicker">Ланчі</div>
-        <h3>Обід, який приїжджає<br>раніше за вашу перерву</h3>
-        <p>Невелика порція на одну людину: рол, вок або суші-набір із супом. Беруть переважно з 11:00 до 15:00 — у цей час кухня тримає окрему чергу під ланчі, щоб не чекати за спільним потоком.</p>
-        <a href="tel:+380980007792" class="btn"><span>Замовити ланч</span></a>
-      </div>
-      <div>
-        <div class="lunch__t">11:00–15:00 <span>вт–нд</span></div>
-        <p style="margin-top:18px">Актуальний набір і ціну на сьогодні ми викладаємо в сторіс «Ланчі» — там завжди свіже.</p>
-        <a href="https://www.instagram.com/fuji.sushi.uman/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm"><span>Дивитись «Ланчі»</span></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ДОСТАВКА ================= -->
-<section class="sec sec--tint" id="delivery">
-  <div class="wrap">
-    <div class="sec__h rv">
-      <div>
-        <div class="kicker">Доставка та оплата</div>
-      </div>
-    </div>
-
-    <div class="two rv">
-      <div>
-        <h3>Доставка</h3>
-        <dl class="dl">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 16.4h1.8m13.2 0h2M4.4 16.4a2.4 2.4 0 1 0 4.8 0 2.4 2.4 0 1 0-4.8 0M15 16.4a2.4 2.4 0 1 0 4.8 0 2.4 2.4 0 1 0-4.8 0"/><path d="M4.4 16.4V6.6h9.2v9.8M13.6 9.6h3.6l2.6 4.4v2.4"/></svg>Доставка</h3>
+        <dl>
           <div><dt>Зона</dt><dd>Умань, у межах міста</dd></div>
           <div><dt>Безкоштовно від</dt><dd>499 ₴</dd></div>
-          <div><dt>До 499 ₴</dt><dd>за тарифом — уточнюємо<br>при підтвердженні</dd></div>
-          <div><dt>Дні роботи</dt><dd>вт–нд, 10:00 – 22:00</dd></div>
-          <div><dt>Понеділок</dt><dd>санітарний день</dd></div>
+          <div><dt>До 499 ₴</dt><dd>за тарифом</dd></div>
+          <div><dt>Мінімальне замовлення</dt><dd>250 ₴</dd></div>
         </dl>
-        <!-- TODO ВЛАСНИКУ: підтвердіть тариф доставки до 499 ₴ і мінімальну суму замовлення -->
-        <div class="note">Замовлення на конкретну годину беремо мінімум за 2 години — щоб рис був теплим саме тоді, коли треба.</div>
       </div>
       <div>
-        <h3>Оплата</h3>
-        <dl class="dl">
-          <div><dt>Готівка</dt><dd>кур'єру</dd></div>
-          <div><dt>Картка</dt><dd>кур'єру, термінал</dd></div>
-          <div><dt>Переказ на картку</dt><dd>за домовленістю</dd></div>
-          <div><dt>Набір соусів</dt><dd>1 до кожного ролу — безкоштовно</dd></div>
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.8" y="5.4" width="18.4" height="13.2" rx="2"/><path d="M2.8 10h18.4"/></svg>Оплата</h3>
+        <dl>
+          <div><dt>Готівкою</dt><dd>курʼєру</dd></div>
+          <div><dt>Карткою</dt><dd>курʼєру, термінал</dd></div>
+          <div><dt>Набір соусів</dt><dd>1 до ролу — безкоштовно</dd></div>
           <div><dt>Додатковий набір</dt><dd>20 ₴</dd></div>
         </dl>
-        <div class="note">До кожного ролу вже йде набір: соєвий соус, імбир, васабі. Так ми не кладемо зайве й тримаємо адекватну ціну. Треба більше — допишіть у замовленні.</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ================= INSTAGRAM ================= -->
-<section class="sec" id="insta">
-  <div class="wrap">
-    <div class="sec__h rv">
-      <div>
-        <div class="kicker">@fuji.sushi.uman</div>
-        <h2>Усе живе —<br>в сторіс</h2>
-      </div>
-      <p>Меню, новинки, акції та відгуки ми тримаємо в актуальних сторіс. Натисніть кружечок — відкриється саме та добірка.</p>
-    </div>
-    <div class="hl rv" id="hlRow"></div>
-    <div class="igbar rv">
-      <div class="igbar__n">
-        <div><b>5 281</b><span>читачів</span></div>
-        <div><b>47</b><span>дописів</span></div>
-      </div>
-      <a href="https://www.instagram.com/fuji.sushi.uman/" target="_blank" rel="noopener" class="btn"><span>Відкрити профіль</span></a>
-    </div>
-  </div>
-</section>
+  <footer class="footer" id="ftr"></footer>
+</main>
 
-<!-- ================= ФУТЕР ================= -->
-<footer class="ftr" id="contacts">
-  <div class="wrap">
-    <div class="ftr__top">
-      <div>
-        <div class="kicker" style="color:var(--shu-soft)">Контакти</div>
-        <h2>Подзвоніть —<br>і ми почнемо крутити</h2>
-        <a href="tel:+380980007792" class="ftr__big">098 000 77 92</a>
-        <p style="color:#9FB3C4;font-size:14px;margin:10px 0 0">Основний номер для замовлень</p>
-      </div>
-      <div>
-        <h4>Fuji Sushi</h4>
-        <ul>
-          <li>м. Умань, Черкаська обл.</li>
-          <li>Вт–Нд 10:00 – 22:00</li>
-          <li>Понеділок — санітарний день</li>
-          <li><a href="https://www.instagram.com/fuji.sushi.uman/" target="_blank" rel="noopener">Instagram @fuji.sushi.uman</a></li>
-          <li><a href="https://www.threads.com/@fuji.sushi.uman" target="_blank" rel="noopener">Threads @fuji.sushi.uman</a></li>
-          <li><a href="viber://chat?number=%2B380980007792">Написати у Viber</a></li>
-        </ul>
-        <!-- TODO ВЛАСНИКУ: додайте точну адресу, якщо є самовивіз -->
-      </div>
-      <div>
-        <h4>Розділи</h4>
-        <ul>
-          <li><a href="#sets">Сети тижня</a></li>
-          <li><a href="#menu">Меню</a></li>
-          <li><a href="#lunch">Ланчі</a></li>
-          <li><a href="#delivery">Доставка та оплата</a></li>
-          <li><a href="#insta">Instagram</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="ftr__bot">
-      <span>© <span id="yr"></span> Fuji Sushi · Умань</span>
-      <span>Склад страв і ціни уточнюйте при замовленні</span>
-    </div>
-  </div>
-</footer>
+<nav class="navbar" id="nav"></nav>
+<div id="cartWrap"></div>
 
-<!-- ================= ЧЕК ================= -->
-<div class="check" id="check">
-  <div class="check__bar" id="checkBar">
-    <span class="check__chev" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 15l6-6 6 6" stroke-linecap="round"/></svg>
-    </span>
-    <span><b id="chkT">0 ₴</b> <em id="chkN">чек порожній</em></span>
-    <a class="btn btn--shu btn--sm" href="tel:+380980007792" onclick="event.stopPropagation()"><span>Подзвонити</span></a>
-  </div>
-  <div class="check__body">
-    <div class="check__in">
-      <div id="chkList"></div>
-      <div class="prog">
-        <div class="prog__t"><span id="progTxt"></span><b id="progLeft"></b></div>
-        <div class="prog__b"><i id="progBar"></i></div>
-      </div>
-      <div class="frm">
-        <div><label for="fName">Ім'я</label><input id="fName" type="text" placeholder="Оксана" autocomplete="name"></div>
-        <div><label for="fTel">Телефон</label><input id="fTel" type="tel" placeholder="0XX XXX XX XX" autocomplete="tel"></div>
-        <div><label for="fAddr">Адреса</label><input id="fAddr" type="text" placeholder="вул. Незалежності 12, кв. 4"></div>
-      </div>
-      <div class="check__act">
-        <button class="btn" id="sendViber"><span>Надіслати у Viber</span></button>
-        <button class="btn btn--ghost" id="copyOrder"><span>Скопіювати замовлення</span></button>
-        <button class="btn btn--ghost" id="clearCart"><span>Очистити</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
+<script src="data.js"></script>
+<script src="app.js"></script>
 <script>
-/* ============================================================
-   ДАНІ
-   ------------------------------------------------------------
-   ✅ ПІДТВЕРДЖЕНО з Instagram @fuji.sushi.uman (серпень 2026):
-      • Вт–Нд 10:00–22:00, понеділок — санітарний день
-      • тел. 0980007792, безкоштовна доставка від 499 грн
-      • сет «Титан» — 999 грн, 48 шматочків, 1650 г  (склад нижче)
-      • сет «Гранд» — 1599 грн                        (склад нижче)
-      • назви позицій, позначені real:1, взяті зі складу цих сетів
-   ⚠️ ЦІНИ ОКРЕМИХ ПОЗИЦІЙ, ВАГА І ГРАМАЖ — ЗАГЛУШКИ.
-      Замініть на свої перед публікацією.
-   ============================================================ */
+mountShell('home');
+$('#ftr').innerHTML = footerHTML();
 
-const ING = {
-  losos:{n:'лосось',c:'#F0714A'}, vuhor:{n:'вугор',c:'#7D4B2A'}, krev:{n:'креветка',c:'#F4A08C'},
-  krab:{n:'краб-мікс',c:'#EFA37E'}, tunec:{n:'тунець',c:'#B93A46'}, syr:{n:'вершковий сир',c:'#FBF3E2'},
-  avo:{n:'авокадо',c:'#8FB758'}, ohir:{n:'огірок',c:'#BCD48F'}, chuka:{n:'чука',c:'#4E7A3A'},
-  tobik:{n:'тобіко',c:'#F2A03D'}, omlet:{n:'омлет',c:'#F3D06A'}, kurka:{n:'курка',c:'#E8C79A'},
-  yalov:{n:'яловичина',c:'#8C4A3C'}, perec:{n:'спайсі',c:'#C0392B'}, hryby:{n:'гриби',c:'#A98A6B'},
-  ovoch:{n:'овочі',c:'#7FA65B'}, ryzh:{n:'рис',c:'#F7F2E7'}, black:{n:'чорний рис',c:'#2B2B33'}
-};
-
-/* Розділи прайс-аркуша.
-   real:1 — назву підтверджено дописом в Instagram
-   realP:1 — ЦІНУ теж підтверджено дописом (таких поки три)
-   tags — для фільтра вгорі меню: 'hit' | 'spicy' | 'veg' */
-const MENU = [
-  {g:'Філадельфія', jp:'Philadelphia', items:[
-    {id:'f1', n:'Філадельфія з лососем',  real:1, p:279, w:'8 шт · 250 г', type:'roll', ing:['losos','syr','ohir'], tags:['hit']},
-    {id:'f2', n:'Філадельфія з креветкою',real:1, p:289, w:'8 шт · 250 г', type:'roll', ing:['krev','syr','ohir']},
-    {id:'f3', n:'Філадельфія з вугрем',   real:1, p:319, w:'8 шт · 255 г', type:'roll', ing:['vuhor','syr','ohir']},
-    {id:'f4', n:'Філадельфія з тунцем',   real:1, p:299, w:'8 шт · 250 г', type:'roll', ing:['tunec','syr','ohir']},
-    {id:'f5', n:'Філадельфія Блек з лососем', real:1, p:309, w:'8 шт · 255 г', type:'roll', ing:['losos','syr','black']},
-    {id:'f6', n:'Філадельфія «Аляска»', real:1, realP:1, p:349, w:'325 г', type:'roll', ing:['losos','syr','avo','krev'], tags:['new'],
-     d:'лосось зверху, крем-сир, авокадо, креветка варена'}
-  ]},
-  {g:'Фірмові роли', jp:'Signature', items:[
-    {id:'g1', n:'Рол «Гурман»', real:1, p:349, w:'8 шт · 280 г', type:'roll', ing:['vuhor','syr','tobik','avo'], tags:['hit'],
-     d:'вугор, крем-сир, ікра масаго, авокадо, зверху лосось'},
-    {id:'g2', n:'Лава рол', real:1, p:319, w:'8 шт · 270 г', type:'baked', ing:['losos','syr','perec'], tags:['hit']}
-  ]},
-  {g:'Каліфорнія та макі', jp:'California / Maki', items:[
-    {id:'k1', n:'Каліфорнія з креветкою темпура', real:1, p:309, w:'8 шт · 265 г', type:'tempura', ing:['krev','syr','ohir'],
-     d:'креветка темпура, огірок, крем-сир, соуси зверху'},
-    {id:'k2', n:'Каліфорнія з вугрем', real:1, p:299, w:'8 шт · 245 г', type:'roll', ing:['vuhor','avo','ohir','tobik']},
-    {id:'k3', n:'Каліфорнія з лососем', p:259, w:'8 шт · 240 г', type:'roll', ing:['losos','avo','ohir','tobik']},
-    {id:'k4', n:'Футомакі з креветкою', real:1, p:289, w:'8 шт · 280 г', type:'roll', ing:['krev','syr','avo','omlet']},
-    {id:'k5', n:'Сяке макі', p:139, w:'6 шт · 130 г', type:'roll', ing:['losos']},
-    {id:'k6', n:'Кюрі макі', p:99, w:'6 шт · 120 г', type:'roll', ing:['ohir'], tags:['veg']}
-  ]},
-  {g:'Запечені', jp:'Yaki', items:[
-    {id:'z1', n:'Запечений з сиром',     real:1, p:199, w:'8 шт · 250 г', type:'baked', ing:['syr','ohir','avo'], tags:['veg']},
-    {id:'z2', n:'Запечений з краб-мікс', real:1, p:219, w:'8 шт · 250 г', type:'baked', ing:['krab','syr','ohir'], tags:['hit']},
-    {id:'z3', n:'Запечений з лососем',  p:239, w:'8 шт · 250 г', type:'baked', ing:['losos','syr','ohir']},
-    {id:'z4', n:'Запечений з креветкою',p:249, w:'8 шт · 250 г', type:'baked', ing:['krev','syr','avo']}
-  ]},
-  {g:'Темпура та гарячі', jp:'Tempura', items:[
-    {id:'t1', n:'Темпура з креветкою',  real:1, p:259, w:'8 шт · 265 г', type:'tempura', ing:['krev','syr','avo'], tags:['hit']},
-    {id:'t2', n:'Темпура з краб-міксом',real:1, p:239, w:'8 шт · 260 г', type:'tempura', ing:['krab','syr','ohir']},
-    {id:'t3', n:'Темпура Гурман',       real:1, p:279, w:'8 шт · 270 г', type:'tempura', ing:['losos','vuhor','syr']},
-    {id:'t4', n:'Креветки темпура 6 шт + спайсі', real:1, p:189, w:'6 шт · 130 г', type:'shrimp', ing:['krev','perec'], tags:['spicy']},
-    {id:'t5', n:'Креветки темпура 10 шт + спайсі',real:1, p:229, w:'10 шт · 200 г', type:'shrimp', ing:['krev','perec'], tags:['spicy']}
-  ]},
-  {g:'Суші та гункани', jp:'Nigiri / Gunkan', items:[
-    {id:'s1', n:'Суші з лососем', p:95, w:'2 шт · 60 г', type:'nigiri', ing:['losos']},
-    {id:'s2', n:'Суші з вугрем',  p:115, w:'2 шт · 60 г', type:'nigiri', ing:['vuhor']},
-    {id:'s3', n:'Суші з тунцем',  p:105, w:'2 шт · 58 г', type:'nigiri', ing:['tunec']},
-    {id:'s4', n:'Гункан з тобіко',p:95, w:'2 шт · 60 г', type:'roll', ing:['tobik']}
-  ]},
-  {g:'Вок', jp:'Wok', items:[
-    {id:'w1', n:'Удон з куркою',        p:189, w:'380 г', type:'bowl', ing:['kurka','ovoch']},
-    {id:'w2', n:'Удон з креветкою',     p:229, w:'380 г', type:'bowl', ing:['krev','ovoch']},
-    {id:'w3', n:'Фунчоза з яловичиною', p:209, w:'380 г', type:'bowl', ing:['yalov','ovoch','perec'], tags:['spicy']},
-    {id:'w4', n:'Рис з овочами',        p:159, w:'350 г', type:'bowl', ing:['ryzh','ovoch','hryby'], tags:['veg']}
-  ]},
-  {g:'Напої та додатки', jp:'Extra', items:[
-    {id:'e1', n:'Полуничний морс', real:1, realP:1, p:69, w:'0,5 л', type:'drink', ing:['perec'], tags:['hit']},
-    {id:'e2', n:'Вода без газу',   p:30, w:'0,5 л', type:'drink', ing:['ohir']},
-    {id:'e3', n:'Кола',            p:45, w:'0,5 л', type:'drink', ing:['yalov']},
-    {id:'e4', n:'Додатковий набір: соєвий соус, імбир, васабі', real:1, realP:1, p:20, w:'1 набір', type:'drink', ing:['vuhor']}
-  ]}
-];
-
-/* Сети тижня — склад і ЦІНИ ПІДТВЕРДЖЕНІ дописами від 4 серпня 2026 */
-const SETS = [
-  {id:'grand', n:'Гранд', jp:'Сет тижня', p:1599, pcs:'—', w:'—', tag:'найбільший',
-   lead:'Коли хочеться максимум: ніжна класика, насичений вугор, гарячі роли та хрумкі креветки.',
-   ing:['losos','vuhor','tunec','krab','krev'],
-   list:['Філадельфія з лососем','Філадельфія з вугрем','Філадельфія з тунцем','Каліфорнія з вугрем','Запечений з сиром','Запечений з краб-мікс','Темпура з креветкою','Креветки темпура (10 шт) зі спайсі соусом']},
-  {id:'titan', n:'Титан', jp:'Сет тижня', p:999, pcs:'48 шт', w:'1650 г', tag:'хіт',
-   lead:'Великий, ситний, максимально різноманітний. Для тих, хто не обирає — а бере все найкраще одразу.',
-   ing:['losos','tunec','krev','syr','black'],
-   list:['Філадельфія з лососем (0,5)','Філадельфія з тунцем (0,5)','Філадельфія Блек з лососем','Футомакі з креветкою','Запечений з сиром','Темпура з креветкою','Темпура Гурман']},
-  {id:'hype', n:'Хайп', jp:'Сет тижня', p:899, pcs:'—', w:'—', tag:'хрумкий',
-   lead:'Той самий баланс, де є все, що зараз хочеться: хрум, ніжність і вау-ефект з першого шматка.',
-   ing:['losos','krev','krab','syr','black'],
-   list:['Філадельфія з лососем (0,5)','Філадельфія з креветкою (0,5)','Блек Філадельфія з лососем','Темпура з креветкою','Темпура з краб-міксом','Креветки темпура 6 шт + соус спайсі']},
-  {id:'lilia', n:'Лілія', jp:'Сет тижня', p:769, pcs:'—', w:'—', tag:'на двох',
-   lead:'Ніжний, як сама назва, але з характером у кожному шматочку. Баланс класики та теплих ролів.',
-   ing:['losos','tunec','krev','syr'],
-   list:['Філадельфія з лососем','Філадельфія з тунцем','Темпура з креветкою','Запечений з сиром']}
-];
-
-/* Актуальні сторіс — справжні посилання з профілю */
-const HIGHLIGHTS = [
-  {n:'Сети',     u:'https://www.instagram.com/stories/highlights/18170012872443591/', ing:['losos','vuhor','krev','syr'], type:'roll'},
-  {n:'Меню',     u:'https://www.instagram.com/stories/highlights/17862496047660992/', ing:['losos','syr','ohir'], type:'roll'},
-  {n:'Новинки',  u:'https://www.instagram.com/stories/highlights/18099167401791149/', ing:['losos','syr','black'], type:'roll'},
-  {n:'Доставка', u:'https://www.instagram.com/stories/highlights/18286949692265721/', ing:['krev','ovoch'], type:'bowl'},
-  {n:'Відгуки',  u:'https://www.instagram.com/stories/highlights/18379498876126662/', ing:['losos'], type:'nigiri'},
-  {n:'Ще відгуки',u:'https://www.instagram.com/stories/highlights/17913842007026839/', ing:['tunec'], type:'nigiri'}
-];
-
-const FREE_FROM = 499;
-const MIN_ORDER = 250;
-const PHONE_VIBER = '380980007792';
-
-/* ============================================================
-   МАЛЮНКИ СТРАВ — кожна позиція малюється кодом
-   ============================================================ */
-function ringPos(k){
-  const P = {
-    1:[[0,0,1]], 2:[[-.30,0,.72],[.30,0,.72]],
-    3:[[0,-.30,.62],[-.28,.22,.62],[.28,.22,.62]],
-    4:[[-.27,-.27,.56],[.27,-.27,.56],[-.27,.27,.56],[.27,.27,.56]],
-    5:[[0,0,.5],[0,-.34,.46],[.32,-.10,.46],[.20,.30,.46],[-.20,.30,.46]]
-  };
-  return P[Math.min(Math.max(k,1),5)];
-}
-function art(item,size){
-  const s = size||120, c = s/2, t = item.type||'roll';
-  const ings = (item.ing||['losos']).slice(0,5);
-  const col = k => (ING[k]||{}).c || '#ddd';
-  let o = `<svg viewBox="0 0 ${s} ${s}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${item.n||''}">`;
-
-  if(t==='bowl'){
-    o += `<circle cx="${c}" cy="${c}" r="${c*.94}" fill="#123A5A" opacity=".92"/>`;
-    o += `<circle cx="${c}" cy="${c}" r="${c*.80}" fill="#F2ECDE"/>`;
-    for(let i=0;i<7;i++){
-      const y = c - c*.5 + i*(c*.16);
-      o += `<path d="M${c-c*.62} ${y} q ${c*.31} ${-s*.055} ${c*.62} 0 q ${c*.31} ${s*.055} ${c*.62} 0" fill="none" stroke="#E7CE94" stroke-width="${s*.035}" stroke-linecap="round"/>`;
-    }
-    ings.forEach((k,i)=>{
-      const a = (i/ings.length)*Math.PI*2 - .6;
-      o += `<circle cx="${c+Math.cos(a)*c*.44}" cy="${c+Math.sin(a)*c*.44}" r="${s*.095}" fill="${col(k)}" stroke="#0B2438" stroke-opacity=".18"/>`;
-    });
-    o += `<circle cx="${c}" cy="${c}" r="${c*.80}" fill="none" stroke="#0B2438" stroke-opacity=".18"/>`;
-    return o+'</svg>';
-  }
-  if(t==='shrimp'){
-    o += `<circle cx="${c}" cy="${c}" r="${c*.92}" fill="#F7F2E7" stroke="#0B2438" stroke-opacity=".14"/>`;
-    for(let i=0;i<3;i++){
-      const a = -0.9 + i*2.1, r = c*.42;
-      const x = c+Math.cos(a)*r*.5, y = c+Math.sin(a)*r*.5;
-      o += `<path d="M${x-s*.16} ${y+s*.05} q ${s*.10} ${-s*.20} ${s*.24} ${-s*.10} q ${s*.10} ${s*.07} ${s*.02} ${s*.16} q ${-s*.12} ${s*.09} ${-s*.26} ${-s*.06} z" fill="${col('krev')}" stroke="#B9532F" stroke-opacity=".5" stroke-width="1"/>`;
-    }
-    for(let i=0;i<12;i++){
-      const a=(i/12)*Math.PI*2, rr=c*.72;
-      o += `<circle cx="${c+Math.cos(a)*rr}" cy="${c+Math.sin(a)*rr}" r="${s*.03}" fill="#E0B366"/>`;
-    }
-    o += `<circle cx="${c}" cy="${c}" r="${c*.30}" fill="${col('perec')}" opacity=".28"/>`;
-    return o+'</svg>';
-  }
-  if(t==='drink'){
-    const k = ings[0];
-    o += `<rect x="${c-s*.24}" y="${s*.16}" width="${s*.48}" height="${s*.70}" rx="${s*.06}" fill="${col(k)}" opacity=".9"/>`;
-    o += `<rect x="${c-s*.24}" y="${s*.16}" width="${s*.48}" height="${s*.70}" rx="${s*.06}" fill="none" stroke="#0B2438" stroke-opacity=".25"/>`;
-    o += `<rect x="${c-s*.11}" y="${s*.07}" width="${s*.22}" height="${s*.12}" rx="${s*.03}" fill="#123A5A"/>`;
-    o += `<rect x="${c-s*.16}" y="${s*.40}" width="${s*.32}" height="${s*.26}" fill="#F7F2E7" opacity=".85"/>`;
-    return o+'</svg>';
-  }
-  if(t==='nigiri'){
-    o += `<ellipse cx="${c}" cy="${c+s*.10}" rx="${s*.40}" ry="${s*.24}" fill="#F7F2E7" stroke="#0B2438" stroke-opacity=".18"/>`;
-    o += `<path d="M${c-s*.42} ${c-s*.02} q ${s*.42} ${-s*.30} ${s*.84} 0 q ${-s*.10} ${s*.14} ${-s*.42} ${s*.14} q ${-s*.32} 0 ${-s*.42} ${-s*.14}z" fill="${col(ings[0])}"/>`;
-    o += `<path d="M${c-s*.40} ${c-s*.05} q ${s*.40} ${-s*.24} ${s*.80} 0" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="${s*.03}"/>`;
-    o += `<rect x="${c-s*.07}" y="${c-s*.14}" width="${s*.14}" height="${s*.40}" fill="#1E2A24" opacity=".85" rx="1"/>`;
-    return o+'</svg>';
-  }
-
-  // roll / baked / tempura
-  const R = c*.94;
-  const blackRice = ings.includes('black');
-  if(t==='tempura'){
-    for(let i=0;i<26;i++){
-      const a = (i/26)*Math.PI*2, rr = R*(1.0 + (i%3)*.02);
-      o += `<circle cx="${c+Math.cos(a)*rr}" cy="${c+Math.sin(a)*rr}" r="${s*.045}" fill="#E0B366"/>`;
-    }
-  }
-  o += `<circle cx="${c}" cy="${c}" r="${R}" fill="${t==='tempura'?'#E9C07A':'#1E2A24'}"/>`;
-  o += `<circle cx="${c}" cy="${c}" r="${R*.86}" fill="${blackRice?'#2B2B33':'#F7F2E7'}"/>`;
-  for(let i=0;i<16;i++){
-    const a=(i/16)*Math.PI*2+.3, rr=R*.74;
-    o += `<ellipse cx="${c+Math.cos(a)*rr}" cy="${c+Math.sin(a)*rr}" rx="${s*.038}" ry="${s*.026}" fill="${blackRice?'#3C3C46':'#EDE4CE'}" transform="rotate(${a*57.3} ${c+Math.cos(a)*rr} ${c+Math.sin(a)*rr})"/>`;
-  }
-  const inner = R*.58, pos = ringPos(ings.filter(k=>k!=='black').length||1);
-  ings.filter(k=>k!=='black').forEach((k,i)=>{
-    if(!pos[i]) return;
-    const [dx,dy,rf] = pos[i];
-    o += `<circle cx="${c+dx*inner*1.5}" cy="${c+dy*inner*1.5}" r="${inner*rf*.62}" fill="${col(k)}" stroke="#0B2438" stroke-opacity=".14"/>`;
-  });
-  if(t==='baked'){
-    o += `<path d="M${c-R*.9} ${c} a ${R*.9} ${R*.9} 0 0 0 ${R*1.8} 0 a ${R*.9} ${R*.9} 0 0 0 ${-R*1.8} 0" fill="#E8A34A" opacity=".55"/>`;
-    o += `<circle cx="${c}" cy="${c}" r="${R*.86}" fill="#D98A3C" opacity=".22"/>`;
-    for(let i=0;i<9;i++){
-      const a=(i/9)*Math.PI*2+.7, rr=R*(.3+.5*((i%3)/3));
-      o += `<circle cx="${c+Math.cos(a)*rr}" cy="${c+Math.sin(a)*rr}" r="${s*.02}" fill="#8B4A1E" opacity=".5"/>`;
-    }
-  }
-  o += `<circle cx="${c}" cy="${c}" r="${R}" fill="none" stroke="#0B2438" stroke-opacity=".14"/>`;
-  return o+'</svg>';
-}
-
-function waveSVG(){
-  const W = 1600, step = 40;
-  let g = '';
-  [[20,step/2],[40,0],[60,step/2]].forEach(([y,off])=>{
-    for(let cx = off; cx <= W; cx += step){
-      [20,13.5,7].forEach(r=>{ g += `<path d="M${cx-r} ${y} A${r} ${r} 0 0 1 ${cx+r} ${y}"/>`; });
-    }
-  });
-  return `<svg viewBox="0 0 ${W} 60" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4">${g}</g></svg>`;
-}
-
-/* ============================================================
-   ЛОГІКА
-   ============================================================ */
-const $  = s => document.querySelector(s);
-const $$ = s => [...document.querySelectorAll(s)];
-const ALL = MENU.flatMap(g=>g.items);
-const byId = id => ALL.find(m=>m.id===id) || SETS.find(m=>m.id===id);
-const uah = n => n.toLocaleString('uk-UA') + ' ₴';
-
-let cart = {};
-try{ cart = JSON.parse(localStorage.getItem('fuji_cart')||'{}'); }catch(e){ cart = {}; }
-
-$$('[data-wave]').forEach(el=>el.innerHTML = waveSVG());
-
-/* ---- сети тижня ---- */
-function renderSets(){
-  $('#wsetRow').innerHTML = SETS.map(s=>`
-    <article class="ws">
-      <div class="ws__art">${art({type:'roll',ing:s.ing,n:s.n},320)}</div>
-      <span class="ws__tag">${s.tag}</span>
-      <h3>«${s.n}»<small>${s.jp}</small></h3>
-      <p class="ws__lead">${s.lead}</p>
-      <div class="ws__num">
-        ${s.pcs && s.pcs!=='—' ? `<div><b>${s.pcs}</b><span>шматочків</span></div>` : ''}
-        ${s.w   && s.w  !=='—' ? `<div><b>${s.w}</b><span>вага</span></div>` : ''}
-        <div><b>${s.list.length}</b><span>видів ролів</span></div>
+/* ---------- банери ---------- */
+$('#banners').innerHTML = BANNERS.map(b=>`
+  <div class="banner">
+    <div class="banner__art">${art({t:b.id.startsWith('s-')?'set':'roll',ing:b.ing,n:b.t},300)}</div>
+    <div class="banner__in">
+      <h2>${b.t}</h2>
+      <p>${b.s}</p>
+      <div class="banner__b">
+        <span class="banner__p">${b.p} ₴</span>
+        <button class="btn" data-add="${b.id}">Додати в кошик</button>
       </div>
-      <ul class="ws__list">${s.list.map(x=>`<li>${x}</li>`).join('')}</ul>
-      <div class="ws__b">
-        <span class="ws__p">${s.p}<sup>₴</sup></span>
-        <button class="btn btn--shu" data-add="${s.id}"><span>Додати в чек</span></button>
-      </div>
-    </article>`).join('');
-}
+    </div>
+  </div>`).join('');
 
-/* ---- фільтри меню ---- */
-const TAGS = [
-  {id:'all',   n:'Все'},
-  {id:'hit',   n:'Хіти'},
-  {id:'spicy', n:'Гострі'},
-  {id:'veg',   n:'Без риби'},
-  {id:'new',   n:'Новинки'}
-];
-let fTag = 'all';
-const matches = m => fTag==='all' || (m.tags||[]).includes(fTag);
-
-function renderFilters(){
-  $('#filters').innerHTML = TAGS.map(t=>{
-    const n = t.id==='all' ? ALL.length : ALL.filter(m=>(m.tags||[]).includes(t.id)).length;
-    if(!n) return '';
-    return `<button class="chip${t.id===fTag?' on':''}" data-tag="${t.id}">${t.n}<i>${n}</i></button>`;
-  }).join('');
+const bx = $('#banners');
+$('#dots').innerHTML = BANNERS.map((_,i)=>`<b class="${i?'':'on'}" data-i="${i}"></b>`).join('');
+const dots = $$('#dots b');
+function syncDots(){
+  const i = Math.round(bx.scrollLeft / bx.clientWidth);
+  dots.forEach((d,k)=>d.classList.toggle('on',k===i));
 }
-$('#filters').onclick = e=>{
-  const b = e.target.closest('.chip'); if(!b) return;
-  fTag = b.dataset.tag;
-  renderFilters(); renderSheet();
+bx.addEventListener('scroll',()=>requestAnimationFrame(syncDots),{passive:true});
+dots.forEach(d=>d.onclick=()=>bx.scrollTo({left:bx.clientWidth*(+d.dataset.i),behavior:'smooth'}));
+let auto = setInterval(()=>{
+  const next = (Math.round(bx.scrollLeft/bx.clientWidth)+1) % BANNERS.length;
+  bx.scrollTo({left:bx.clientWidth*next,behavior:'smooth'});
+},6000);
+bx.addEventListener('pointerdown',()=>clearInterval(auto));
+
+/* ---------- категорії ---------- */
+const CAT_ART = {
+  set:{t:'set',ing:['losos','tunec','krev']}, fila:{t:'roll',ing:['losos','syr','ohir']},
+  sign:{t:'baked',ing:['vuhor','syr','tobik']}, cali:{t:'roll',ing:['krab','avo','ohir','tobik']},
+  baked:{t:'baked',ing:['losos','syr']}, temp:{t:'tempura',ing:['krev','syr','avo']},
+  sushi:{t:'nigiri',ing:['losos']}, wok:{t:'bowl',ing:['kurka','ovoch']}, add:{t:'drink',ing:['perec']}
 };
+$('#cats').innerHTML = CATS.map(c=>
+  `<a class="cat" href="menu.html?c=${c.id}">${art({...CAT_ART[c.id],n:c.n},40)}${c.n}</a>`).join('');
 
-/* ---- прайс-аркуш ---- */
-function renderSheet(){
-  $('#sheet').innerHTML = MENU.map(g=>{
-    const items = g.items.filter(matches);
-    if(!items.length) return '';
-    return `
-    <section class="grp">
-      <div class="grp__h"><h3>${g.g}</h3><span>${g.jp}</span></div>
-      ${items.map(m=>{
-        const LBL = {hit:['хіт',''], spicy:['гостре',''], veg:['без риби',' tag--v'], new:['новинка',' tag--n']};
-        const tags = (m.tags||[]).map(t=>LBL[t] ? `<span class="tag${LBL[t][1]}">${LBL[t][0]}</span>` : '').join('');
-        // у напоях/соусах ing задає лише колір малюнка — у підпис його не виводимо
-        const ing = m.d ? m.d : (m.type==='drink' ? '' : (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', '));
-        const meta = [ing, m.w].filter(Boolean).join(' · ');
-        return `<div class="row" data-add="${m.id}" role="button" tabindex="0" aria-label="Додати ${m.n}">
-          <div class="row__a">${art(m,44)}</div>
-          <div class="row__t">
-            <div class="row__n">${m.n}${tags}</div>
-            <div class="row__i">${meta}</div>
-          </div>
-          <span class="row__d"></span>
-          <span class="row__p${m.realP?' row__p--ok':''}">${m.p}<sup>₴</sup></span>
-          <span class="row__add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span>
-        </div>`;
-      }).join('')}
-    </section>`;
-  }).join('');
+/* ---------- топові ---------- */
+$('#tops').innerHTML = ITEMS.filter(i=>i.top).map(cardHTML).join('');
 
-  const realN  = ALL.filter(m=>m.real).length;
-  const realPN = ALL.filter(m=>m.realP).length;
-  $('#sheetNote').textContent =
-    `Назви ${realN} позицій із ${ALL.length} узяті з ваших дописів в Instagram; ${realPN} ціни підтверджені там же (виділені кольором). Решта цін і грамаж — попередні, звіряйте з чинним прайсом. Повне меню лежить у ваших актуальних сторіс — воно відкрите лише для тих, хто увійшов в Instagram, тож перенести його автоматично не вийшло.`;
-}
-
-/* ---- хайлайти ---- */
-function renderHL(){
-  $('#hlRow').innerHTML = HIGHLIGHTS.map(h=>`
-    <a href="${h.u}" target="_blank" rel="noopener">
-      <div class="hl__r"><div class="hl__i">${art({type:h.type,ing:h.ing,n:h.n},130)}</div></div>
-      <b>${h.n}</b>
-    </a>`).join('');
-}
-
-/* ---- чек ---- */
-function save(){ localStorage.setItem('fuji_cart', JSON.stringify(cart)); }
-function count(){ return Object.values(cart).reduce((a,b)=>a+b,0); }
-function total(){ return Object.entries(cart).reduce((a,[id,q])=>{ const m=byId(id); return a + (m? m.p*q : 0); },0); }
-
-function renderCheck(){
-  const n = count(), t = total();
-  $('#check').classList.toggle('on', n>0);
-  document.body.classList.toggle('has-check', n>0);
-  if(!n){ $('#check').classList.remove('open'); }
-  $('#chkT').textContent = uah(t);
-  $('#chkN').textContent = n ? `${n} ${n===1?'позиція':(n<5?'позиції':'позицій')} у чеку` : 'чек порожній';
-
-  $('#chkList').innerHTML = Object.entries(cart).map(([id,q])=>{
-    const m = byId(id); if(!m) return '';
-    return `<div class="ci">
-      <div class="ci__a">${art(m,44)}</div>
-      <div class="ci__t"><b>${m.n}</b><span>${m.w||m.pcs||''}</span></div>
-      <div class="qty"><button data-dec="${id}" aria-label="Менше">−</button><i>${q}</i><button data-inc="${id}" aria-label="Більше">+</button></div>
-      <div class="ci__p">${uah(m.p*q)}</div>
-    </div>`;
-  }).join('');
-
-  const free = t >= FREE_FROM;
-  $('#progBar').style.width = Math.min(100, t/FREE_FROM*100) + '%';
-  $('#progBar').classList.toggle('done', free);
-  if(t < MIN_ORDER){
-    $('#progTxt').textContent = 'Мінімальне замовлення ' + MIN_ORDER + ' ₴';
-    $('#progLeft').textContent = 'ще ' + uah(MIN_ORDER - t);
-  } else if(!free){
-    $('#progTxt').textContent = 'До безкоштовної доставки';
-    $('#progLeft').textContent = 'ще ' + uah(FREE_FROM - t);
-  } else {
-    $('#progTxt').textContent = 'Доставка по Умані';
-    $('#progLeft').textContent = 'безкоштовна ✓';
-  }
-}
-
-function addTo(id, srcEl){
-  const m = byId(id); if(!m) return;
-  cart[id] = (cart[id]||0) + 1; save(); renderCheck();
-  toast(m.n + ' — у чеку');
-  if(srcEl) fly(srcEl, id);
-}
-function fly(from, id){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const r = from.getBoundingClientRect();
-  const el = document.createElement('div');
-  el.className='fly'; el.innerHTML = art(byId(id),64);
-  el.style.left = r.left+'px'; el.style.top = r.top+'px';
-  document.body.appendChild(el);
-  requestAnimationFrame(()=>{
-    el.style.left = '24px';
-    el.style.top  = (window.innerHeight-70)+'px';
-    el.style.transform='scale(.2) rotate(300deg)'; el.style.opacity='0';
-  });
-  setTimeout(()=>el.remove(), 850);
-}
-let tTimer;
-function toast(msg){
-  const el=$('#toast'); el.textContent=msg; el.classList.add('on');
-  clearTimeout(tTimer); tTimer=setTimeout(()=>el.classList.remove('on'),2200);
-}
-
-document.addEventListener('click', e=>{
-  const a = e.target.closest('[data-add]');
-  if(a){ addTo(a.dataset.add, a.querySelector('.row__a') || a); return; }
-  const inc = e.target.closest('[data-inc]');
-  if(inc){ cart[inc.dataset.inc]++; save(); renderCheck(); return; }
-  const dec = e.target.closest('[data-dec]');
-  if(dec){ const id=dec.dataset.dec; cart[id]--; if(cart[id]<=0) delete cart[id]; save(); renderCheck(); return; }
+/* ---------- пошук веде на сторінку меню ---------- */
+$('#q').addEventListener('keydown',e=>{
+  if(e.key==='Enter' && e.target.value.trim())
+    location.href='menu.html?q='+encodeURIComponent(e.target.value.trim());
 });
-document.addEventListener('keydown', e=>{
-  if(e.key==='Enter' || e.key===' '){
-    const row = e.target.closest('.row[data-add]');
-    if(row){ e.preventDefault(); addTo(row.dataset.add, row.querySelector('.row__a')); }
-  }
-  if(e.key==='Escape'){ $('#check').classList.remove('open'); closeNav(); }
-});
-
-$('#checkBar').onclick = ()=> $('#check').classList.toggle('open');
-$('#clearCart').onclick = ()=>{ cart={}; save(); renderCheck(); toast('Чек очищено'); };
-
-/* ---- навігація ---- */
-function closeNav(){ $('#mnav').classList.remove('on'); document.body.classList.remove('locked'); }
-$('#burger').onclick = ()=>{ $('#mnav').classList.add('on'); document.body.classList.add('locked'); };
-$('#mnavX').onclick = closeNav;
-$$('#mnav a').forEach(a=>a.addEventListener('click', closeNav));
-
-/* ---- замовлення ---- */
-function orderText(){
-  const lines = Object.entries(cart).map(([id,q],i)=>{
-    const m = byId(id); return `${i+1}. ${m.n} × ${q} — ${m.p*q} ₴`;
-  });
-  const t = total(), free = t>=FREE_FROM;
-  const nm = $('#fName').value.trim(), tel = $('#fTel').value.trim(), ad = $('#fAddr').value.trim();
-  return [
-    '🍣 ЗАМОВЛЕННЯ · FUJI SUSHI',
-    '—————————————',
-    ...lines,
-    '—————————————',
-    `Сума: ${t} ₴`,
-    `Доставка: ${free?'безкоштовно':'за тарифом'}`,
-    '',
-    `Ім'я: ${nm || '—'}`,
-    `Телефон: ${tel || '—'}`,
-    `Адреса: ${ad || '—'}`
-  ].join('\n');
-}
-function checkMin(){
-  if(!count()){ toast('Спершу оберіть щось у меню'); return false; }
-  if(total() < MIN_ORDER){ toast('Мінімальне замовлення ' + MIN_ORDER + ' ₴'); return false; }
-  return true;
-}
-$('#sendViber').onclick = ()=>{
-  if(!checkMin()) return;
-  const tel = $('#fTel');
-  if(tel.value.trim().length < 9){ tel.classList.add('bad'); tel.focus(); toast('Вкажіть телефон — щоб ми могли підтвердити'); return; }
-  tel.classList.remove('bad');
-  window.location.href = 'viber://chat?number=%2B' + PHONE_VIBER + '&text=' + encodeURIComponent(orderText());
-  setTimeout(()=>toast('Якщо Viber не відкрився — натисніть «Скопіювати»'), 1600);
-};
-$('#copyOrder').onclick = async ()=>{
-  if(!checkMin()) return;
-  try{ await navigator.clipboard.writeText(orderText()); toast('Замовлення скопійовано ✓'); }
-  catch(e){ toast('Не вдалось скопіювати — продиктуйте телефоном'); }
-};
-
-/* ---- тема ---- */
-const savedTheme = localStorage.getItem('fuji_theme');
-if(savedTheme) document.documentElement.dataset.theme = savedTheme;
-$('#themeBtn').onclick = ()=>{
-  const night = document.documentElement.dataset.theme === 'night';
-  document.documentElement.dataset.theme = night ? 'day' : 'night';
-  localStorage.setItem('fuji_theme', night ? 'day' : 'night');
-  toast(night ? 'Денний Фудзі ☀' : 'Нічний Фудзі ☾');
-};
-
-/* ---- кадрування героя ---- */
-const heroSVG = $('.hero__art svg');
-function frameHero(){
-  heroSVG.setAttribute('viewBox', window.innerWidth < 760 ? '620 0 820 860' : '0 0 1440 860');
-}
-frameHero();
-window.addEventListener('resize', frameHero);
-
-/* ---- скрол ---- */
-const hdr = $('#hdr'), sunG=$('#sunG'), farG=$('#farG'), fujiG=$('#fujiG'), foreG=$('#foreG'), toriiG=$('#toriiG');
-let ticking = false;
-function onScroll(){
-  const y = window.scrollY;
-  hdr.classList.toggle('stuck', y > 40);
-  if(y < window.innerHeight*1.2){
-    sunG.style.transform  = `translate3d(0,${y*.28}px,0)`;
-    farG.style.transform  = `translate3d(0,${y*.16}px,0)`;
-    fujiG.style.transform = `translate3d(0,${y*.08}px,0)`;
-    foreG.style.transform = `translate3d(0,${-y*.05}px,0)`;
-    toriiG.style.transform = `translate(920px,${605 - y*.06}px) scale(0.72)`;
-  }
-  ticking = false;
-}
-window.addEventListener('scroll', ()=>{ if(!ticking){ ticking=true; requestAnimationFrame(onScroll); }}, {passive:true});
-
-const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }}), {threshold:.12});
-$$('.rv').forEach(el=>io.observe(el));
-
-const secIO = new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting) $$('.nav a').forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id));
-}), {rootMargin:'-45% 0px -50% 0px'});
-['sets','menu','lunch','delivery','insta','contacts'].forEach(id=>{ const el=document.getElementById(id); if(el) secIO.observe(el); });
-
-/* ---- старт ---- */
-$('#yr').textContent = new Date().getFullYear();
-renderSets(); renderFilters(); renderSheet(); renderHL(); renderCheck(); onScroll();
 </script>
 </body>
 </html>

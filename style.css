@@ -148,7 +148,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* ---------- ГЕРОЙ ---------- */
 .h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
-  touch-action:pan-x;overscroll-behavior-x:contain}
+  overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}
 .banner{
   position:relative;flex:0 0 min(100%,var(--max));scroll-snap-align:center;
@@ -176,10 +176,11 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .dots b.on{background:var(--red-hi);opacity:1;width:20px;border-radius:4px}
 
 /* ---------- КАТЕГОРІЇ ---------- */
-/* touch-action:pan-x — вертикальний рух пальця гортає сторінку,
-   overscroll-behavior — стрічка не тягне за собою всю сторінку вбік */
+/* overscroll-behavior-x стримує бокове перетягування сторінки.
+   touch-action тут НЕ чіпаємо: pan-x забороняє вертикальний рух
+   пальця, і сторінка перестає гортатися над стрічкою. */
 .cats{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:22px 0 4px;
-  touch-action:pan-x;overscroll-behavior-x:contain}
+  overscroll-behavior-x:contain}
 .cats::-webkit-scrollbar{display:none}
 .cat{
   flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -251,7 +252,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 /* ---------- КАРТКИ СТРАВ ---------- */
 .row-slider{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:6px;
-  touch-action:pan-x;overscroll-behavior-x:contain}
+  overscroll-behavior-x:contain}
 .row-slider::-webkit-scrollbar{display:none}
 .row-slider .card{flex:0 0 237px;scroll-snap-align:start}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:16px}

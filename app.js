@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    FUJI SUSHI · Умань — логіка сайту
    Кошик у localStorage, замовлення йде в Telegram.
    Страви малюються кодом — фото немає.
@@ -13,6 +13,45 @@ const byId = id => ITEMS.find(i=>i.id===id);
    m.p лишається звичайною ціною, щоб було що перекреслити. */
 const P    = m => (m && m.promo && m.promo < m.p) ? m.promo : (m ? m.p : 0);
 const sale = m => !!(m && m.promo && m.promo < m.p);
+const esc  = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* Картинка страви: завантажене в адмінці фото, інакше — намальована.
+   Фото зберігається повним посиланням на самій позиції, тому воно
+   не залежить ні від порядку карток, ні від їх кількості. */
+function pic(m,size){
+  const u = m && m.img;
+  if(u && /^https?:\/\//.test(u))
+    return `<img class="pic" src="${esc(u)}" alt="${esc(m.n)}" loading="lazy" decoding="async">`;
+  return art(m,size);
+}
+
+/* ---------- режим роботи ---------- */
+const hm = s => { const m=/^(\d{1,2}):(\d{2})$/.exec(String(s||'').trim());
+  return m ? (+m[1])*60 + (+m[2]) : null; };
+
+/* null — години не задані; інакше кажемо, відчинено зараз чи ні */
+function openState(){
+  const f=hm(SHOP.openFrom), t=hm(SHOP.openTo);
+  if(f==null||t==null||t<=f) return null;
+  const d=new Date(), now=d.getHours()*60+d.getMinutes();
+  return { open: now>=f && now<t, from:SHOP.openFrom, to:SHOP.openTo };
+}
+function renderHours(){
+  const el=$('#hoursLine'); if(!el) return;
+  const st=openState();
+  el.className = 'hours' + (st ? (st.open?' hours--open':' hours--shut') : '');
+  el.innerHTML = `<i></i><b>${esc(SHOP.hours)}</b>` +
+    (st ? `<span class="hours__st">${st.open
+            ? 'зараз відчинено, приймаємо до '+esc(st.to)
+            : 'зараз зачинено, відкриємось о '+esc(st.from)}</span>` : '') +
+    `<em>${esc(SHOP.dayOff)}</em>`;
+}
+/* межі поля «на конкретний час» в оформленні */
+function applyTimeBounds(){
+  const t=$('#fTime'); if(!t) return;
+  if(hm(SHOP.openFrom)!=null) t.min=SHOP.openFrom;
+  if(hm(SHOP.openTo)!=null)   t.max=SHOP.openTo;
+}
 
 /* ---------- сортування: одна кнопка-перемикач, без панелі ---------- */
 const SORTS = [
@@ -234,7 +273,7 @@ function renderAddons(){
     list.map(m=>{
       const q=cart[m.id]||0;
       return `<div class="ad">
-        <div class="ad__a">${art(m,42)}</div>
+        <div class="ad__a">${pic(m,42)}</div>
         <div class="ad__t"><b>${m.n}</b><span>${m.w||''} · ${sale(m)?`<s>${m.p}</s> `:''}${P(m)} ₴</span></div>
         ${q ? `<div class="qty"><button data-dec="${m.id}">−</button><i>${q}</i><button data-inc="${m.id}">+</button></div>`
             : `<button class="add add--sm" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>`}
@@ -255,7 +294,7 @@ function renderCart(){
   body.innerHTML=Object.entries(cart).map(([id,q])=>{
     const m=byId(id); if(!m) return '';
     return `<div class="ci">
-      <div class="ci__a">${art(m,52)}</div>
+      <div class="ci__a">${pic(m,52)}</div>
       <div class="ci__t"><b>${m.n}</b><span>${uah(P(m)*q)}${sale(m)?' <s>'+uah(m.p*q)+'</s>':''}</span></div>
       <div class="qty"><button data-dec="${id}" aria-label="Менше">−</button><i>${q}</i><button data-inc="${id}" aria-label="Більше">+</button></div>
       <button class="ci__x" data-del="${id}" aria-label="Прибрати ${m.n}">${icon('close')}</button>
@@ -294,7 +333,7 @@ function fly(from,m){
   const r=from.getBoundingClientRect();
   const tgt=($('.navbar .cart-btn')||$('.head-right .cart-btn')).getBoundingClientRect();
   const el=document.createElement('div');
-  el.className='fly'; el.innerHTML=art(m,62);
+  el.className='fly'; el.innerHTML=pic(m,62);
   el.style.left=r.left+r.width/2-31+'px'; el.style.top=r.top+r.height/2-31+'px';
   document.body.appendChild(el);
   requestAnimationFrame(()=>{
@@ -331,7 +370,7 @@ function cardHTML(m){
           : m.list ? m.list.slice(0,3).join(' · ')+(m.list.length>3?` · +${m.list.length-3}`:'')
           : (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
   return `<article class="card" data-open="${m.id}" role="button" tabindex="0">
-    <div class="card__img">${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}${art(m,190)}</div>
+    <div class="card__img">${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}${pic(m,190)}</div>
     <div class="card__in">
       <h3 class="card__n">${m.n}</h3>
       <p class="card__d">${d}</p>
@@ -647,6 +686,8 @@ function mountShell(page){
   $('#fPromo').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); applyPromo(); }});
   $('#fWhen').onchange=e=>{ $('#timeBox').hidden = e.target.value!=='На конкретний час'; };
   $('#pvBack').onclick=closeProduct;
+  applyTimeBounds();
+  renderHours();
   renderCart();
 }
 
@@ -676,7 +717,7 @@ function openProduct(id){
   const ing=(m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
   $('#pvTitle').textContent=m.n;
   $('#pvIn').innerHTML=`
-    <div class="pv__art">${art(m,420)}</div>
+    <div class="pv__art">${pic(m,420)}</div>
     <div class="pv__info">
       ${badges(m).length?`<div class="pv__tags">${badges(m).join('')}</div>`:''}
       <h1>${m.n}</h1>

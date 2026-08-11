@@ -262,6 +262,13 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   background:radial-gradient(90% 80% at 50% 40%,rgba(180,54,55,.16),transparent 70%)}
 .card__img svg{width:78%;height:78%;transition:transform .55s var(--ease)}
 .card:hover .card__img svg{transform:scale(1.07) rotate(-5deg)}
+
+/* Завантажене в адмінці фото. Стоїть на місці намальованої картинки
+   в усіх списках, тож достатньо одного правила на всі розміри. */
+.pic{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s var(--ease)}
+.card:hover .card__img .pic{transform:scale(1.06)}
+.ci__a .pic,.ad__a .pic{border-radius:10px}
+.pv__art .pic{border-radius:var(--r-m);box-shadow:0 30px 60px rgba(0,0,0,.8)}
 .card__tags{position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:2}
 .tag{
   padding:5px 9px;border-radius:var(--r-s);background:var(--red-tag);color:#fff;
@@ -316,8 +323,14 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
   padding:38px 0 6px;text-align:center;font-size:clamp(15px,2vw,19px);font-weight:600;
 }
-.hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal}
+.hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal;flex-shrink:0}
 .hours em{font-style:normal;color:var(--ink-3);font-weight:400;font-size:14px}
+/* зараз відчинено / зачинено — рахується за годинами з адмінки */
+.hours--open i{background:#4E9A3A;box-shadow:0 0 0 4px rgba(78,154,58,.18)}
+.hours--shut i{background:var(--ink-3)}
+.hours__st{font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;
+  background:var(--glass-2);color:var(--ink-2)}
+.hours--open .hours__st{background:rgba(78,154,58,.16);color:#8FD478}
 
 /* ---------- ІНФО-КАРТКИ ---------- */
 .info{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:8px}

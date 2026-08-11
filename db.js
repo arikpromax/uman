@@ -18,6 +18,8 @@ const SITE_ID = 5;                                                // Fuji Sushi 
 const num = v => { const n = parseFloat(String(v).replace(',','.')); return isFinite(n) ? n : 0; };
 const str = v => (v == null ? '' : String(v).trim());
 const list = v => str(v).split('\n').map(s=>s.trim()).filter(Boolean);
+/* коди начинки власник пише через кому; приймаємо і переноси рядка */
+const csv  = v => str(v).split(/[,\n;]/).map(s=>s.trim()).filter(Boolean);
 
 Promise.all([
   fetch(DB_URL+'/items?site_id=eq.'+SITE_ID+
@@ -45,6 +47,7 @@ Promise.all([
   if(T.far_km)     SHOP.farKm     = num(T.far_km)    || SHOP.farKm;
   if(T.far_fee)    SHOP.farFee    = num(T.far_fee)   || SHOP.farFee;
   if(T.pickup_time)SHOP.pickupTime= T.pickup_time;
+  try{ renderHours(); }catch(e){}
   /* токен Telegram свідомо НЕ беремо з бази: тексти читаються публічно,
      тож в адмінці йому не місце — він лишається в data.js */
 
@@ -59,7 +62,7 @@ Promise.all([
         id:'db'+r.id, c:str(x.cat)||'fila', n:r.title,
         p:num(r.price), w:str(x.w),
         t:str(x.t)||'roll',
-        ing:list(x.ing).length?list(x.ing):str(x.ing).split(',').map(s=>s.trim()).filter(Boolean)
+        ing:csv(x.ing)
       };
       if(str(x.d))    it.d = x.d;
       if(num(x.promo))it.promo = num(x.promo);
@@ -77,7 +80,7 @@ Promise.all([
       const it = {
         id:'db'+r.id, c:'set', n:'Сет «'+r.title+'»', p:num(r.price),
         w:[str(x.pcs),str(x.w)].filter(Boolean).join(' · '),
-        t:'set', ing:str(x.ing).split(',').map(s=>s.trim()).filter(Boolean),
+        t:'set', ing:csv(x.ing),
         list:list(x.list)
       };
       if(num(x.promo)) it.promo = num(x.promo);
@@ -101,8 +104,14 @@ Promise.all([
     try{ if(window.rerender) window.rerender(); renderCart(); }catch(e){}
   }
 
-  /* ---------- 3. Вимикач «Сьогодні вихідний» ---------- */
+  /* ---------- 3. Режим роботи ---------- */
   const st = (by.settings || [])[0], xs = (st && st.extra) || {};
+
+  const okTime = v => /^\d{1,2}:\d{2}$/.test(str(v));
+  if(okTime(xs.open_from)) SHOP.openFrom = str(xs.open_from);
+  if(okTime(xs.open_to))   SHOP.openTo   = str(xs.open_to);
+  try{ applyTimeBounds(); renderHours(); }catch(e){}
+
   if(xs.dayoff) dayOffScreen(str(xs.msg) || 'Сьогодні вихідний', str(xs.msg2) || SHOP.dayOff);
 })
 .catch(()=>{ /* немає звʼязку — сайт живе на вбудованому меню */ });

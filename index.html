@@ -128,7 +128,11 @@ $('#cats').innerHTML = CATS.map(c=>
   `<a class="cat" href="menu.html?c=${c.id}">${art({...CAT_ART[c.id],n:c.n},40)}${c.n}</a>`).join('');
 
 /* ---------- топові ---------- */
-$('#tops').innerHTML = ITEMS.filter(i=>i.top).map(cardHTML).join('');
+function renderTops(){ $('#tops').innerHTML = ITEMS.filter(i=>i.top).map(cardHTML).join(''); }
+renderTops();
+
+/* db.js викликає це після завантаження меню з адмінки */
+window.rerender = renderTops;
 
 
 /* ---------- пошук веде на сторінку меню ---------- */
@@ -138,5 +142,6 @@ $('#q').addEventListener('keydown',e=>{
 });
 </script>
 <script src="fx.js"></script>
+<script src="db.js"></script>
 </body>
 </html>

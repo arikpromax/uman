@@ -9,11 +9,16 @@ const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 const uah = n => n.toLocaleString('uk-UA') + ' ₴';
 const byId = id => ITEMS.find(i=>i.id===id);
 
+/* Ціна, за якою рахуємо: якщо задана акційна і вона менша — беремо її.
+   m.p лишається звичайною ціною, щоб було що перекреслити. */
+const P    = m => (m && m.promo && m.promo < m.p) ? m.promo : (m ? m.p : 0);
+const sale = m => !!(m && m.promo && m.promo < m.p);
+
 /* ---------- сортування: одна кнопка-перемикач, без панелі ---------- */
 const SORTS = [
   {id:'pop',   n:'Популярні', f:(a,b)=>(b.top?1:0)-(a.top?1:0)},
-  {id:'cheap', n:'Дешевші',   f:(a,b)=>a.p-b.p},
-  {id:'exp',   n:'Дорожчі',   f:(a,b)=>b.p-a.p}
+  {id:'cheap', n:'Дешевші',   f:(a,b)=>P(a)-P(b)},
+  {id:'exp',   n:'Дорожчі',   f:(a,b)=>P(b)-P(a)}
 ];
 let sortI = 0;
 const applySort = list => [...list].sort(SORTS[sortI].f);
@@ -154,7 +159,7 @@ let cart={};
 try{ cart=JSON.parse(localStorage.getItem('fuji_cart')||'{}'); }catch(e){ cart={}; }
 const save  = ()=>localStorage.setItem('fuji_cart',JSON.stringify(cart));
 const count = ()=>Object.values(cart).reduce((a,b)=>a+b,0);
-const total = ()=>Object.entries(cart).reduce((a,[id,q])=>{const m=byId(id);return a+(m?m.p*q:0);},0);
+const total = ()=>Object.entries(cart).reduce((a,[id,q])=>a+P(byId(id))*q,0);
 const discount = ()=>{
   if(!promo) return 0;
   const t=total();
@@ -230,7 +235,7 @@ function renderAddons(){
       const q=cart[m.id]||0;
       return `<div class="ad">
         <div class="ad__a">${art(m,42)}</div>
-        <div class="ad__t"><b>${m.n}</b><span>${m.w||''} · ${m.p} ₴</span></div>
+        <div class="ad__t"><b>${m.n}</b><span>${m.w||''} · ${sale(m)?`<s>${m.p}</s> `:''}${P(m)} ₴</span></div>
         ${q ? `<div class="qty"><button data-dec="${m.id}">−</button><i>${q}</i><button data-inc="${m.id}">+</button></div>`
             : `<button class="add add--sm" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>`}
       </div>`;
@@ -251,7 +256,7 @@ function renderCart(){
     const m=byId(id); if(!m) return '';
     return `<div class="ci">
       <div class="ci__a">${art(m,52)}</div>
-      <div class="ci__t"><b>${m.n}</b><span>${uah(m.p*q)}</span></div>
+      <div class="ci__t"><b>${m.n}</b><span>${uah(P(m)*q)}${sale(m)?' <s>'+uah(m.p*q)+'</s>':''}</span></div>
       <div class="qty"><button data-dec="${id}" aria-label="Менше">−</button><i>${q}</i><button data-inc="${id}" aria-label="Більше">+</button></div>
       <button class="ci__x" data-del="${id}" aria-label="Прибрати ${m.n}">${icon('close')}</button>
     </div>`;
@@ -306,12 +311,22 @@ function toast(msg){
   clearTimeout(tTimer); tTimer=setTimeout(()=>el.classList.remove('on'),2100);
 }
 
+/* ---------- плашки: акція йде першою, далі за важливістю ---------- */
+function badges(m){
+  const b=[];
+  if(sale(m)) b.push('<span class="tag tag--sale">акція</span>');
+  if(m.neu)   b.push('<span class="tag">новинка</span>');
+  if(m.week)  b.push('<span class="tag tag--w">сет тижня</span>');
+  if(m.top)   b.push('<span class="tag tag--hit">хіт</span>');
+  if(m.hot)   b.push('<span class="tag tag--hot">гостре</span>');
+  if(m.veg)   b.push('<span class="tag tag--v">без риби</span>');
+  return b;
+}
+
 /* ---------- картка страви ---------- */
 function cardHTML(m){
-  const tags=[];
-  if(m.neu)  tags.push('<span class="tag">новинка</span>');
-  if(m.week) tags.push('<span class="tag tag--w">сет тижня</span>');
-  if(m.veg)  tags.push('<span class="tag tag--v">без риби</span>');
+  // плашок максимум дві, інакше картка перетворюється на ялинку
+  const tags = badges(m).slice(0,2);
   const d = m.d ? m.d
           : m.list ? m.list.slice(0,3).join(' · ')+(m.list.length>3?` · +${m.list.length-3}`:'')
           : (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
@@ -323,7 +338,7 @@ function cardHTML(m){
       <div class="card__b">
         <span>
           <span class="card__w">${m.w||''}</span>
-          <span class="card__p">${m.p}<em> ₴</em></span>
+          <span class="card__p${sale(m)?' sale':''}">${sale(m)?`<s>${m.p}</s>`:''}${P(m)}<em> ₴</em></span>
         </span>
         <button class="add" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>
       </div>
@@ -385,7 +400,7 @@ function closeCheckout(){
 function renderCheckout(){
   $('#coBody').innerHTML=Object.entries(cart).map(([id,q])=>{
     const m=byId(id); if(!m) return '';
-    return `<div class="co__l"><span>${m.n} <em>× ${q}</em></span><b>${uah(m.p*q)}</b></div>`;
+    return `<div class="co__l"><span>${m.n} <em>× ${q}</em></span><b>${uah(P(m)*q)}</b></div>`;
   }).join('');
   const d=discount();
   $('#coSum').innerHTML =
@@ -416,7 +431,8 @@ document.addEventListener('keydown',e=>{
    ============================================================ */
 function orderText(){
   const lines=Object.entries(cart).map(([id,q],i)=>{
-    const m=byId(id); return `${i+1}. ${m.n} — ${q} × ${m.p} = ${m.p*q} ₴`;
+    const m=byId(id);
+    return `${i+1}. ${m.n} — ${q} × ${P(m)} = ${P(m)*q} ₴` + (sale(m) ? ' (акція, було '+m.p+')' : '');
   });
   const t=total(), d=discount(), free=t>=SHOP.freeFrom;
   const v=s=>($('#'+s)?.value||'').trim();
@@ -662,13 +678,14 @@ function openProduct(id){
   $('#pvIn').innerHTML=`
     <div class="pv__art">${art(m,420)}</div>
     <div class="pv__info">
+      ${badges(m).length?`<div class="pv__tags">${badges(m).join('')}</div>`:''}
       <h1>${m.n}</h1>
       ${m.d?`<p class="pv__d">${m.d}</p>`:''}
       ${m.list?`<ul class="pv__list">${m.list.map(x=>`<li>${x}</li>`).join('')}</ul>`
               :ing?`<p class="pv__d">${ing}</p>`:''}
       <div class="pv__meta">${m.w||''}</div>
       <div class="pv__b">
-        <span class="pv__p">${m.p}<em> ₴</em></span>
+        <span class="pv__p${sale(m)?' sale':''}">${sale(m)?`<s>${m.p}</s>`:''}${P(m)}<em> ₴</em></span>
         <button class="btn" data-add="${m.id}"><span>Додати в кошик</span></button>
       </div>
     </div>`;

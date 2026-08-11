@@ -131,7 +131,11 @@ $('#qx').onclick=()=>{ q=''; $('#q').value=''; $('#qx').hidden=true; render(); }
 
 render();
 if(cat!=='all' && !q) setTimeout(()=>window.scrollTo({top:$('.catbar').offsetTop-70,behavior:'instant'}),0);
+
+/* db.js викликає це після завантаження меню з адмінки */
+window.rerender = render;
 </script>
 <script src="fx.js"></script>
+<script src="db.js"></script>
 </body>
 </html>

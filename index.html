@@ -88,19 +88,31 @@
 mountShell('home');
 $('#ftr').innerHTML = footerHTML();
 
-/* ---------- банери ---------- */
-$('#banners').innerHTML = BANNERS.map(b=>`
-  <div class="banner">
-    <div class="banner__art">${art({t:b.id.startsWith('s-')?'set':'roll',ing:b.ing,n:b.t},300)}</div>
-    <div class="banner__in">
-      <h2>${b.t}</h2>
-      <p>${b.s}</p>
-      <div class="banner__b">
-        <span class="banner__p">${b.p} ₴</span>
-        <button class="btn" data-add="${b.id}">Додати в кошик</button>
+/* ---------- банери ----------
+   Беремо саму позицію з каталогу за назвою: звідти фото, чинна ціна,
+   акція і головне — правильний id для кошика (після переходу на базу
+   id інші, і зашитий у банер id перестав би працювати). */
+function renderBanners(){
+  $('#banners').innerHTML = BANNERS.map(b=>{
+    const m  = ITEMS.find(i => i.n === b.n);
+    const id = m ? m.id : b.id;
+    const now = m ? P(m) : b.p;
+    const was = (m && sale(m)) ? m.p : null;
+    const drawn = {t:b.id.startsWith('s-')?'set':'roll', ing:b.ing, n:b.n};
+    return `<div class="banner">
+      <div class="banner__art">${pic(m || drawn, 300)}</div>
+      <div class="banner__in">
+        <h2>${b.t}</h2>
+        <p>${b.s}</p>
+        <div class="banner__b">
+          <span class="banner__p${was?' sale':''}">${was?`<s>${was}</s>`:''}${now} ₴</span>
+          <button class="btn" data-add="${id}">Додати в кошик</button>
+        </div>
       </div>
-    </div>
-  </div>`).join('');
+    </div>`;
+  }).join('');
+}
+renderBanners();
 
 const bx = $('#banners');
 $('#dots').innerHTML = BANNERS.map((_,i)=>`<b class="${i?'':'on'}" data-i="${i}"></b>`).join('');
@@ -132,7 +144,7 @@ function renderTops(){ $('#tops').innerHTML = ITEMS.filter(i=>i.top).map(cardHTM
 renderTops();
 
 /* db.js викликає це після завантаження меню з адмінки */
-window.rerender = renderTops;
+window.rerender = () => { renderBanners(); renderTops(); };
 
 
 /* ---------- пошук веде на сторінку меню ---------- */

@@ -25,6 +25,19 @@ function pic(m,size){
   return art(m,size);
 }
 
+/* ---------- іконки розділів меню ----------
+   Своя картинка з адмінки, інакше намальована. CATIMG заповнює db.js. */
+const CAT_ART = {
+  set:{t:'set',ing:['losos','tunec','krev']},      fila:{t:'roll',ing:['losos','syr','ohir']},
+  sign:{t:'baked',ing:['vuhor','syr','tobik']},    cali:{t:'roll',ing:['krab','avo','ohir','tobik']},
+  baked:{t:'baked',ing:['losos','syr']},           temp:{t:'tempura',ing:['krev','syr','avo']},
+  sushi:{t:'nigiri',ing:['losos']},                wok:{t:'bowl',ing:['kurka','ovoch']},
+  add:{t:'drink',ing:['perec']}
+};
+const CATIMG = {};
+const catIcon = c =>
+  pic({ ...(CAT_ART[c.id] || {t:'roll',ing:['losos']}), n:c.n, img:CATIMG[c.id] }, 40);
+
 /* ---------- режим роботи ---------- */
 const hm = s => { const m=/^(\d{1,2}):(\d{2})$/.exec(String(s||'').trim());
   return m ? (+m[1])*60 + (+m[2]) : null; };

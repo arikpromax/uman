@@ -194,7 +194,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .cat:hover{background:var(--red-soft)}
 .cat.on{background:var(--red);border-color:var(--red-hi)}
-.cat svg{width:34px;height:34px;border-radius:50%}
+.cat svg,.cat .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
 
 /* ---------- ПОШУК ---------- */
 .searchbar{display:flex;gap:11px;padding:18px 0 0}

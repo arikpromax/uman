@@ -94,57 +94,64 @@ $('#ftr').innerHTML = footerHTML();
    id інші, і зашитий у банер id перестав би працювати). */
 function renderBanners(){
   $('#banners').innerHTML = BANNERS.map(b=>{
-    const m  = ITEMS.find(i => i.n === b.n);
-    const id = m ? m.id : b.id;
+    const m   = b.n ? ITEMS.find(i => i.n === b.n) : null;
     const now = m ? P(m) : b.p;
     const was = (m && sale(m)) ? m.p : null;
-    const drawn = {t:b.id.startsWith('s-')?'set':'roll', ing:b.ing, n:b.n};
+    // фото банера має пріоритет над фото самої позиції
+    const art0 = { t:'set', ing:(b.ing && b.ing.length ? b.ing : ['losos','tunec','krev']), n:b.t };
+    const shown = b.img ? { ...art0, img:b.img } : (m || art0);
+
+    // позиція не знайдена — не показуємо мертву кнопку, ведемо в меню
+    const action = m
+      ? `<button class="btn" data-add="${m.id}">Додати в кошик</button>`
+      : `<a class="btn" href="menu.html">Дивитись меню</a>`;
+    const price = now
+      ? `<span class="banner__p${was?' sale':''}">${was?`<s>${was}</s>`:''}${now} ₴</span>` : '';
+
     return `<div class="banner">
-      <div class="banner__art">${pic(m || drawn, 300)}</div>
+      <div class="banner__art">${pic(shown, 300)}</div>
       <div class="banner__in">
         <h2>${b.t}</h2>
         <p>${b.s}</p>
-        <div class="banner__b">
-          <span class="banner__p${was?' sale':''}">${was?`<s>${was}</s>`:''}${now} ₴</span>
-          <button class="btn" data-add="${id}">Додати в кошик</button>
-        </div>
+        <div class="banner__b">${price}${action}</div>
       </div>
     </div>`;
   }).join('');
+  syncDotsCount();
 }
-renderBanners();
 
 const bx = $('#banners');
-$('#dots').innerHTML = BANNERS.map((_,i)=>`<b class="${i?'':'on'}" data-i="${i}"></b>`).join('');
-const dots = $$('#dots b');
+/* крапок рівно стільки, скільки банерів — власник може додавати й прибирати */
+function syncDotsCount(){
+  $('#dots').innerHTML = BANNERS.map((_,i)=>`<b class="${i?'':'on'}" data-i="${i}"></b>`).join('');
+  $$('#dots b').forEach(d=>d.onclick=()=>bx.scrollTo({left:bx.clientWidth*(+d.dataset.i),behavior:'smooth'}));
+}
 function syncDots(){
   const i = Math.round(bx.scrollLeft / bx.clientWidth);
-  dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+  $$('#dots b').forEach((d,k)=>d.classList.toggle('on',k===i));
 }
+renderBanners();
 bx.addEventListener('scroll',()=>requestAnimationFrame(syncDots),{passive:true});
-dots.forEach(d=>d.onclick=()=>bx.scrollTo({left:bx.clientWidth*(+d.dataset.i),behavior:'smooth'}));
 let auto = setInterval(()=>{
+  if(BANNERS.length < 2) return;
   const next = (Math.round(bx.scrollLeft/bx.clientWidth)+1) % BANNERS.length;
   bx.scrollTo({left:bx.clientWidth*next,behavior:'smooth'});
 },6000);
 bx.addEventListener('pointerdown',()=>clearInterval(auto));
 
-/* ---------- категорії ---------- */
-const CAT_ART = {
-  set:{t:'set',ing:['losos','tunec','krev']}, fila:{t:'roll',ing:['losos','syr','ohir']},
-  sign:{t:'baked',ing:['vuhor','syr','tobik']}, cali:{t:'roll',ing:['krab','avo','ohir','tobik']},
-  baked:{t:'baked',ing:['losos','syr']}, temp:{t:'tempura',ing:['krev','syr','avo']},
-  sushi:{t:'nigiri',ing:['losos']}, wok:{t:'bowl',ing:['kurka','ovoch']}, add:{t:'drink',ing:['perec']}
-};
-$('#cats').innerHTML = CATS.map(c=>
-  `<a class="cat" href="menu.html?c=${c.id}">${art({...CAT_ART[c.id],n:c.n},40)}${c.n}</a>`).join('');
+/* ---------- розділи меню ---------- */
+function renderCats(){
+  $('#cats').innerHTML = CATS.map(c=>
+    `<a class="cat" href="menu.html?c=${c.id}">${catIcon(c)}${c.n}</a>`).join('');
+}
+renderCats();
 
 /* ---------- топові ---------- */
 function renderTops(){ $('#tops').innerHTML = ITEMS.filter(i=>i.top).map(cardHTML).join(''); }
 renderTops();
 
 /* db.js викликає це після завантаження меню з адмінки */
-window.rerender = () => { renderBanners(); renderTops(); };
+window.rerender = () => { renderCats(); renderBanners(); renderTops(); };
 
 
 /* ---------- пошук веде на сторінку меню ---------- */

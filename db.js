@@ -23,8 +23,8 @@ const csv  = v => str(v).split(/[,\n;]/).map(s=>s.trim()).filter(Boolean);
 
 Promise.all([
   fetch(DB_URL+'/items?site_id=eq.'+SITE_ID+
-        '&collection=in.(menu,sets,settings,cats,banners)&order=sort_order'+
-        '&select=id,collection,title,text,price,image_url,extra',{headers:{apikey:DB_KEY}}),
+        '&collection=in.(menu,sets,settings,cats)&order=sort_order'+
+        '&select=id,collection,title,price,image_url,extra',{headers:{apikey:DB_KEY}}),
   fetch(DB_URL+'/texts?site_id=eq.'+SITE_ID+'&select=key,value',{headers:{apikey:DB_KEY}})
 ])
 .then(rs=>{ if(rs.some(r=>!r.ok)) throw 0; return Promise.all(rs.map(r=>r.json())); })
@@ -59,23 +59,7 @@ Promise.all([
     if(c && str(r.title)) c.n = str(r.title);
   });
 
-  /* ---------- 3. Банери головної ---------- */
-  const bans = by.banners || [];
-  if(bans.length){
-    BANNERS.length = 0;
-    bans.forEach(r=>{
-      const x = r.extra || {};
-      BANNERS.push({
-        n: str(x.item),                  // назва позиції, яку додає кнопка
-        t: str(r.title),
-        s: str(r.text),
-        img: str(r.image_url),
-        ing: csv(x.ing)
-      });
-    });
-  }
-
-  /* ---------- 4. Меню і сети з бази ---------- */
+  /* ---------- 3. Меню і сети з бази ---------- */
   const menu = by.menu || [], sets = by.sets || [];
   if(menu.length || sets.length){
     const fresh = [];
@@ -95,6 +79,8 @@ Promise.all([
       if(x.hot) it.hot = 1;
       if(x.veg) it.veg = 1;
       if(x.add) it.add = 1;
+      if(x.ban) it.ban = 1;
+      if(str(x.bs)) it.bs = str(x.bs);
       if(r.image_url) it.img = r.image_url;
       fresh.push(it);
     });
@@ -110,6 +96,8 @@ Promise.all([
       if(num(x.promo)) it.promo = num(x.promo);
       if(x.week) it.week = 1;
       if(x.top)  it.top  = 1;
+      if(x.ban)  it.ban  = 1;
+      if(str(x.bs)) it.bs = str(x.bs);
       if(r.image_url) it.img = r.image_url;
       fresh.push(it);
     });

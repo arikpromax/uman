@@ -89,31 +89,26 @@ mountShell('home');
 $('#ftr').innerHTML = footerHTML();
 
 /* ---------- банери ----------
-   Беремо саму позицію з каталогу за назвою: звідти фото, чинна ціна,
-   акція і головне — правильний id для кошика (після переходу на базу
-   id інші, і зашитий у банер id перестав би працювати). */
+   Це позиції, у яких в адмінці стоїть галочка «в банер». Усе своє
+   вони приносять із собою: фото, ціну, акцію та id для кошика. */
+let BAN = [];
 function renderBanners(){
-  $('#banners').innerHTML = BANNERS.map(b=>{
-    const m   = b.n ? ITEMS.find(i => i.n === b.n) : null;
-    const now = m ? P(m) : b.p;
-    const was = (m && sale(m)) ? m.p : null;
-    // фото банера має пріоритет над фото самої позиції
-    const art0 = { t:'set', ing:(b.ing && b.ing.length ? b.ing : ['losos','tunec','krev']), n:b.t };
-    const shown = b.img ? { ...art0, img:b.img } : (m || art0);
+  BAN = banners();
+  const wrap = $('#banners').parentElement;
+  // жодної позиції не позначили — не лишаємо порожню діру вгорі
+  $('#banners').hidden = $('#dots').hidden = BAN.length === 0;
 
-    // позиція не знайдена — не показуємо мертву кнопку, ведемо в меню
-    const action = m
-      ? `<button class="btn" data-add="${m.id}">Додати в кошик</button>`
-      : `<a class="btn" href="menu.html">Дивитись меню</a>`;
-    const price = now
-      ? `<span class="banner__p${was?' sale':''}">${was?`<s>${was}</s>`:''}${now} ₴</span>` : '';
-
+  $('#banners').innerHTML = BAN.map(b=>{
+    const m = b.m, was = sale(m) ? m.p : null;
     return `<div class="banner">
-      <div class="banner__art">${pic(shown, 300)}</div>
+      <div class="banner__art">${pic(m, 300)}</div>
       <div class="banner__in">
-        <h2>${b.t}</h2>
-        <p>${b.s}</p>
-        <div class="banner__b">${price}${action}</div>
+        <h2>${esc(b.t)}</h2>
+        <p>${esc(b.s)}</p>
+        <div class="banner__b">
+          <span class="banner__p${was?' sale':''}">${was?`<s>${was}</s>`:''}${P(m)} ₴</span>
+          <button class="btn" data-add="${m.id}">Додати в кошик</button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -123,7 +118,7 @@ function renderBanners(){
 const bx = $('#banners');
 /* крапок рівно стільки, скільки банерів — власник може додавати й прибирати */
 function syncDotsCount(){
-  $('#dots').innerHTML = BANNERS.map((_,i)=>`<b class="${i?'':'on'}" data-i="${i}"></b>`).join('');
+  $('#dots').innerHTML = BAN.map((_,i)=>`<b class="${i?'':'on'}" data-i="${i}"></b>`).join('');
   $$('#dots b').forEach(d=>d.onclick=()=>bx.scrollTo({left:bx.clientWidth*(+d.dataset.i),behavior:'smooth'}));
 }
 function syncDots(){
@@ -133,8 +128,8 @@ function syncDots(){
 renderBanners();
 bx.addEventListener('scroll',()=>requestAnimationFrame(syncDots),{passive:true});
 let auto = setInterval(()=>{
-  if(BANNERS.length < 2) return;
-  const next = (Math.round(bx.scrollLeft/bx.clientWidth)+1) % BANNERS.length;
+  if(BAN.length < 2) return;
+  const next = (Math.round(bx.scrollLeft/bx.clientWidth)+1) % BAN.length;
   bx.scrollTo({left:bx.clientWidth*next,behavior:'smooth'});
 },6000);
 bx.addEventListener('pointerdown',()=>clearInterval(auto));

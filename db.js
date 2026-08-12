@@ -66,11 +66,15 @@ Promise.all([
 
     menu.forEach(r=>{
       const x = r.extra || {};
+      const cat = str(x.cat) || 'fila';
+      // немає фото і не заданий малюнок — беремо типовий для розділу,
+      // щоб нова позиція не виглядала безликою сірою плямою
+      const d = CAT_ART[cat] || {t:'roll', ing:['losos','syr','ohir']};
       const it = {
-        id:'db'+r.id, c:str(x.cat)||'fila', n:r.title,
+        id:'db'+r.id, c:cat, n:r.title,
         p:num(r.price), w:str(x.w),
-        t:str(x.t)||'roll',
-        ing:csv(x.ing)
+        t:str(x.t) || d.t,
+        ing:csv(x.ing).length ? csv(x.ing) : d.ing.slice()
       };
       if(str(x.d))    it.d = x.d;
       if(num(x.promo))it.promo = num(x.promo);
@@ -90,7 +94,8 @@ Promise.all([
       const it = {
         id:'db'+r.id, c:'set', n:'Сет «'+r.title+'»', p:num(r.price),
         w:[str(x.pcs),str(x.w)].filter(Boolean).join(' · '),
-        t:'set', ing:csv(x.ing),
+        t:'set',
+        ing:csv(x.ing).length ? csv(x.ing) : CAT_ART.set.ing.slice(),
         list:list(x.list)
       };
       if(num(x.promo)) it.promo = num(x.promo);

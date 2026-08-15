@@ -135,34 +135,23 @@ Promise.all([
 .catch(()=>{ /* немає звʼязку — сайт живе на вбудованому меню */ });
 
 /* Прибиральник з мітлою — щоб екран не був голим текстом.
-   Малюємо самі, у кольорах сайту: готової картинки під це немає. */
+   Силует одним кольором, як на дорожніх знаках; на чорному тлі
+   світлий, а не чорний. Малюємо самі: готової картинки під це немає. */
 const BROOM =
-  '<svg class="dayoff__art" viewBox="0 0 120 120" width="128" height="128" aria-hidden="true">' +
+  '<svg class="dayoff__art" viewBox="0 0 120 120" width="132" height="132" aria-hidden="true">' +
     '<circle cx="60" cy="60" r="56" fill="rgba(180,54,55,.13)"/>' +
     '<circle cx="60" cy="60" r="56" fill="none" stroke="rgba(180,54,55,.45)" stroke-width="1.5"/>' +
-    '<path d="M22 104h76" stroke="rgba(255,255,255,.14)" stroke-width="2.5" stroke-linecap="round"/>' +
-    /* мітла */
-    '<g transform="rotate(-20 62 88)">' +
-      '<rect x="59" y="30" width="6" height="56" rx="3" fill="#A98A6B"/>' +
-      '<rect x="59" y="30" width="2.4" height="56" fill="rgba(255,255,255,.18)"/>' +
-      '<path d="M50 86h24l5 20H45z" fill="#E8C79A"/>' +
-      '<path d="M55 90v14M62 90v15M69 90v14" stroke="rgba(140,74,60,.45)" stroke-width="1.6" stroke-linecap="round"/>' +
-      '<rect x="48" y="82" width="28" height="8" rx="4" fill="#8C4A3C"/>' +
+    '<g fill="#F2EDE6" stroke="#F2EDE6" stroke-linecap="round" stroke-linejoin="round">' +
+      /* мітла: держак і віник */
+      '<path d="M62 33 26 87" stroke-width="5" fill="none"/>' +
+      '<path d="M16 86h17l6 18q-15 6 -30 0z"/>' +
+      /* постать */
+      '<circle cx="72" cy="25" r="11" stroke="none"/>' +
+      '<path d="M72 40v30" stroke-width="23" fill="none"/>' +
+      '<path d="M66 68 60 101M78 68 85 101" stroke-width="11" fill="none"/>' +
+      '<path d="M70 45 60 36" stroke-width="9" fill="none"/>' +
+      '<path d="M67 59 41 65" stroke-width="9" fill="none"/>' +
     '</g>' +
-    /* прибиральник */
-    '<path d="M36 100l3-22M52 100l-2-22" stroke="#2B2B33" stroke-width="7" stroke-linecap="round"/>' +
-    '<rect x="31" y="48" width="26" height="34" rx="11" fill="#B43637"/>' +
-    '<path d="M38 58h12v18a6 6 0 0 1-12 0z" fill="rgba(255,255,255,.20)"/>' +
-    '<path d="M53 60l16-8" stroke="#F0D3B4" stroke-width="6.5" stroke-linecap="round"/>' +
-    '<path d="M53 72l10 8" stroke="#F0D3B4" stroke-width="6.5" stroke-linecap="round"/>' +
-    '<circle cx="44" cy="36" r="12" fill="#F0D3B4"/>' +
-    '<path d="M32 34a12 12 0 0 1 24 0z" fill="#2B2B33"/>' +
-    '<circle cx="49" cy="37" r="1.7" fill="#2B2B33"/>' +
-    '<path d="M46 43q3 2 6 0" stroke="#2B2B33" stroke-width="1.6" fill="none" stroke-linecap="round"/>' +
-    /* пилинки */
-    '<circle cx="90" cy="96" r="3" fill="rgba(255,255,255,.28)"/>' +
-    '<circle cx="99" cy="88" r="2" fill="rgba(255,255,255,.20)"/>' +
-    '<circle cx="86" cy="82" r="1.6" fill="rgba(255,255,255,.16)"/>' +
   '</svg>';
 
 /* Санітарний день: попереджаємо один раз, далі меню можна дивитися,

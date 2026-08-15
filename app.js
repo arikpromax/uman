@@ -18,6 +18,15 @@ const esc  = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'
 /* Картинка страви: завантажене в адмінці фото, інакше — намальована.
    Фото зберігається повним посиланням на самій позиції, тому воно
    не залежить ні від порядку карток, ні від їх кількості. */
+/* Мініатюра для списків кошика й додатків. Намальовану страву тут не
+   показуємо: на 40–50 пікселях від неї лишається сіра пляма. Є фото —
+   показуємо фото, немає — просто нічого. */
+function thumb(m,cls){
+  const u = m && m.img;
+  if(!(u && /^https?:\/\//.test(u))) return '';
+  return `<div class="${cls}"><img class="pic" src="${esc(u)}" alt="" loading="lazy" decoding="async"></div>`;
+}
+
 function pic(m,size){
   const u = m && m.img;
   if(u && /^https?:\/\//.test(u))
@@ -301,7 +310,7 @@ function renderAddons(){
     list.map(m=>{
       const q=cart[m.id]||0;
       return `<div class="ad">
-        <div class="ad__a">${pic(m,42)}</div>
+        ${thumb(m,'ad__a')}
         <div class="ad__t"><b>${m.n}</b><span>${m.w||''} · ${sale(m)?`<s>${m.p}</s> `:''}${P(m)} ₴</span></div>
         ${q ? `<div class="qty"><button data-dec="${m.id}">−</button><i>${q}</i><button data-inc="${m.id}">+</button></div>`
             : `<button class="add add--sm" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>`}
@@ -322,7 +331,7 @@ function renderCart(){
   body.innerHTML=Object.entries(cart).map(([id,q])=>{
     const m=byId(id); if(!m) return '';
     return `<div class="ci">
-      <div class="ci__a">${pic(m,52)}</div>
+      ${thumb(m,'ci__a')}
       <div class="ci__t"><b>${m.n}</b><span>${uah(P(m)*q)}${sale(m)?' <s>'+uah(m.p*q)+'</s>':''}</span></div>
       <div class="qty"><button data-dec="${id}" aria-label="Менше">−</button><i>${q}</i><button data-inc="${id}" aria-label="Більше">+</button></div>
       <button class="ci__x" data-del="${id}" aria-label="Прибрати ${m.n}">${icon('close')}</button>

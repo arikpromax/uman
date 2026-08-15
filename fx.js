@@ -108,7 +108,8 @@ mo.observe(document.body,{childList:true,subtree:true});
 if(FINE && !RM){
   let raf=0, cur=null, mx=0, my=0, rx=0, ry=0;
   document.addEventListener('pointermove',e=>{
-    const card=e.target.closest('.card, .banner');
+    // картки навмисно не нахиляємо: вони стоять щільно й лізли б одна на одну
+    const card=e.target.closest('.banner');
     if(card!==cur){
       if(cur) reset(cur);
       cur=card;

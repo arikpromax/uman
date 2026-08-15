@@ -264,25 +264,21 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .row-slider::-webkit-scrollbar{display:none}
 .row-slider .card{flex:0 0 237px;scroll-snap-align:start}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:18px;
-  align-items:start;padding-bottom:38px}
-/* шахматка: кожна друга картка опущена нижче.
-   Зсув живе в змінній, бо саме поле transform зайняте нахилом картки. */
-.grid > .card:nth-child(even){--sy:38px}
+  align-items:start}
 
 /* Картка: фото зверху, скляна панель наїжджає на нього знизу */
 .card{position:relative;border-radius:18px;
   background:linear-gradient(rgba(0,0,0,.98) 45%,rgba(0,0,0,0));display:block}
-.card__img{aspect-ratio:1;display:grid;place-items:center}
+/* overflow ховає все зайве: під курсором з картки нічого не вилазить */
+.card__img{aspect-ratio:1;display:grid;place-items:center;overflow:hidden;
+  border-radius:18px 18px 0 0}
 /* намальовану страву підіймаємо, щоб панель з текстом її не перекривала */
-.card__img svg{width:76%;height:auto;aspect-ratio:1;margin-bottom:52px;
-  transition:transform .55s var(--ease)}
+.card__img svg{width:76%;height:auto;aspect-ratio:1;margin-bottom:52px}
 .card__img .pic{width:100%;height:100%;object-fit:contain;border-radius:18px}
-.card:hover .card__img svg{transform:scale(1.06) rotate(-4deg)}
 
 /* Завантажене в адмінці фото. Стоїть на місці намальованої картинки
    в усіх списках, тож достатньо одного правила на всі розміри. */
-.pic{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s var(--ease)}
-.card:hover .card__img .pic{transform:scale(1.06)}
+.pic{width:100%;height:100%;object-fit:cover;display:block}
 .ci__a .pic,.ad__a .pic{border-radius:10px}
 .pv__art .pic{border-radius:var(--r-m);box-shadow:0 30px 60px rgba(0,0,0,.8)}
 /* плашки сидять на верхньому краї скляної панелі, тобто поверх фото
@@ -348,8 +344,13 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .card__add{right:9px;bottom:12px;min-width:65px;height:30px;padding:0 10px;font-size:12.5px}
   .card__tags{right:8px;bottom:calc(100% - 10px)}
   .tag{padding:4px 7px;font-size:10px}
+  /* Шахматка тільки на телефоні: на комп'ютері сітка лишається рівною.
+     Зсув перекидається на другий бік через ряд, тому виходить справжня
+     шахівниця, а не одна опущена колонка. Зсув живе у змінній, бо саме
+     поле transform зайняте появою картки. */
   .grid{padding-bottom:26px}
-  .grid > .card:nth-child(even){--sy:26px}
+  .grid > .card:nth-child(4n+2),
+  .grid > .card:nth-child(4n+3){--sy:26px}
 }
 
 /* ---------- КНОПКИ ---------- */
@@ -658,25 +659,31 @@ html.fx-ready body{opacity:1}
 .h1.shown .fx-w{opacity:1;transform:none}
 
 /* нахил і відблиск карток */
-.card,.banner{
-  /* один transform на всі ефекти разом: шахматка + поява + нахил */
-  transform:translateY(calc(var(--sy,0px) + var(--fy,0px))) perspective(900px)
-            rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  /* сходинку затримки лишаємо тільки прозорості: якби її мав transform,
-     картка після наведення поверталася б з паузою */
+/* Картка під курсором не рухається: варто їй нахилитися чи підрости —
+   і вона вилазить за свої межі на сусідні. Лишається сама тінь.
+   Зсуви появи й шахматки складаємо в один transform, бо поле одне. */
+.card{
+  transform:translateY(calc(var(--sy,0px) + var(--fy,0px)));
   transition:transform .55s var(--ease),
              opacity .62s var(--ease) var(--d,0ms),
              box-shadow .5s var(--ease);
 }
-/* will-change тільки на тій картці, що зараз під курсором */
-.card.fx-tilt,.banner.fx-tilt{will-change:transform;transition:transform .12s linear,box-shadow .5s var(--ease)}
-.card.fx-tilt{box-shadow:0 24px 50px -22px rgba(0,0,0,.85),0 0 0 1px rgba(180,54,55,.35)}
-.card::after,.banner::before{
+/* банер великий і стоїть окремо — йому нахил не заважає */
+.banner{
+  transform:translateY(var(--fy,0px)) perspective(900px)
+            rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+/* will-change тільки на тому банері, що зараз під курсором */
+.banner.fx-tilt{will-change:transform;transition:transform .12s linear,box-shadow .5s var(--ease)}
+/* картці на наведення — сама тінь, без руху */
+.card:hover{box-shadow:0 24px 50px -22px rgba(0,0,0,.85),0 0 0 1px rgba(180,54,55,.35)}
+.banner::before{
   content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
   background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.10),transparent 60%);
   opacity:0;transition:opacity .4s var(--ease);
 }
-.card.fx-tilt::after,.banner.fx-tilt::before{opacity:1}
+.banner.fx-tilt::before{opacity:1}
 
 /* магнітні кнопки */
 .fx-mag{transition:transform .18s var(--ease),background .3s!important}

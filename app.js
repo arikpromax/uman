@@ -589,9 +589,13 @@ function validate(){
   if(!ok) toast(mode==='Доставка' ? 'Заповніть імʼя, телефон, вулицю і будинок' : 'Заповніть імʼя і телефон');
   return ok;
 }
-/* Екран після успішного замовлення. Раніше на цьому місці був тост
-   унизу екрана — у найважливіший момент людина не бачила підтвердження. */
-function thanksScreen(sum){
+/* Екран після замовлення. Раніше на цьому місці був тост унизу екрана —
+   у найважливіший момент людина не бачила підтвердження.
+   sent=true — Telegram підтвердив прийом. sent=false — бот ще не
+   підключений, замовлення лише скопійоване: тоді пишемо саме це,
+   бо «прийнято» було б неправдою. */
+function thanksScreen(sum, sent){
+  const ok = sent !== false;
   const when = mode==='Самовиніс'
     ? 'Будемо готові за ' + SHOP.pickupTime
     : 'Привеземо якнайшвидше';
@@ -604,8 +608,10 @@ function thanksScreen(sum){
          <circle cx="36" cy="36" r="31"/>
          <path d="M22 37.5 32 47 51 27"/>
        </svg>
-       <h2>Замовлення прийнято</h2>
-       <p>Ми передзвонимо, щоб підтвердити. ${esc(when)}.</p>
+       <h2>${ok ? 'Замовлення прийнято' : 'Замовлення скопійовано'}</h2>
+       <p>${ok
+            ? 'Ми передзвонимо, щоб підтвердити. ' + esc(when) + '.'
+            : 'Вставте його в чат і надішліть — ми одразу візьмемо в роботу. Якщо чат не відкрився, просто подзвоніть.'}</p>
        <div class="thanks__row"><span>Спосіб</span><b>${esc(mode||'Доставка')}</b></div>
        <div class="thanks__row"><span>До сплати</span><b>${uah(sum)}</b></div>
        <a class="btn btn--full" href="tel:${esc(SHOP.phone)}">${icon('phone')}<span>${esc(SHOP.phoneView)}</span></a>
@@ -646,9 +652,13 @@ async function sendOrder(){
     }catch(err){ toast('Немає звʼязку з Telegram — подзвоніть, будь ласка'); }
   }else{
     // бот ще не підключений: копіюємо і відкриваємо чат
-    try{ await navigator.clipboard.writeText(txt); toast('Замовлення скопійовано — вставте в чат'); }
-    catch(e){ toast('Скопіюйте замовлення вручну'); }
+    let copied = true;
+    try{ await navigator.clipboard.writeText(txt); }
+    catch(e){ copied = false; toast('Скопіюйте замовлення вручну'); }
     if(SHOP.tg.user) setTimeout(()=>window.open('https://t.me/'+SHOP.tg.user,'_blank','noopener'),700);
+    // кошик тут НЕ чистимо: замовлення ще не відправлене, воно лише
+    // в буфері — якщо людина не вставить його в чат, ми про це не знаємо
+    if(copied) thanksScreen(payable(), false);
   }
   // підпис повертаємо той самий, що був: інакше після однієї невдалої
   // спроби кнопка назавжди мінялася на «Надіслати в Telegram»

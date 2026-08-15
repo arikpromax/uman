@@ -23,7 +23,7 @@ const csv  = v => str(v).split(/[,\n;]/).map(s=>s.trim()).filter(Boolean);
 
 Promise.all([
   fetch(DB_URL+'/items?site_id=eq.'+SITE_ID+
-        '&collection=in.(menu,sets,settings,cats)&order=sort_order'+
+        '&collection=in.(menu,sets,settings,cats,promos)&order=sort_order'+
         '&select=id,collection,title,price,image_url,extra',{headers:{apikey:DB_KEY}}),
   fetch(DB_URL+'/texts?site_id=eq.'+SITE_ID+'&select=key,value',{headers:{apikey:DB_KEY}})
 ])
@@ -60,6 +60,21 @@ Promise.all([
     const c = CATS.find(x => x.id === k);
     if(c && str(r.title)) c.n = str(r.title);
   });
+
+  /* ---------- 2б. Промокоди ---------- */
+  const promos = by.promos || [];
+  if(promos.length){
+    Object.keys(PROMO).forEach(k=>delete PROMO[k]);
+    promos.forEach(r=>{
+      const x = r.extra || {};
+      if(x.stop) return;                          // код тимчасово вимкнений
+      const code = str(r.title).toUpperCase().replace(/\s+/g,'');
+      const off  = num(x.off);
+      if(!code || off <= 0) return;
+      const type = str(x.type) === '%' ? '%' : 'uah';
+      PROMO[code] = { off, type, n: type === '%' ? '-'+off+'%' : '-'+off+' ₴' };
+    });
+  }
 
   /* ---------- 3. Меню і сети з бази ---------- */
   const menu = by.menu || [], sets = by.sets || [];

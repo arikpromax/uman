@@ -68,18 +68,25 @@ if(FINE && !RM){
    спрацює, контент лишиться прозорим назавжди: для меню це смерть.
    Тому: те, що вже у вікні, показуємо одразу, а решту ще й
    домітаємо на прокрутці й раз на секунду. */
+/* Показуємо із запасом у 600 px нижче екрана: при швидкій прокрутці
+   картка встигає проявитися до того, як доїде до очей. Раніше запас
+   був відʼємний, і на розгоні було видно порожні місця. */
 const io = new IntersectionObserver(es=>{
   es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('shown'); io.unobserve(e.target); }});
-},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+},{threshold:0,rootMargin:'400px 0px 600px 0px'});
 
 function sweep(){
   qq('.fx-rise:not(.shown)').forEach(el=>{
     const r=el.getBoundingClientRect();
-    if(r.top < innerHeight && r.bottom > 0) el.classList.add('shown');
+    if(r.top < innerHeight + 600 && r.bottom > -400) el.classList.add('shown');
   });
 }
 setInterval(sweep,1000);
-addEventListener('scroll',()=>{ clearTimeout(sweep._t); sweep._t=setTimeout(sweep,90); },{passive:true});
+// без затримки: на розгоні 90 мс якраз і давали порожні місця
+addEventListener('scroll',()=>{
+  if(sweep._raf) return;
+  sweep._raf = requestAnimationFrame(()=>{ sweep._raf=0; sweep(); });
+},{passive:true});
 
 // панелі оформлення сюди не беремо: вони стартують схованими,
 // і поки не відкриються, лишалися б прозорими
@@ -89,11 +96,14 @@ function scan(){
     if(el.dataset.fx) return;
     el.dataset.fx='1';
     el.classList.add('fx-rise');
-    // сходинка затримки в межах свого ряду
-    const sibs=[...el.parentElement.children].filter(x=>x.matches(REVEAL));
-    el.style.setProperty('--d', Math.min(sibs.indexOf(el),7)*55 + 'ms');
+    // сходинка затримки в межах свого ряду; карткам меню її не даємо —
+    // при швидкій прокрутці вона й перетворювалася на «не встигає»
+    if(!el.classList.contains('card')){
+      const sibs=[...el.parentElement.children].filter(x=>x.matches(REVEAL));
+      el.style.setProperty('--d', Math.min(sibs.indexOf(el),7)*55 + 'ms');
+    }
     const r=el.getBoundingClientRect();
-    if(r.top < innerHeight && r.bottom > -200) requestAnimationFrame(()=>el.classList.add('shown'));
+    if(r.top < innerHeight + 600 && r.bottom > -400) requestAnimationFrame(()=>el.classList.add('shown'));
     else io.observe(el);
   });
   requestAnimationFrame(sweep);

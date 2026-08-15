@@ -386,10 +386,12 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* Панель із текстом наїжджає на фото. Скло не рівне, а з градієнтом:
    згори світліше й прозоріше, донизу гусне — так її верхній край не
    читається як наліплений прямокутник, але сама панель лишається. */
+/* Розмиття тут навмисно прибране: карток під сотню, і стільки шарів
+   backdrop-filter змушували телефон захлинатися на прокрутці.
+   Щільніший градієнт дає той самий вигляд без цієї ціни. */
 .card__in{position:relative;z-index:2;margin-top:-63px;padding:18px;min-height:194px;
   display:flex;flex-direction:column;border-radius:18px;
-  background:linear-gradient(rgba(104,62,62,.34),rgba(26,17,18,.66));
-  backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  background:linear-gradient(rgba(78,46,47,.60),rgba(20,13,14,.88));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
 .card__n{font-size:18px;font-weight:600;line-height:1.2;margin-bottom:11px}
 /* склад розтягується на вільне місце, щоб ціна в усіх картках рядка
@@ -746,8 +748,8 @@ html.fx-ready body{opacity:1}
    Зсуви появи й шахматки складаємо в один transform, бо поле одне. */
 .card{
   transform:translateY(calc(var(--sy,0px) + var(--fy,0px)));
-  transition:transform .55s var(--ease),
-             opacity .62s var(--ease) var(--d,0ms),
+  transition:transform .34s var(--ease),
+             opacity .34s var(--ease) var(--d,0ms),
              box-shadow .5s var(--ease);
 }
 /* банер великий і стоїть окремо — йому нахил не заважає */

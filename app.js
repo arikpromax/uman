@@ -100,13 +100,19 @@ function applyTimeBounds(){
 }
 
 /* ---------- сортування: одна кнопка-перемикач, без панелі ---------- */
+/* only — не сортування, а відбір: лишає в списку тільки те, що підходить.
+   Так «Акції» стають окремим станом тієї ж кнопки, без другої панелі. */
 const SORTS = [
   {id:'pop',   n:'Популярні', f:(a,b)=>(b.top?1:0)-(a.top?1:0)},
+  {id:'sale',  n:'Акції',     only:m=>sale(m), f:(a,b)=>P(a)-P(b)},
   {id:'cheap', n:'Дешевші',   f:(a,b)=>P(a)-P(b)},
   {id:'exp',   n:'Дорожчі',   f:(a,b)=>P(b)-P(a)}
 ];
 let sortI = 0;
-const applySort = list => [...list].sort(SORTS[sortI].f);
+const applySort = list => {
+  const s = SORTS[sortI];
+  return [...(s.only ? list.filter(s.only) : list)].sort(s.f);
+};
 
 function sortBtnHTML(){
   return `<button class="filt-btn" id="sortBtn" aria-label="Змінити сортування">
@@ -583,6 +589,42 @@ function validate(){
   if(!ok) toast(mode==='Доставка' ? 'Заповніть імʼя, телефон, вулицю і будинок' : 'Заповніть імʼя і телефон');
   return ok;
 }
+/* Екран після успішного замовлення. Раніше на цьому місці був тост
+   унизу екрана — у найважливіший момент людина не бачила підтвердження. */
+function thanksScreen(sum){
+  const when = mode==='Самовиніс'
+    ? 'Будемо готові за ' + SHOP.pickupTime
+    : 'Привеземо якнайшвидше';
+
+  const ov = document.createElement('div');
+  ov.id = 'thanks';
+  ov.innerHTML =
+    `<div class="thanks__in">
+       <svg class="thanks__ok" viewBox="0 0 72 72" aria-hidden="true">
+         <circle cx="36" cy="36" r="31"/>
+         <path d="M22 37.5 32 47 51 27"/>
+       </svg>
+       <h2>Замовлення прийнято</h2>
+       <p>Ми передзвонимо, щоб підтвердити. ${esc(when)}.</p>
+       <div class="thanks__row"><span>Спосіб</span><b>${esc(mode||'Доставка')}</b></div>
+       <div class="thanks__row"><span>До сплати</span><b>${uah(sum)}</b></div>
+       <a class="btn btn--full" href="tel:${esc(SHOP.phone)}">${icon('phone')}<span>${esc(SHOP.phoneView)}</span></a>
+       <button class="btn btn--ghost btn--full" id="thanksOk"><span>Готово</span></button>
+     </div>`;
+
+  document.body.appendChild(ov);
+  document.body.classList.add('locked');
+  requestAnimationFrame(()=>ov.classList.add('on'));
+
+  const close = ()=>{
+    ov.classList.remove('on');
+    document.body.classList.remove('locked');
+    setTimeout(()=>ov.remove(),320);
+  };
+  ov.querySelector('#thanksOk').onclick = close;
+  ov.addEventListener('click', ev=>{ if(ev.target===ov) close(); });
+}
+
 async function sendOrder(){
   if(!validate()) return;
   const btn=$('#send'), txt=orderText();
@@ -596,9 +638,10 @@ async function sendOrder(){
       });
       const j=await r.json();
       if(j.ok){
+        const sum = payable();          // рахуємо до очищення кошика
         cart={}; promo=null; save(); renderCart(); setStep('cart');
-        toast('Замовлення надіслано — ми передзвонимо');
-        setTimeout(()=>{ closeCheckout(); openCart(false); },1200);
+        closeCheckout(); openCart(false);
+        thanksScreen(sum);
       }else toast('Telegram не прийняв: '+(j.description||'помилка'));
     }catch(err){ toast('Немає звʼязку з Telegram — подзвоніть, будь ласка'); }
   }else{
@@ -607,7 +650,9 @@ async function sendOrder(){
     catch(e){ toast('Скопіюйте замовлення вручну'); }
     if(SHOP.tg.user) setTimeout(()=>window.open('https://t.me/'+SHOP.tg.user,'_blank','noopener'),700);
   }
-  btn.disabled=false; btn.innerHTML=icon('tg')+'<span>Надіслати в Telegram</span>';
+  // підпис повертаємо той самий, що був: інакше після однієї невдалої
+  // спроби кнопка назавжди мінялася на «Надіслати в Telegram»
+  btn.disabled=false; btn.innerHTML='<span>Надіслати замовлення</span>';
 }
 
 /* ============================================================

@@ -41,7 +41,11 @@ body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:'Onest','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
   font-size:16px;line-height:1.45;font-weight:400;
-  overflow-x:hidden;min-height:100vh;
+  /* НЕ ставити тут overflow-x:hidden: воно робить body контейнером
+     прокрутки і мовчки ламає position:sticky всередині — шапка й смуга
+     розділів переставали липнути. Від горизонтального зсуву достатньо
+     overflow-x:clip на html вище. */
+  min-height:100vh;
 }
 body.locked{overflow:hidden}
 img,svg{display:block;max-width:100%}
@@ -806,6 +810,49 @@ html.fx-ready body{opacity:1}
   .banner__art svg{animation:none}
   /* шахматку лишаємо — це верстка, а не анімація */
   .card,.banner{transform:translateY(var(--sy,0px));transition:none}
+}
+
+/* ---------- ЕКРАН «ЗАМОВЛЕННЯ ПРИЙНЯТО» ---------- */
+#thanks{
+  position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px;
+  background:rgba(6,4,5,.92);backdrop-filter:blur(10px);text-align:center;
+  opacity:0;transition:opacity .3s var(--ease);
+}
+#thanks.on{opacity:1}
+.thanks__in{
+  width:min(100%,380px);display:grid;justify-items:center;gap:12px;
+  padding:30px 24px 24px;border-radius:var(--r-m);
+  background:linear-gradient(rgba(78,46,47,.42),rgba(16,11,12,.92));
+  border:1px solid rgba(255,255,255,.06);
+  transform:translateY(14px) scale(.97);transition:transform .38s var(--ease);
+}
+#thanks.on .thanks__in{transform:none}
+/* галочка малюється сама: спершу коло, потім лінія */
+.thanks__ok{width:76px;height:76px;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.thanks__ok circle{stroke:rgba(120,190,120,.55);stroke-width:3;
+  stroke-dasharray:196;stroke-dashoffset:196;animation:okRing .55s var(--ease) .1s forwards}
+.thanks__ok path{stroke:#7BC47B;stroke-width:5;
+  stroke-dasharray:52;stroke-dashoffset:52;animation:okTick .34s var(--ease) .5s forwards}
+@keyframes okRing{to{stroke-dashoffset:0}}
+@keyframes okTick{to{stroke-dashoffset:0}}
+.thanks__in h2{font-size:24px}
+.thanks__in p{margin:0;color:var(--ink-2);font-size:15px;line-height:1.5}
+.thanks__row{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 0;border-top:1px solid var(--line);font-size:15px;color:var(--ink-2);
+}
+.thanks__row b{color:var(--ink);font-size:17px}
+.thanks__in .btn{margin-top:4px}
+/* «Готово» — другорядна дія: класу .btn--ghost у проєкті немає,
+   тож задаємо вигляд тут, щоб дві однакові червоні кнопки поруч
+   не сперечалися між собою */
+.thanks__in .btn--ghost{
+  background:transparent;border:1px solid var(--line);color:var(--ink-2);
+  box-shadow:none;
+}
+.thanks__in .btn--ghost:hover{background:var(--glass-2);color:var(--ink)}
+@media(prefers-reduced-motion:reduce){
+  .thanks__ok circle,.thanks__ok path{animation:none;stroke-dashoffset:0}
 }
 
 /* ---------- САНІТАРНИЙ ДЕНЬ (вмикається з адмінки) ---------- */

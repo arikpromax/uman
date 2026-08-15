@@ -29,7 +29,16 @@
   .cats--pill .cat{flex-direction:row;min-width:0;padding:10px 16px;gap:9px;font-size:14px}
   .cats--pill .cat svg,.cats--pill .cat .pic{width:24px;height:24px}
   .grp{padding-top:12px}
-  .grp h2{font-size:clamp(19px,2.4vw,24px);font-weight:600;padding:26px 0 14px}
+  /* Назва розділу висить під смугою категорій, доки розділ не скінчиться.
+     width:max-content — щоб плашка обтискала текст, а не тягнулась на
+     всю ширину й не перекривала картки праворуч. */
+  .grp h2{position:sticky;top:138px;z-index:30;width:max-content;
+    font-size:clamp(19px,2.4vw,24px);font-weight:600;
+    margin:26px 0 14px;padding:9px 18px;border-radius:999px;
+    background:rgba(12,8,9,.80);backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    box-shadow:0 10px 26px -14px rgba(0,0,0,.95)}
+  @media(max-width:600px){.grp h2{top:126px;padding:8px 15px}}
 </style>
 </head>
 <body>
@@ -98,7 +107,9 @@ function render(){
   $$('#cats .cat').forEach(a=>a.classList.toggle('on', !nq && a.dataset.c===cat));
 
   if(!found.length){
-    $('#list').innerHTML = `<div class="empty">Нічого не знайшлося. Спробуйте іншу назву або <a href="menu.html" style="color:var(--red-hi)">усе меню</a>.</div>`;
+    $('#list').innerHTML = SORTS[sortI].only && !nq
+      ? `<div class="empty">Зараз акцій немає. Загляньте пізніше або <a href="menu.html" style="color:var(--red-hi)">подивіться все меню</a>.</div>`
+      : `<div class="empty">Нічого не знайшлося. Спробуйте іншу назву або <a href="menu.html" style="color:var(--red-hi)">усе меню</a>.</div>`;
     return;
   }
   // при пошуку або зміненому сортуванні показуємо єдиним списком

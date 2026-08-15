@@ -138,18 +138,9 @@ if(FINE && !RM){
   }
 }
 
-/* ---------- 7. магнітні кнопки + хвиля по кліку ---------- */
-if(FINE && !RM){
-  document.addEventListener('pointermove',e=>{
-    // .add навмисно не магнітимо — у нього своє обертання на hover
-    const b=e.target.closest('.btn, .mbtn');
-    qq('.fx-mag').forEach(x=>{ if(x!==b){ x.classList.remove('fx-mag'); x.style.transform=''; }});
-    if(!b) return;
-    const r=b.getBoundingClientRect();
-    b.classList.add('fx-mag');
-    b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.14)+'px,'+((e.clientY-r.top-r.height/2)*.22)+'px)';
-  },{passive:true});
-}
+/* ---------- 7. хвиля по кліку ---------- */
+/* Кнопки за курсором не тягнемо: під пальцем це не працює, а мишею
+   ціль тікає з-під курсора. */
 document.addEventListener('pointerdown',e=>{
   const b=e.target.closest('.btn, .mbtn, .cat, .add, .card__add');
   if(!b || RM) return;

@@ -611,8 +611,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .fld input[type=number]::-webkit-outer-spin-button,
 .fld input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 
-.addr{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
-@media(max-width:520px){.addr{grid-template-columns:1fr 1fr}}
+.addr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .fld__l+.pay{margin-top:6px}
 .cart__empty{display:grid;place-items:center;gap:12px;height:100%;text-align:center;color:var(--ink-3);padding:40px 0}
 .cart__empty svg{width:56px;height:56px;opacity:.4;stroke-width:1.4}
@@ -728,8 +727,6 @@ html.fx-ready body{opacity:1}
 }
 .banner.fx-tilt::before{opacity:1}
 
-/* магнітні кнопки */
-.fx-mag{transition:transform .18s var(--ease),background .3s!important}
 .btn,.mbtn,.add,.cat{position:relative;overflow:hidden}
 .card__add{overflow:hidden}
 

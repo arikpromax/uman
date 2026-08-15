@@ -290,7 +290,6 @@ function renderCond(){
   $('#stCond').innerHTML = mode==='Самовиніс'
     ? `<div class="cond">
          <div class="cond__r"><span>Спосіб</span><b>Самовиніс</b></div>
-         <div class="cond__r ok"><span>Мінімальна сума</span><b>немає</b></div>
          <div class="cond__r"><span>Готовність</span><b>${SHOP.pickupTime}</b></div>
          <div class="cond__r"><span>Графік</span><b>${SHOP.hours}</b></div>
          <p class="cond__n">Адресу та час самовивозу підтвердимо дзвінком.</p>
@@ -523,8 +522,8 @@ function orderText(){
   const t=total(), d=discount(), free=t>=SHOP.freeFrom;
   const v=s=>($('#'+s)?.value||'').trim();
   const pay=$('input[name=pay]:checked')?.value||'—';
-  const addr=[v('fStreet'),v('fHouse')&&'буд. '+v('fHouse'),v('fFlat')&&'кв. '+v('fFlat'),
-              v('fEnt')&&'підʼїзд '+v('fEnt'),v('fCode')&&'код '+v('fCode')].filter(Boolean).join(', ');
+  const addr=[v('fStreet'),v('fHouse')&&'буд. '+v('fHouse'),
+              v('fEnt')&&'підʼїзд '+v('fEnt')].filter(Boolean).join(', ');
   const when=v('fWhen')==='На конкретний час' ? 'на '+(v('fTime')||'—') : v('fWhen');
   return [
     'НОВЕ ЗАМОВЛЕННЯ · FUJI SUSHI',
@@ -671,9 +670,7 @@ function mountShell(page){
             <label>Адреса доставки<input id="fStreet" type="text" placeholder="Вулиця"></label>
             <div class="addr">
               <input id="fHouse" type="text" placeholder="Будинок">
-              <input id="fFlat"  type="text" placeholder="Квартира">
               <input id="fEnt"   type="text" placeholder="Підʼїзд">
-              <input id="fCode"  type="text" placeholder="Код домофона">
             </div>
           </div>
           <div class="fld two">

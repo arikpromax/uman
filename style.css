@@ -345,12 +345,11 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .card__tags{right:8px;bottom:calc(100% - 10px)}
   .tag{padding:4px 7px;font-size:10px}
   /* Шахматка тільки на телефоні: на комп'ютері сітка лишається рівною.
-     Зсув перекидається на другий бік через ряд, тому виходить справжня
-     шахівниця, а не одна опущена колонка. Зсув живе у змінній, бо саме
+     Зроблено як у сайті-зразку — там опущена вся ліва колонка на 54 px,
+     а не кожна друга картка почергово. Зсув живе у змінній, бо саме
      поле transform зайняте появою картки. */
-  .grid{padding-bottom:26px}
-  .grid > .card:nth-child(4n+2),
-  .grid > .card:nth-child(4n+3){--sy:26px}
+  .grid{padding-bottom:54px}
+  .grid > .card:nth-child(odd){--sy:54px}
 }
 
 /* ---------- КНОПКИ ---------- */
@@ -572,7 +571,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 @media(max-width:520px){.addr{grid-template-columns:1fr 1fr}}
 .fld__l+.pay{margin-top:6px}
 .cart__empty{display:grid;place-items:center;gap:12px;height:100%;text-align:center;color:var(--ink-3);padding:40px 0}
-.cart__empty svg{width:78px;height:78px;opacity:.35}
+.cart__empty svg{width:56px;height:56px;opacity:.4;stroke-width:1.4}
 .cart__f{padding:16px 20px 20px;border-top:1px solid var(--line)}
 .prog{margin-bottom:14px}
 .prog__t{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-3);margin-bottom:6px}

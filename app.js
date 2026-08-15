@@ -324,7 +324,8 @@ function renderCart(){
 
   const body=$('#stCart'); if(!body) return;
   if(!n){
-    body.innerHTML=`<div class="cart__empty">${art({t:'roll',ing:['ohir'],n:'порожньо'},110)}<div>Кошик порожній</div></div>`;
+    // намальований рол тут перетворювався на сіру пляму — краще проста іконка
+    body.innerHTML=`<div class="cart__empty">${icon('cart')}<div>Кошик порожній</div></div>`;
     $('#cartFoot').hidden=true; promo=null; resetMode(); setStep('cart'); return;
   }
   $('#cartFoot').hidden=false;

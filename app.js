@@ -39,14 +39,19 @@ function pic(m,size){
    й акція беруться з неї; підпис — з bs, а якщо його не заповнили,
    збираємо зі складу позиції, щоб банер не був порожнім. */
 function banners(){
-  return ITEMS.filter(i => i.ban).map(i => ({
-    m: i,
-    t: i.n,
-    s: i.bs
-       || i.d
-       || (i.list ? i.list.slice(0,3).join(' · ') : '')
-       || (i.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ')
-  }));
+  // bo — номер у банері з адмінки. Без номера позиція йде в кінець,
+  // а рівні номери лишаються в тому порядку, що й у списку.
+  return ITEMS.filter(i => i.ban)
+    .map((i, k) => ({ i, k, o: Number(i.bo) > 0 ? Number(i.bo) : 1e6 }))
+    .sort((a, b) => a.o - b.o || a.k - b.k)
+    .map(({ i }) => ({
+      m: i,
+      t: i.n,
+      s: i.bs
+         || i.d
+         || (i.list ? i.list.slice(0,3).join(' · ') : '')
+         || (i.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ')
+    }));
 }
 
 /* ---------- іконки розділів меню ----------

@@ -85,6 +85,7 @@ Promise.all([
       if(x.add) it.add = 1;
       if(x.ban) it.ban = 1;
       if(str(x.bs)) it.bs = str(x.bs);
+      if(num(x.bo))  it.bo = num(x.bo);
       if(r.image_url) it.img = r.image_url;
       fresh.push(it);
     });
@@ -103,6 +104,7 @@ Promise.all([
       if(x.top)  it.top  = 1;
       if(x.ban)  it.ban  = 1;
       if(str(x.bs)) it.bs = str(x.bs);
+      if(num(x.bo)) it.bo = num(x.bo);
       if(r.image_url) it.img = r.image_url;
       fresh.push(it);
     });

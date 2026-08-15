@@ -248,6 +248,10 @@ let mode=null;          // поки не обрано — умови згорн�
 let step='cart';
 let promo=null;
 
+/* Мінімальна сума діє лише на доставку: за самовинесенням людина
+   приходить сама, тож обмежувати нема сенсу. */
+const minSum = () => mode==='Самовиніс' ? 0 : SHOP.minOrder;
+
 function setStep(s){
   if(!$('#stCart')) return;
   step=s;
@@ -271,6 +275,7 @@ function pickMode(m){
   w.style.maxHeight = w.firstElementChild.scrollHeight + 'px';
   w.classList.add('open');
   $('#toAdd').hidden=false;
+  renderCart();   // підсумок унизу залежить від способу: мінімальна сума є тільки на доставці
 }
 function resetMode(){
   mode=null;
@@ -285,10 +290,10 @@ function renderCond(){
   $('#stCond').innerHTML = mode==='Самовиніс'
     ? `<div class="cond">
          <div class="cond__r"><span>Спосіб</span><b>Самовиніс</b></div>
-         <div class="cond__r"><span>Мінімальна сума</span><b>${SHOP.minOrder} ₴</b></div>
+         <div class="cond__r ok"><span>Мінімальна сума</span><b>немає</b></div>
          <div class="cond__r"><span>Готовність</span><b>${SHOP.pickupTime}</b></div>
          <div class="cond__r"><span>Графік</span><b>${SHOP.hours}</b></div>
-         <p class="cond__n">Адресу самовинесення підтвердимо дзвінком.</p>
+         <p class="cond__n">Адресу та час самовивозу підтвердимо дзвінком.</p>
        </div>`
     : `<div class="cond">
          <div class="cond__r"><span>Мінімальна сума</span><b>${SHOP.minOrder} ₴</b></div>
@@ -350,9 +355,12 @@ function renderCart(){
   if($('#coBody') && !$('#checkout').hidden) renderCheckout();
   $('#progBar').style.width=Math.min(100,t/SHOP.freeFrom*100)+'%';
   $('#progBar').classList.toggle('done',free);
-  if(t<SHOP.minOrder){
+  if(t<minSum()){
     $('#progTxt').textContent='Мінімальне замовлення '+SHOP.minOrder+' ₴';
     $('#progLeft').textContent='ще '+uah(SHOP.minOrder-t);
+  }else if(mode==='Самовиніс'){
+    $('#progTxt').textContent='Самовиніс';
+    $('#progLeft').textContent=SHOP.pickupTime;
   }else if(!free){
     $('#progTxt').textContent='До безкоштовної доставки';
     $('#progLeft').textContent='ще '+uah(SHOP.freeFrom-t);
@@ -463,7 +471,7 @@ function openCart(v){
 
 /* ---------- повноекранне оформлення ---------- */
 function openCheckout(){
-  if(total()<SHOP.minOrder){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return; }
+  if(total()<minSum()){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return; }
   $('#addrBox').hidden = mode==='Самовиніс';
   renderCheckout();
   const co=$('#checkout'); co.hidden=false;
@@ -539,7 +547,7 @@ function orderText(){
 }
 function validate(){
   if(!count()){ toast('Кошик порожній'); return false; }
-  if(total()<SHOP.minOrder){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return false; }
+  if(total()<minSum()){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return false; }
   let ok=true;
   const need=[['fName',2],['fTel',9]];
   if(mode==='Доставка') need.push(['fStreet',3],['fHouse',1]);

@@ -16,7 +16,7 @@ const SHOP = {
   minOrder:  250,
   farKm:     10,        // від скількох км починається доплата
   farFee:    15,        // ₴ за кожен км понад farKm
-  pickupTime:'30–40 хв',
+  pickupTime:'15–45 хв',
   openFrom:  '10:00',   // режим роботи кухні: приймаємо замовлення з…
   openTo:    '22:00',   // …і до
   ig:        'https://www.instagram.com/fuji.sushi.uman/',

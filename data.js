@@ -59,7 +59,8 @@ const CATS = [
   {id:'baked', n:'Запечені'},
   {id:'temp',  n:'Темпура'},
   {id:'sushi', n:'Суші'},
-  {id:'burg',  n:'Бургери та шаурма'},
+  {id:'burg',  n:'Бургери'},
+  {id:'shau',  n:'Шаурма'},
   {id:'wok',   n:'Вок'},
   {id:'add',   n:'Напої та додатки'}
 ];
@@ -153,10 +154,10 @@ const ITEMS = [
   {id:'g3', c:'sign', n:'Лава рол з тунцем',   p:329, w:'8 шт · 270 г', t:'baked', ing:['tunec','syr','perec']},
   {id:'g4', c:'sign', n:'Блек чікен чіз',      p:279, w:'8 шт · 260 г', t:'roll',  ing:['kurka','syr','black']},
   {id:'g5', c:'sign', n:'Кранч з крем-сиром',  p:269, w:'8 шт · 250 г', t:'tempura', ing:['syr','ohir','avo'], veg:1},
-  /* --- Бургери та шаурма --- */
+  /* --- Бургери і шаурма --- */
   {id:'g6', c:'burg', n:'Суші бургер з креветкою', p:199, w:'180 г', t:'burger', ing:['krev','syr','ohir']},
   {id:'g7', c:'burg', n:'Бургер з лососем',    p:209, w:'180 г', t:'burger', ing:['losos','syr','ohir']},
-  {id:'g8', c:'burg', n:'Суші шаурма з лососем та тунцем', p:229, w:'220 г', t:'burger', ing:['losos','tunec','syr']},
+  {id:'g8', c:'shau', n:'Суші шаурма з лососем та тунцем', p:229, w:'220 г', t:'burger', ing:['losos','tunec','syr']},
 
   /* --- Каліфорнія та макі --- */
   {id:'k1', c:'cali', n:'Каліфорнія з лососем',  p:259, w:'8 шт · 240 г', t:'roll', ing:['losos','avo','ohir','tobik']},

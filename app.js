@@ -56,7 +56,8 @@ const CAT_ART = {
   sign:{t:'baked',ing:['vuhor','syr','tobik']},    cali:{t:'roll',ing:['krab','avo','ohir','tobik']},
   baked:{t:'baked',ing:['losos','syr']},           temp:{t:'tempura',ing:['krev','syr','avo']},
   sushi:{t:'nigiri',ing:['losos']},                wok:{t:'bowl',ing:['kurka','ovoch']},
-  burg:{t:'burger',ing:['losos','syr','ohir']},    add:{t:'drink',ing:['perec']}
+  burg:{t:'burger',ing:['losos','syr','ohir']},    shau:{t:'burger',ing:['kurka','ovoch','syr']},
+  add:{t:'drink',ing:['perec']}
 };
 const CATIMG = {};
 const catIcon = c =>

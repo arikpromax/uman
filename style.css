@@ -731,9 +731,7 @@ html.fx-ready body{opacity:1}
   background:rgba(0,0,0,.96);backdrop-filter:blur(6px);text-align:center;
 }
 .dayoff__in{max-width:420px;display:grid;justify-items:center;gap:14px}
-.dayoff__art{width:128px;height:128px;animation:sweep 2.6s ease-in-out infinite}
-@keyframes sweep{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-@media(prefers-reduced-motion:reduce){.dayoff__art{animation:none}}
+.dayoff__art{width:132px;height:132px}
 .dayoff__in h2{font-size:clamp(24px,5vw,34px);font-weight:700}
 .dayoff__in p{margin:0;color:var(--ink-2);font-size:16px;line-height:1.5}
 .dayoff__in .btn{margin-top:6px;min-width:200px}

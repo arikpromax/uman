@@ -141,16 +141,26 @@ const BROOM =
   '<svg class="dayoff__art" viewBox="0 0 120 120" width="132" height="132" aria-hidden="true">' +
     '<circle cx="60" cy="60" r="56" fill="rgba(180,54,55,.13)"/>' +
     '<circle cx="60" cy="60" r="56" fill="none" stroke="rgba(180,54,55,.45)" stroke-width="1.5"/>' +
-    '<g fill="#F2EDE6" stroke="#F2EDE6" stroke-linecap="round" stroke-linejoin="round">' +
-      /* мітла: держак і віник */
-      '<path d="M62 33 26 87" stroke-width="5" fill="none"/>' +
-      '<path d="M16 86h17l6 18q-15 6 -30 0z"/>' +
-      /* постать */
-      '<circle cx="72" cy="25" r="11" stroke="none"/>' +
-      '<path d="M72 40v30" stroke-width="23" fill="none"/>' +
-      '<path d="M66 68 60 101M78 68 85 101" stroke-width="11" fill="none"/>' +
-      '<path d="M70 45 60 36" stroke-width="9" fill="none"/>' +
-      '<path d="M67 59 41 65" stroke-width="9" fill="none"/>' +
+    '<g transform="translate(15,-3) scale(.93)">' +
+      '<g fill="#F2EDE6" stroke="#F2EDE6" stroke-linejoin="round">' +
+        /* держак */
+        '<path d="M53 46 27 79" stroke-width="3.6" stroke-linecap="round" fill="none"/>' +
+        /* віник — розвернутий уздовж держака */
+        '<g transform="rotate(38 27 79)">' +
+          '<path d="M20 73q7-5 14 0l5 21q-12 8-24 0z"/>' +
+        '</g>' +
+        /* постать */
+        '<circle cx="55" cy="26" r="11" stroke="none"/>' +
+        '<rect x="45" y="36" width="20" height="34" rx="7" stroke="none"/>' +
+        '<path d="M50.5 70v27M60.5 70v27" stroke-width="7.5" stroke-linecap="round" fill="none"/>' +
+        '<path d="M62 41 70.5 47.5 52 52" stroke-width="6.6" stroke-linecap="round" fill="none"/>' +
+        '<path d="M48 47 40 59" stroke-width="6.6" stroke-linecap="round" fill="none"/>' +
+      '</g>' +
+      /* сліди руху збоку від віника */
+      '<g fill="none" stroke="#F2EDE6" stroke-width="2.4" stroke-linecap="round">' +
+        '<path d="M40 82q4 4 1 8"/>' +
+        '<path d="M45 79q5 5 1 11"/>' +
+      '</g>' +
     '</g>' +
   '</svg>';
 

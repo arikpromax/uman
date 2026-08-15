@@ -217,11 +217,25 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .banner__in{position:relative;z-index:2;padding:clamp(24px,4vw,44px);max-width:58%}
 .banner__in h2{font-size:clamp(26px,4.4vw,44px);white-space:pre-line}
 .banner__in p{margin:12px 0 0;color:var(--ink-2);font-size:clamp(13px,1.5vw,16px);white-space:pre-line}
+/* плашка над назвою, щоб акція читалась одразу, а не тільки з ціни */
+.banner__tag{
+  display:inline-block;margin-bottom:10px;padding:5px 11px;border-radius:var(--r-s);
+  background:#F0C13B;color:#141414;font-size:12px;font-weight:800;
+  letter-spacing:.04em;text-transform:uppercase;box-shadow:var(--sh-tag);
+}
 .banner__b{display:flex;align-items:center;gap:14px;margin-top:clamp(16px,2.6vw,26px);flex-wrap:wrap}
-.banner__p{font-size:clamp(22px,3vw,30px);font-weight:700}
+/* стару ціну відсуваємо від нової і робимо дрібнішою: злиті в одне
+   число «111122 ₴» їх було не розрізнити */
+.banner__p{display:inline-flex;align-items:baseline;gap:10px;
+  font-size:clamp(22px,3vw,30px);font-weight:700;white-space:nowrap}
+.banner__p s{font-size:.6em;font-weight:400;color:var(--ink-3);
+  text-decoration-color:var(--red-hi)}
+.banner__p b{font-weight:700}
+.banner__p.sale b{color:#F0C13B}
 @media(max-width:640px){
   .banner__in{max-width:70%}
   .banner__art{width:56%;right:-14%;opacity:.5}
+  .banner__tag{font-size:11px;padding:4px 9px;margin-bottom:8px}
 }
 .dots{display:flex;gap:7px;justify-content:center;padding:14px 0 0}
 .dots b{width:7px;height:7px;border-radius:50%;background:var(--ink-3);opacity:.5;cursor:pointer;transition:all .3s}

@@ -103,10 +103,13 @@ function renderBanners(){
     return `<div class="banner">
       <div class="banner__art">${pic(m, 300)}</div>
       <div class="banner__in">
+        ${was?`<span class="banner__tag">Акція</span>`:''}
         <h2>${esc(b.t)}</h2>
         <p>${esc(b.s)}</p>
         <div class="banner__b">
-          <span class="banner__p${was?' sale':''}">${was?`<s>${was}</s>`:''}${P(m)} ₴</span>
+          <span class="banner__p${was?' sale':''}">
+            ${was?`<s>${was} ₴</s>`:''}<b>${P(m)} ₴</b>
+          </span>
           <button class="btn" data-add="${m.id}">Додати в кошик</button>
         </div>
       </div>

@@ -397,17 +397,19 @@ function cardHTML(m){
   const d = m.d ? m.d
           : m.list ? m.list.slice(0,3).join(' · ')+(m.list.length>3?` · +${m.list.length-3}`:'')
           : (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
+  // Фото на всю картку, текст поверх нього — як у меню, з якого брали приклад
   return `<article class="card" data-open="${m.id}" role="button" tabindex="0">
-    <div class="card__img">${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}${pic(m,190)}</div>
+    <div class="card__img">${pic(m,320)}</div>
+    ${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}
     <div class="card__in">
       <h3 class="card__n">${m.n}</h3>
       <p class="card__d">${d}</p>
       <div class="card__b">
         <span>
           <span class="card__w">${m.w||''}</span>
-          <span class="card__p${sale(m)?' sale':''}">${sale(m)?`<s>${m.p}</s>`:''}${P(m)}<em> ₴</em></span>
+          <span class="card__p${sale(m)?' sale':''}">${sale(m)?`<s>₴ ${m.p}</s>`:''}₴ ${P(m)}</span>
         </span>
-        <button class="add" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('plus')}</button>
+        <button class="add" data-add="${m.id}" aria-label="Додати ${m.n}">${icon('cart')}</button>
       </div>
     </div>
   </article>`;

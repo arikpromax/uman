@@ -134,20 +134,46 @@ Promise.all([
 })
 .catch(()=>{ /* немає звʼязку — сайт живе на вбудованому меню */ });
 
-/* Заглушка на весь екран: замовити сьогодні не можна */
+/* Вихідний: попереджаємо один раз, далі меню можна дивитися,
+   але замовити не можна — кнопки додавання глухі. */
 function dayOffScreen(title, note){
-  const esc = s => String(s).replace(/[&<>"']/g, m =>
+  const e = s => String(s).replace(/[&<>"']/g, m =>
     ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  document.body.classList.add('dayoff-on');
+
   const ov = document.createElement('div');
   ov.id = 'dayoff';
   ov.innerHTML =
     '<div class="dayoff__in">' +
       '<img src="logo.jpg" alt="" width="86" height="86">' +
-      '<h2>' + esc(title) + '</h2>' +
-      (note ? '<p>' + esc(note) + '</p>' : '') +
-      '<a class="btn" href="tel:' + esc(SHOP.phone) + '"><span>' + esc(SHOP.phoneView) + '</span></a>' +
+      '<h2>' + e(title) + '</h2>' +
+      (note ? '<p>' + e(note) + '</p>' : '') +
+      '<button class="btn" id="dayoffOk"><span>Зрозуміло</span></button>' +
+      '<a class="dayoff__tel" href="tel:' + e(SHOP.phone) + '">' + e(SHOP.phoneView) + '</a>' +
     '</div>';
   document.body.appendChild(ov);
   document.body.classList.add('locked');
+
+  const close = ()=>{
+    ov.remove();
+    document.body.classList.remove('locked');
+    // тонка смужка вгорі, щоб причина не забулася під час перегляду
+    const bar = document.createElement('div');
+    bar.className = 'dayoff-bar';
+    bar.textContent = title + (note ? ' · ' + note : '');
+    document.body.appendChild(bar);
+  };
+  ov.querySelector('#dayoffOk').onclick = close;
+  ov.addEventListener('click', ev=>{ if(ev.target===ov) close(); });
 }
+
+/* Поки вихідний — жодного додавання в кошик і жодного оформлення */
+document.addEventListener('click', ev=>{
+  if(!document.body.classList.contains('dayoff-on')) return;
+  if(!ev.target.closest('[data-add],[data-inc],#toCond,#toAdd,#toCheckout,#send')) return;
+  ev.preventDefault();
+  ev.stopImmediatePropagation();
+  try{ toast('Сьогодні не приймаємо замовлення'); }catch(e){}
+}, true);
 })();

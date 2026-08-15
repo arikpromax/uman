@@ -14,8 +14,17 @@
 <link rel="stylesheet" href="style.css">
 <style>
   /* без відʼємних полів: вони давали зайву ширину і сторінку можна було тягнути вбік */
-  .catbar{position:sticky;top:74px;z-index:40;margin:14px 0 0;
-    background:linear-gradient(#000 72%,rgba(0,0,0,0))}
+  /* скляна, а не чорна: суцільна заливка перекривала фонове фото
+     смугою, і при прокрутці це впадало в око найбільше.
+     Скло — окремим шаром під кнопками: маска на самій смузі
+     погасила б разом із фоном і самі кнопки розділів. */
+  .catbar{position:sticky;top:74px;z-index:40;margin:14px 0 0}
+  .catbar::before{
+    content:'';position:absolute;inset:-14px 0 0;z-index:-1;pointer-events:none;
+    background:linear-gradient(rgba(9,6,7,.88) 66%,rgba(9,6,7,0));
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    -webkit-mask:linear-gradient(#000 70%,transparent);
+            mask:linear-gradient(#000 70%,transparent)}
   .cats--pill{padding:10px 0 12px}
   .cats--pill .cat{flex-direction:row;min-width:0;padding:10px 16px;gap:9px;font-size:14px}
   .cats--pill .cat svg,.cats--pill .cat .pic{width:24px;height:24px}

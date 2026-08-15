@@ -106,7 +106,9 @@ function render(){
 }
 
 function renderCats(){
-  $('#cats').innerHTML = [{id:'all',n:'Усі'},...CATS].map(c=>
+  // порожні розділи не показуємо: клік по них вів би на порожній екран
+  const live = CATS.filter(c => ITEMS.some(i => i.c === c.id));
+  $('#cats').innerHTML = [{id:'all',n:'Усі'},...live].map(c=>
     `<button class="cat" data-c="${c.id}">${
       c.id==='all' ? art({t:'set',ing:['losos','krev','avo'],n:'Усі'},40) : catIcon(c)
     }${c.n}</button>`).join('');

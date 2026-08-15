@@ -136,7 +136,8 @@ bx.addEventListener('pointerdown',()=>clearInterval(auto));
 
 /* ---------- розділи меню ---------- */
 function renderCats(){
-  $('#cats').innerHTML = CATS.map(c=>
+  // порожні розділи не показуємо: клік по них вів би на порожній екран
+  $('#cats').innerHTML = CATS.filter(c => ITEMS.some(i => i.c === c.id)).map(c=>
     `<a class="cat" href="menu.html?c=${c.id}">${catIcon(c)}${c.n}</a>`).join('');
 }
 renderCats();

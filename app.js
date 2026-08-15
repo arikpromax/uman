@@ -56,7 +56,7 @@ const CAT_ART = {
   sign:{t:'baked',ing:['vuhor','syr','tobik']},    cali:{t:'roll',ing:['krab','avo','ohir','tobik']},
   baked:{t:'baked',ing:['losos','syr']},           temp:{t:'tempura',ing:['krev','syr','avo']},
   sushi:{t:'nigiri',ing:['losos']},                wok:{t:'bowl',ing:['kurka','ovoch']},
-  add:{t:'drink',ing:['perec']}
+  burg:{t:'burger',ing:['losos','syr','ohir']},    add:{t:'drink',ing:['perec']}
 };
 const CATIMG = {};
 const catIcon = c =>
@@ -215,6 +215,22 @@ function art(item,size){
     o+=`<rect x="${c-s*.22}" y="${s*.15}" width="${s*.44}" height="${s*.72}" rx="${s*.07}" fill="${col(ings[0])}" opacity=".92"/>`;
     o+=`<rect x="${c-s*.1}" y="${s*.06}" width="${s*.2}" height="${s*.11}" rx="${s*.03}" fill="#2A2A2E"/>`;
     o+=`<rect x="${c-s*.15}" y="${s*.4}" width="${s*.3}" height="${s*.25}" rx="2" fill="#F7F2E7" opacity=".9"/>`;
+    return o+'</svg>';
+  }
+  if(t==='burger'){
+    // дві рисові булки, між ними шари начинки
+    const w=s*.74, x=c-w/2, r=s*.10, yBot=c+s*.14, hf=s*.075, gap=s*.012;
+    o+=`<path d="M${x} ${yBot} h${w} v${s*.08} a${r} ${r} 0 0 1 -${r} ${r} h-${w-2*r} a${r} ${r} 0 0 1 -${r} -${r} z" fill="#F1E6CF"/>`;
+    const fill=ings.slice(0,3);
+    fill.forEach((k,i)=>{
+      o+=`<rect x="${x-s*.025}" y="${yBot-(i+1)*(hf+gap)}" width="${w+s*.05}" height="${hf}" rx="${hf/2}" fill="${col(k)}"/>`;
+    });
+    const yTop=yBot-fill.length*(hf+gap);
+    o+=`<path d="M${x} ${yTop} a${w/2} ${s*.24} 0 0 1 ${w} 0 z" fill="#F7F2E7"/>`;
+    for(let i=0;i<5;i++){
+      const a=-Math.PI*.80+i*(Math.PI*.60/4);
+      o+=`<ellipse cx="${c+Math.cos(a)*w*.30}" cy="${yTop+Math.sin(a)*s*.13}" rx="${s*.022}" ry="${s*.014}" fill="#DDBE85"/>`;
+    }
     return o+'</svg>';
   }
   if(t==='nigiri'){

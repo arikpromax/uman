@@ -55,6 +55,8 @@ Promise.all([
   (by.cats || []).forEach(r=>{
     const k = str((r.extra||{}).catkey); if(!k) return;
     if(r.image_url) CATIMG[k] = r.image_url;
+    // «Усі» — не розділ меню, а перша кнопка стрічки; свого списку страв не має
+    if(k === 'all'){ if(str(r.title)) CATALL.n = str(r.title); return; }
     const c = CATS.find(x => x.id === k);
     if(c && str(r.title)) c.n = str(r.title);
   });

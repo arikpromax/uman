@@ -53,8 +53,13 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .wrap{width:min(100% - 32px,var(--max));margin-inline:auto;position:relative;z-index:2}
 
-/* ---------- НЕОН ---------- */
-.glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+/* ---------- НЕОН І ФОТО-ФОН ---------- */
+/* fon.jpg лежить у папці сайту. Градієнт у тому ж записі — це притемнення
+   поверх фото: без нього текст на такому яскравому фоні не читався б. */
+.glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+    linear-gradient(rgba(8,5,6,.62),rgba(8,5,6,.74)),
+    url(fon.jpg) center/cover no-repeat;}
 /* широка тепла заливка згори й знизу, щоб тло не було глухо-чорним */
 .glows::before,.glows::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
   width:150%;height:70%;border-radius:50%;filter:blur(90px)}
@@ -199,10 +204,15 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}
+/* Скло, а не глухий чорний: крізь банер видно фонове фото, але розмите,
+   тож текст поверх лишається читабельним. */
 .banner{
   position:relative;flex:0 0 min(100%,var(--max));scroll-snap-align:center;
   height:clamp(300px,44vw,420px);border-radius:var(--r-m);overflow:hidden;
-  background:#0A0A0B;display:flex;align-items:center;
+  background:rgba(10,8,9,.58);backdrop-filter:blur(18px) saturate(120%);
+  -webkit-backdrop-filter:blur(18px) saturate(120%);
+  border:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;
 }
 .banner__art{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(52%,420px);opacity:.95}
 .banner__art svg{width:100%;height:auto;filter:drop-shadow(0 24px 50px rgba(0,0,0,.6))}
@@ -234,7 +244,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .banner__p.sale b{color:#F0C13B}
 @media(max-width:640px){
   .banner__in{max-width:70%}
-  .banner__art{width:56%;right:-14%;opacity:.5}
+  .banner__art{width:56%;right:-14%;opacity:.72}
   .banner__tag{font-size:11px;padding:4px 9px;margin-bottom:8px}
 }
 .dots{display:flex;gap:7px;justify-content:center;padding:14px 0 0}
@@ -325,8 +335,11 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   align-items:start}
 
 /* Картка: фото зверху, скляна панель наїжджає на нього знизу */
+/* напівпрозорий, щоб фонове фото просвічувало крізь картку.
+   Розмиття тут навмисно не ставимо: карток під сотню, і на телефоні
+   стільки шарів backdrop-filter відчутно гальмують. */
 .card{position:relative;border-radius:18px;
-  background:linear-gradient(rgba(0,0,0,.98) 45%,rgba(0,0,0,0));display:block}
+  background:linear-gradient(rgba(10,7,8,.72) 45%,rgba(10,7,8,0));display:block}
 /* overflow ховає все зайве: під курсором з картки нічого не вилазить */
 .card__img{aspect-ratio:1;display:grid;place-items:center;overflow:hidden;
   border-radius:18px 18px 0 0}

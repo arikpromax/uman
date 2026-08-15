@@ -65,6 +65,9 @@ const CAT_ART = {
   add:{t:'drink',ing:['perec']}
 };
 const CATIMG = {};
+// кнопка «Усі» стоїть окремо від CATS, бо не має власних страв.
+// Назву й картинку їй теж задають в адмінці — рядком з catkey «all».
+const CATALL = { n:'Усі' };
 const catIcon = c =>
   pic({ ...(CAT_ART[c.id] || {t:'roll',ing:['losos']}), n:c.n, img:CATIMG[c.id] }, 40);
 

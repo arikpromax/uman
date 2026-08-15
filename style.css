@@ -6,7 +6,7 @@
    ============================================================ */
 
 :root{
-  --bg:#000000;
+  --bg:#0C0A0B;
   --ink:#EEEEEE;
   --ink-2:#A8A6A6;
   --ink-3:#6E6C6E;
@@ -53,17 +53,23 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .wrap{width:min(100% - 32px,var(--max));margin-inline:auto;position:relative;z-index:2}
 
-/* ---------- НЕОН (на ~20% слабший за оригінал) ---------- */
+/* ---------- НЕОН ---------- */
 .glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+/* широка тепла заливка згори й знизу, щоб тло не було глухо-чорним */
+.glows::before,.glows::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
+  width:150%;height:70%;border-radius:50%;filter:blur(90px)}
+.glows::before{top:-32%;background:radial-gradient(closest-side,rgba(190,58,60,.42),transparent)}
+.glows::after{bottom:-34%;background:radial-gradient(closest-side,rgba(150,44,46,.30),transparent)}
 .glow{position:absolute;border-radius:50%}
-.glow-1{width:260px;height:260px;background:rgba(180,54,55,.80);filter:blur(150px);top:6%;left:56%}
-.glow-2{width:340px;height:340px;background:rgba(140,40,42,.12);filter:blur(80px);top:52%;left:-8%}
-.glow-3{width:340px;height:340px;background:rgba(200,62,62,.48);filter:blur(132px);top:120%;left:62%}
+.glow-1{width:380px;height:380px;background:rgba(205,64,66,.72);filter:blur(140px);top:2%;left:54%}
+.glow-2{width:440px;height:440px;background:rgba(160,46,48,.34);filter:blur(110px);top:48%;left:-12%}
+.glow-3{width:420px;height:420px;background:rgba(210,66,66,.55);filter:blur(130px);top:118%;left:60%}
 @media(max-width:760px){
   .glow{position:fixed}
-  .glow-1{width:200px;height:200px;top:20%;left:34%}
-  .glow-2{width:270px;height:270px;top:78%;left:-24%}
-  .glow-3{width:270px;height:270px;top:-4%;left:56%}
+  .glow-1{width:300px;height:300px;top:18%;left:30%}
+  .glow-2{width:360px;height:360px;top:76%;left:-26%}
+  .glow-3{width:360px;height:360px;top:-6%;left:52%}
+  .glows::before,.glows::after{width:200%;filter:blur(70px)}
 }
 
 /* ---------- ХЕДЕР ---------- */

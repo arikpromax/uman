@@ -150,7 +150,7 @@ if(FINE && !RM){
   },{passive:true});
 }
 document.addEventListener('pointerdown',e=>{
-  const b=e.target.closest('.btn, .mbtn, .cat, .add');
+  const b=e.target.closest('.btn, .mbtn, .cat, .add, .card__add');
   if(!b || RM) return;
   const r=b.getBoundingClientRect();
   const w=document.createElement('span');

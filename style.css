@@ -7,31 +7,17 @@
 
 :root{
   --bg:#0C0A0B;
-  --ink:#F4F2F2;
-  /* приглушені сірі підняті: на склі поверх ілюстрації старі
-     #A8A6A6 і #6E6C6E ледь читалися */
-  --ink-2:#CBC7C8;
-  --ink-3:#9C9799;
+  --ink:#EEEEEE;
+  --ink-2:#A8A6A6;
+  --ink-3:#6E6C6E;
 
   --red:#B43637;          /* точний колір із логотипа */
   --red-hi:#D8464A;
   --red-soft:rgba(180,54,55,.20);
   --red-tag:rgba(180,54,55,.92);
 
-  /* скло щільне й темне: фон сайту тепер світла ілюстрація, і на
-     прозорому склі світлий текст на ній зникав */
-  --glass:rgba(18,12,13,.72);
-  --glass-2:rgba(18,12,13,.58);
-  /* Спільний рецепт «скла»: темна основа, поверх неї ледь помітний
-     світловий градієнт, волосяний кант і блік згори. Саме кант і блік
-     читаються як скло — сама прозорість цього не дає. */
-  /* Скло прозоріше, а читабельність тримає розмиття під ним: фон
-     розмивається в пляму, і світлий підпис лишається видним навіть
-     над найсвітлішими місцями ілюстрації. */
-  --glass-bg:linear-gradient(rgba(255,255,255,.12),rgba(255,255,255,.02)),rgba(15,10,11,.52);
-  --glass-line:1px solid rgba(255,255,255,.11);
-  --glass-sh:inset 0 1px 0 rgba(255,255,255,.15),0 12px 28px -16px rgba(0,0,0,1);
-  --glass-blur:blur(16px) saturate(140%);
+  --glass:rgba(126,116,118,.30);
+  --glass-2:rgba(126,116,118,.20);
   --line:rgba(238,238,238,.10);
 
   --r-s:11px;
@@ -72,16 +58,28 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .wrap{width:min(100% - 32px,var(--max));margin-inline:auto;position:relative;z-index:2}
 
 /* ---------- НЕОН І ФОТО-ФОН ---------- */
-.glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#0A0708}
-/* fon.jpg лежить у папці сайту й показується як є: ні фільтрів,
-   ні притемнення поверх. cover — щоб укривала весь екран. */
-.glows::before{
-  content:'';position:absolute;inset:0;
-  background:url(fon.jpg) center / cover no-repeat;
+/* fon.jpg лежить у папці сайту. Градієнт у тому ж записі — це притемнення
+   поверх фото: без нього текст на такому яскравому фоні не читався б. */
+.glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+    linear-gradient(rgba(8,5,6,.62),rgba(8,5,6,.74)),
+    url(fon.jpg) center/cover no-repeat;}
+/* широка тепла заливка згори й знизу, щоб тло не було глухо-чорним */
+.glows::before,.glows::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
+  width:150%;height:70%;border-radius:50%;filter:blur(90px)}
+.glows::before{top:-32%;background:radial-gradient(closest-side,rgba(190,58,60,.42),transparent)}
+.glows::after{bottom:-34%;background:radial-gradient(closest-side,rgba(150,44,46,.30),transparent)}
+.glow{position:absolute;border-radius:50%}
+.glow-1{width:380px;height:380px;background:rgba(205,64,66,.72);filter:blur(140px);top:2%;left:54%}
+.glow-2{width:440px;height:440px;background:rgba(160,46,48,.34);filter:blur(110px);top:48%;left:-12%}
+.glow-3{width:420px;height:420px;background:rgba(210,66,66,.55);filter:blur(130px);top:118%;left:60%}
+@media(max-width:760px){
+  .glow{position:fixed}
+  .glow-1{width:300px;height:300px;top:18%;left:30%}
+  .glow-2{width:360px;height:360px;top:76%;left:-26%}
+  .glow-3{width:360px;height:360px;top:-6%;left:52%}
+  .glows::before,.glows::after{width:200%;filter:blur(70px)}
 }
-/* Плями світла вимкнено: вони лягали кольоровими хмарами поверх
-   ілюстрації й міняли її вигляд. */
-.glow{display:none}
 
 /* ---------- ХЕДЕР ---------- */
 .header{
@@ -216,18 +214,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 
 /* ---------- ГЕРОЙ ---------- */
-/* Заголовок стоїть просто на ілюстрації, а її небо світле — тож
-   він отримує таку саму темну плашку, як назви розділів у меню.
-   Сама тінь тут не рятувала: білий на кремовому лишався блідим. */
-.h1,.sec-h h2{
-  display:inline-block;border-radius:999px;
-  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
-  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
-}
-.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;margin:6px 0 18px;padding:9px 22px}
-/* назви блоків на головній — той самий прийом, вони теж лежать на ілюстрації */
-.sec-h h2{padding:7px 18px}
-.footer__c b,.hours,.sec-h a{text-shadow:0 2px 10px rgba(0,0,0,.85)}
+.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}
@@ -288,31 +275,19 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .cat{
   flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;
   min-width:88px;padding:11px 12px;border-radius:var(--r-s);cursor:pointer;
-  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
-  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+  background:var(--glass);backdrop-filter:blur(8px);border:1px solid transparent;
   font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;
-  transition:background .3s,border-color .3s,box-shadow .3s,transform .3s var(--ease);
+  transition:background .3s,border-color .3s;
 }
-.cat:hover{border-color:rgba(255,255,255,.20);transform:translateY(-2px);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 16px 32px -16px rgba(0,0,0,1)}
-/* обраний розділ — те саме скло, але червоне, з теплим кантом */
-.cat.on{
-  background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.03)),rgba(178,52,53,.88);
-  border-color:rgba(240,193,59,.34);
-  box-shadow:inset 0 1px 0 rgba(255,214,178,.34),0 14px 30px -14px rgba(216,70,74,.85);
-}
-/* сама іконка теж у склі: обідок і блік роблять із плаского кружка лінзу */
-.cat svg,.cat .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;
-  box-shadow:0 0 0 1px rgba(255,255,255,.16),inset 0 1px 0 rgba(255,255,255,.22),
-             0 6px 14px -7px rgba(0,0,0,.95)}
+.cat:hover{background:var(--red-soft)}
+.cat.on{background:var(--red);border-color:var(--red-hi)}
+.cat svg,.cat .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
 
 /* ---------- ПОШУК ---------- */
 .searchbar{display:flex;gap:11px;padding:18px 0 0}
 .search{
   flex:1;display:flex;align-items:center;gap:11px;height:58px;padding:0 18px;
-  border-radius:var(--r-s);
-  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
-  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+  border-radius:var(--r-s);background:var(--glass);backdrop-filter:blur(8px);
 }
 .search svg{width:20px;height:20px;color:var(--ink-3);flex-shrink:0}
 .search input{flex:1;min-width:0;background:none;border:0;font-size:16px;font-weight:500}
@@ -324,18 +299,13 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* ---------- КНОПКА СОРТУВАННЯ ---------- */
 .filt-btn{
   display:flex;align-items:center;gap:9px;flex-shrink:0;height:58px;padding:0 22px;
-  border-radius:var(--r-s);cursor:pointer;color:var(--ink);
-  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
-  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
-  font-size:15px;font-weight:600;transition:background .3s,color .3s,border-color .3s;
+  border:0;border-radius:var(--r-s);cursor:pointer;
+  background:var(--glass);backdrop-filter:blur(8px);color:var(--ink);
+  font-size:15px;font-weight:600;transition:background .3s,color .3s;
 }
 .filt-btn svg{width:19px;height:19px}
-.filt-btn:hover{border-color:rgba(255,255,255,.20)}
-.filt-btn.on{
-  background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.03)),rgba(178,52,53,.88);
-  border-color:rgba(240,193,59,.34);color:#fff;
-  box-shadow:inset 0 1px 0 rgba(255,214,178,.34),0 14px 30px -14px rgba(216,70,74,.85);
-}
+.filt-btn:hover{background:var(--red-soft)}
+.filt-btn.on{background:var(--red);color:#fff}
 /* підпис лишається завжди: кнопка-перемикач тільки ним і читається */
 @media(max-width:600px){.filt-btn{padding:0 15px;font-size:14px;gap:7px}.filt-btn svg{width:17px;height:17px}}
 
@@ -385,14 +355,8 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .card{position:relative;border-radius:18px;overflow:hidden;
   background:linear-gradient(rgba(10,7,8,.72) 45%,rgba(10,7,8,0));display:block}
 /* overflow ховає все зайве: під курсором з картки нічого не вилазить */
-.card__img{position:relative;aspect-ratio:1;display:grid;place-items:center;overflow:hidden;
+.card__img{aspect-ratio:1;display:grid;place-items:center;overflow:hidden;
   border-radius:18px 18px 0 0}
-/* Притемнення внизу знімка. Студійні фото на білому інакше обриваються
-   різкою світлою смугою прямо над панеллю з текстом. */
-.card__img::after{
-  content:'';position:absolute;left:0;right:0;bottom:0;height:48%;pointer-events:none;
-  background:linear-gradient(rgba(10,7,8,0),rgba(10,7,8,.62));
-}
 /* намальовану страву підіймаємо, щоб панель з текстом її не перекривала */
 .card__img svg{width:76%;height:auto;aspect-ratio:1;margin-bottom:52px}
 .card__img .pic{width:100%;height:100%;object-fit:contain;border-radius:18px}
@@ -429,18 +393,10 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* Розмиття тут навмисно прибране: карток під сотню, і стільки шарів
    backdrop-filter змушували телефон захлинатися на прокрутці.
    Щільніший градієнт дає той самий вигляд без цієї ціни. */
-.card__in{position:relative;z-index:2;margin-top:-63px;padding:18px;
+.card__in{position:relative;z-index:2;margin-top:-63px;padding:18px;min-height:194px;
   display:flex;flex-direction:column;border-radius:18px;
-  /* Згори майже прозоро — там панель лягає на знімок і має читатися
-     як скло. Донизу гусне: під написами потрібна щільність, інакше
-     на світлих студійних фото текст блякне. */
-  /* починається з нуля, а не з .34: інакше верхній край панелі
-     різав знімок помітною горизонтальною лінією.
-     Світлого канта згори теж немає — саме він і малював ту лінію. */
-  background:linear-gradient(rgba(24,15,16,0) 0%,rgba(18,11,12,.62) 26%,rgba(11,7,8,.92) 100%)}
-/* підстраховка для найсвітліших фото: тінь коштує нічого */
-.card__n,.card__p{text-shadow:0 1px 6px rgba(0,0,0,.75)}
-.card__d,.card__w{text-shadow:0 1px 5px rgba(0,0,0,.7)}
+  background:linear-gradient(rgba(78,46,47,.60),rgba(20,13,14,.88));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
 .card__n{font-size:18px;font-weight:600;line-height:1.2;margin-bottom:11px}
 /* склад розтягується на вільне місце, щоб ціна в усіх картках рядка
    стояла на одній висоті */
@@ -470,7 +426,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .grid{grid-template-columns:1fr 1fr;gap:12px}
   .row-slider .card{flex:0 0 168px}
   .card__img svg{width:80%;margin-bottom:38px}
-  .card__in{margin-top:-47px;padding:14px}
+  .card__in{margin-top:-47px;padding:14px;min-height:151px}
   .card__n{font-size:14px;margin-bottom:8px}
   .card__d{font-size:10.5px;margin-bottom:8px}
   .card__w{font-size:10.5px;min-height:15px;margin-bottom:3px}

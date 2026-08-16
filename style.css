@@ -16,8 +16,19 @@
   --red-soft:rgba(180,54,55,.20);
   --red-tag:rgba(180,54,55,.92);
 
-  --glass:rgba(126,116,118,.30);
-  --glass-2:rgba(126,116,118,.20);
+  /* скло щільне й темне: фон сайту тепер світла ілюстрація, і на
+     прозорому склі світлий текст на ній зникав */
+  --glass:rgba(18,12,13,.72);
+  --glass-2:rgba(18,12,13,.58);
+  /* Спільний рецепт «скла»: темна основа, поверх неї ледь помітний
+     світловий градієнт, волосяний кант і блік згори. Саме кант і блік
+     читаються як скло — сама прозорість цього не дає. */
+  /* .80, а не менше: під найсвітлішими місцями ілюстрації рідше скло
+     сіріє й підпис на ньому блякне */
+  --glass-bg:linear-gradient(rgba(255,255,255,.10),rgba(255,255,255,.015)),rgba(15,10,11,.80);
+  --glass-line:1px solid rgba(255,255,255,.11);
+  --glass-sh:inset 0 1px 0 rgba(255,255,255,.15),0 12px 28px -16px rgba(0,0,0,1);
+  --glass-blur:blur(16px) saturate(140%);
   --line:rgba(238,238,238,.10);
 
   --r-s:11px;
@@ -59,38 +70,15 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 /* ---------- НЕОН І ФОТО-ФОН ---------- */
 .glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#0A0708}
-/* fon.jpg лежить у папці сайту. Ілюстрація світла, тож замість
-   притемнення на 85% (від якого лишалася сіра пляма) перевертаємо її
-   в темний режим: invert робить кремове тло темним, а hue-rotate
-   повертає червоному червоне. Гора й пагода лишаються видні. */
+/* fon.jpg лежить у папці сайту й показується як є: ні фільтрів,
+   ні притемнення поверх. cover — щоб укривала весь екран. */
 .glows::before{
   content:'';position:absolute;inset:0;
-  /* contain, а не cover: картинку видно повністю, без обрізання */
-  background:url(fon.jpg) center / contain no-repeat;
-  filter:invert(1) hue-rotate(180deg) saturate(1.15) brightness(.78);
+  background:url(fon.jpg) center / cover no-repeat;
 }
-/* Тепла плівка поверх. Без неї туман після інверсії холодно-зелений
-   і сперечається з червоною палітрою сайту. Тут же дві широкі заливки
-   згори й знизу — щоб краї не були глухо-чорними. */
-.glows::after{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(120% 62% at 50% -12%,rgba(190,58,60,.24),transparent 62%),
-    radial-gradient(100% 52% at 50% 112%,rgba(150,44,46,.18),transparent 62%),
-    linear-gradient(rgba(70,18,20,.30),rgba(12,7,8,.54) 56%,rgba(8,5,6,.74));
-}
-/* Плями світла лишилися слабкими: тепер атмосферу тримає сама
-   ілюстрація, і яскраві блоби поверх неї тільки каламутили б її. */
-.glow{position:absolute;border-radius:50%}
-.glow-1{width:380px;height:380px;background:rgba(205,64,66,.30);filter:blur(140px);top:2%;left:54%}
-.glow-2{width:440px;height:440px;background:rgba(160,46,48,.16);filter:blur(110px);top:48%;left:-12%}
-.glow-3{width:420px;height:420px;background:rgba(210,66,66,.24);filter:blur(130px);top:118%;left:60%}
-@media(max-width:760px){
-  .glow{position:fixed}
-  .glow-1{width:300px;height:300px;top:18%;left:30%}
-  .glow-2{width:360px;height:360px;top:76%;left:-26%}
-  .glow-3{width:360px;height:360px;top:-6%;left:52%}
-}
+/* Плями світла вимкнено: вони лягали кольоровими хмарами поверх
+   ілюстрації й міняли її вигляд. */
+.glow{display:none}
 
 /* ---------- ХЕДЕР ---------- */
 .header{
@@ -225,7 +213,18 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 
 /* ---------- ГЕРОЙ ---------- */
-.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
+/* Заголовок стоїть просто на ілюстрації, а її небо світле — тож
+   він отримує таку саму темну плашку, як назви розділів у меню.
+   Сама тінь тут не рятувала: білий на кремовому лишався блідим. */
+.h1,.sec-h h2{
+  display:inline-block;border-radius:999px;
+  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
+  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+}
+.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;margin:6px 0 18px;padding:9px 22px}
+/* назви блоків на головній — той самий прийом, вони теж лежать на ілюстрації */
+.sec-h h2{padding:7px 18px}
+.footer__c b,.hours,.sec-h a{text-shadow:0 2px 10px rgba(0,0,0,.85)}
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}
@@ -286,19 +285,31 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .cat{
   flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:8px;
   min-width:88px;padding:11px 12px;border-radius:var(--r-s);cursor:pointer;
-  background:var(--glass);backdrop-filter:blur(8px);border:1px solid transparent;
+  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
+  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
   font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;
-  transition:background .3s,border-color .3s;
+  transition:background .3s,border-color .3s,box-shadow .3s,transform .3s var(--ease);
 }
-.cat:hover{background:var(--red-soft)}
-.cat.on{background:var(--red);border-color:var(--red-hi)}
-.cat svg,.cat .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.cat:hover{border-color:rgba(255,255,255,.20);transform:translateY(-2px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.20),0 16px 32px -16px rgba(0,0,0,1)}
+/* обраний розділ — те саме скло, але червоне, з теплим кантом */
+.cat.on{
+  background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.03)),rgba(178,52,53,.88);
+  border-color:rgba(240,193,59,.34);
+  box-shadow:inset 0 1px 0 rgba(255,214,178,.34),0 14px 30px -14px rgba(216,70,74,.85);
+}
+/* сама іконка теж у склі: обідок і блік роблять із плаского кружка лінзу */
+.cat svg,.cat .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0;
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),inset 0 1px 0 rgba(255,255,255,.22),
+             0 6px 14px -7px rgba(0,0,0,.95)}
 
 /* ---------- ПОШУК ---------- */
 .searchbar{display:flex;gap:11px;padding:18px 0 0}
 .search{
   flex:1;display:flex;align-items:center;gap:11px;height:58px;padding:0 18px;
-  border-radius:var(--r-s);background:var(--glass);backdrop-filter:blur(8px);
+  border-radius:var(--r-s);
+  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
+  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
 }
 .search svg{width:20px;height:20px;color:var(--ink-3);flex-shrink:0}
 .search input{flex:1;min-width:0;background:none;border:0;font-size:16px;font-weight:500}
@@ -310,13 +321,18 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* ---------- КНОПКА СОРТУВАННЯ ---------- */
 .filt-btn{
   display:flex;align-items:center;gap:9px;flex-shrink:0;height:58px;padding:0 22px;
-  border:0;border-radius:var(--r-s);cursor:pointer;
-  background:var(--glass);backdrop-filter:blur(8px);color:var(--ink);
-  font-size:15px;font-weight:600;transition:background .3s,color .3s;
+  border-radius:var(--r-s);cursor:pointer;color:var(--ink);
+  background:var(--glass-bg);border:var(--glass-line);box-shadow:var(--glass-sh);
+  backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+  font-size:15px;font-weight:600;transition:background .3s,color .3s,border-color .3s;
 }
 .filt-btn svg{width:19px;height:19px}
-.filt-btn:hover{background:var(--red-soft)}
-.filt-btn.on{background:var(--red);color:#fff}
+.filt-btn:hover{border-color:rgba(255,255,255,.20)}
+.filt-btn.on{
+  background:linear-gradient(rgba(255,255,255,.16),rgba(255,255,255,.03)),rgba(178,52,53,.88);
+  border-color:rgba(240,193,59,.34);color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,214,178,.34),0 14px 30px -14px rgba(216,70,74,.85);
+}
 /* підпис лишається завжди: кнопка-перемикач тільки ним і читається */
 @media(max-width:600px){.filt-btn{padding:0 15px;font-size:14px;gap:7px}.filt-btn svg{width:17px;height:17px}}
 

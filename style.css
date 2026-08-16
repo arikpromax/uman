@@ -395,9 +395,11 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* Розмиття тут навмисно прибране: карток під сотню, і стільки шарів
    backdrop-filter змушували телефон захлинатися на прокрутці.
    Щільніший градієнт дає той самий вигляд без цієї ціни. */
-.card__in{position:relative;z-index:2;margin-top:-63px;padding:18px;min-height:194px;
+/* Панель щільна, і на фото заходить лише краєм: крізь напівпрозору
+   було видно знімок, і текст читався поверх ролів. */
+.card__in{position:relative;z-index:2;margin-top:-22px;padding:18px;min-height:194px;
   display:flex;flex-direction:column;border-radius:18px;
-  background:linear-gradient(rgba(78,46,47,.60),rgba(20,13,14,.88));
+  background:linear-gradient(rgba(32,20,21,.97),rgba(16,10,11,.99));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
 .card__n{font-size:18px;font-weight:600;line-height:1.2;margin-bottom:11px}
 /* склад розтягується на вільне місце, щоб ціна в усіх картках рядка
@@ -428,7 +430,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .grid{grid-template-columns:1fr 1fr;gap:12px}
   .row-slider .card{flex:0 0 168px}
   .card__img svg{width:80%;margin-bottom:38px}
-  .card__in{margin-top:-47px;padding:14px;min-height:151px}
+  .card__in{margin-top:-18px;padding:14px;min-height:151px}
   .card__n{font-size:14px;margin-bottom:8px}
   .card__d{font-size:10.5px;margin-bottom:8px}
   .card__w{font-size:10.5px;min-height:15px;margin-bottom:3px}

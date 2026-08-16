@@ -7,17 +7,21 @@
 
 :root{
   --bg:#0C0A0B;
-  --ink:#EEEEEE;
-  --ink-2:#A8A6A6;
-  --ink-3:#6E6C6E;
+  --ink:#F4F2F2;
+  /* приглушені сірі підняті: на склі поверх світлої ілюстрації
+     старі #A8A6A6 і #6E6C6E ледь читалися */
+  --ink-2:#CBC7C8;
+  --ink-3:#9C9799;
 
   --red:#B43637;          /* точний колір із логотипа */
   --red-hi:#D8464A;
   --red-soft:rgba(180,54,55,.20);
   --red-tag:rgba(180,54,55,.92);
 
-  --glass:rgba(126,116,118,.30);
-  --glass-2:rgba(126,116,118,.20);
+  /* скло темне: фон сайту — світла ілюстрація, і на прозорому склі
+     світлий текст на ній зникав */
+  --glass:rgba(18,12,13,.72);
+  --glass-2:rgba(18,12,13,.58);
   --line:rgba(238,238,238,.10);
 
   --r-s:11px;
@@ -57,29 +61,17 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .wrap{width:min(100% - 32px,var(--max));margin-inline:auto;position:relative;z-index:2}
 
-/* ---------- НЕОН І ФОТО-ФОН ---------- */
-/* fon.jpg лежить у папці сайту. Градієнт у тому ж записі — це притемнення
-   поверх фото: без нього текст на такому яскравому фоні не читався б. */
-.glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-  background:
-    linear-gradient(rgba(8,5,6,.62),rgba(8,5,6,.74)),
-    url(fon.jpg) center/cover no-repeat;}
-/* широка тепла заливка згори й знизу, щоб тло не було глухо-чорним */
-.glows::before,.glows::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
-  width:150%;height:70%;border-radius:50%;filter:blur(90px)}
-.glows::before{top:-32%;background:radial-gradient(closest-side,rgba(190,58,60,.42),transparent)}
-.glows::after{bottom:-34%;background:radial-gradient(closest-side,rgba(150,44,46,.30),transparent)}
-.glow{position:absolute;border-radius:50%}
-.glow-1{width:380px;height:380px;background:rgba(205,64,66,.72);filter:blur(140px);top:2%;left:54%}
-.glow-2{width:440px;height:440px;background:rgba(160,46,48,.34);filter:blur(110px);top:48%;left:-12%}
-.glow-3{width:420px;height:420px;background:rgba(210,66,66,.55);filter:blur(130px);top:118%;left:60%}
-@media(max-width:760px){
-  .glow{position:fixed}
-  .glow-1{width:300px;height:300px;top:18%;left:30%}
-  .glow-2{width:360px;height:360px;top:76%;left:-26%}
-  .glow-3{width:360px;height:360px;top:-6%;left:52%}
-  .glows::before,.glows::after{width:200%;filter:blur(70px)}
+/* ---------- ФОТО-ФОН ---------- */
+/* fon.jpg лежить у папці сайту й показується як є: ні фільтрів,
+   ні притемнення поверх. cover — щоб укривала весь екран. */
+.glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#0A0708}
+.glows::before{
+  content:'';position:absolute;inset:0;
+  background:url(fon.jpg) center / cover no-repeat;
 }
+/* Плями світла вимкнено: вони лягали кольоровими хмарами поверх
+   ілюстрації й міняли її вигляд. */
+.glow{display:none}
 
 /* ---------- ХЕДЕР ---------- */
 .header{
@@ -214,7 +206,17 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 
 /* ---------- ГЕРОЙ ---------- */
-.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
+/* Заголовки стоять просто на ілюстрації, а небо в неї світле — тож
+   вони отримують темну плашку. Сама тінь не рятувала: білий на
+   кремовому лишався блідим. */
+.h1,.sec-h h2{
+  display:inline-block;border-radius:999px;
+  background:rgba(12,8,9,.74);backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;margin:6px 0 18px;padding:9px 22px}
+.sec-h h2{padding:7px 18px}
+.footer__c b,.hours,.sec-h a{text-shadow:0 2px 10px rgba(0,0,0,.85)}
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}

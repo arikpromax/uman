@@ -65,7 +65,8 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
    повертає червоному червоне. Гора й пагода лишаються видні. */
 .glows::before{
   content:'';position:absolute;inset:0;
-  background:url(fon.jpg) center 30% / cover no-repeat;
+  /* contain, а не cover: картинку видно повністю, без обрізання */
+  background:url(fon.jpg) center / contain no-repeat;
   filter:invert(1) hue-rotate(180deg) saturate(1.15) brightness(.78);
 }
 /* Тепла плівка поверх. Без неї туман після інверсії холодно-зелений

@@ -449,11 +449,10 @@ function cardHTML(m){
           : m.list ? m.list.slice(0,3).join(' · ')+(m.list.length>3?` · +${m.list.length-3}`:'')
           : (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
   // Фото зверху, скляна панель із текстом наїжджає на нього знизу.
-  // Немає справжнього фото — блока з картинкою просто немає: намальована
-  // страва замість знімка виглядала як заглушка.
-  const img = hasPic(m);
-  return `<article class="card${img?'':' card--txt'}" data-open="${m.id}" role="button" tabindex="0">
-    ${img?`<div class="card__img">${pic(m,320)}</div>`:''}
+  // Картинка є завжди: без неї картки виходили різної висоти, і під
+  // короткими зяяла порожнеча.
+  return `<article class="card" data-open="${m.id}" role="button" tabindex="0">
+    <div class="card__img">${pic(m,320)}</div>
     <div class="card__in">
       ${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}
       <h3 class="card__n">${m.n}</h3>

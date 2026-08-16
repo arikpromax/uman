@@ -438,12 +438,6 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
      різав знімок помітною горизонтальною лінією.
      Світлого канта згори теж немає — саме він і малював ту лінію. */
   background:linear-gradient(rgba(24,15,16,0) 0%,rgba(18,11,12,.62) 26%,rgba(11,7,8,.92) 100%)}
-/* Картка без фото — сама панель. Наїжджати нема на що, тож відступ
-   знімаємо, а плашки стають звичайним рядком усередині. */
-.card--txt{background:none}
-.card--txt .card__in{margin-top:0;min-height:0}
-.card--txt .card__tags{position:static;justify-content:flex-start;margin-bottom:10px;
-  max-width:100%}
 /* підстраховка для найсвітліших фото: тінь коштує нічого */
 .card__n,.card__p{text-shadow:0 1px 6px rgba(0,0,0,.75)}
 .card__d,.card__w{text-shadow:0 1px 5px rgba(0,0,0,.7)}

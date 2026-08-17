@@ -545,6 +545,30 @@ document.addEventListener('keydown',e=>{
 /* ============================================================
    ЗАМОВЛЕННЯ В TELEGRAM
    ============================================================ */
+/* Замовлення полями — для рядка в Google-таблиці.
+   Текст для Telegram збирає orderText() окремо. */
+function orderData(){
+  const v = s => ($('#'+s)?.value||'').trim();
+  const addr=[v('fStreet'),v('fHouse')&&'буд. '+v('fHouse'),
+              v('fEnt')&&'підʼїзд '+v('fEnt')].filter(Boolean).join(', ');
+  return {
+    mode : mode || '',
+    name : v('fName'),
+    phone: v('fTel'),
+    addr : mode==='Доставка' ? addr : '',
+    when : v('fWhen')==='На конкретний час' ? 'на '+(v('fTime')||'—') : v('fWhen'),
+    pay  : $('input[name=pay]:checked')?.value || '',
+    pers : v('fPers'),
+    promo: promo ? promo.code : '',
+    sum  : payable(),
+    items: Object.entries(cart).map(([id,q])=>{
+             const m=byId(id); return m ? `${m.n} × ${q}` : '';
+           }).filter(Boolean).join('; '),
+    note : v('fNote'),
+    text : orderText()
+  };
+}
+
 function orderText(){
   const lines=Object.entries(cart).map(([id,q],i)=>{
     const m=byId(id);
@@ -635,6 +659,27 @@ async function sendOrder(){
   if(!validate()) return;
   const btn=$('#send'), txt=orderText();
   btn.disabled=true; btn.textContent='Надсилаємо…';
+
+  /* Основний шлях: наш скрипт у Google. Він пише рядок у таблицю і сам
+     пересилає замовлення в Telegram. Токен бота лежить у скрипті, а не
+     тут: у публічному коді сайту його бачив би кожен.
+     Тіло надсилаємо рядком без свого Content-Type — тоді браузер не
+     робить попередній запит OPTIONS, якого Apps Script не розуміє. */
+  if(SHOP.hook){
+    try{
+      const sum = payable();
+      await fetch(SHOP.hook, { method:'POST', body: JSON.stringify(orderData()) });
+      cart={}; promo=null; save(); renderCart(); setStep('cart');
+      closeCheckout(); openCart(false);
+      thanksScreen(sum);
+      btn.disabled=false; btn.innerHTML='<span>Надіслати замовлення</span>';
+      return;
+    }catch(err){
+      toast('Не вдалося надіслати — спробуйте ще раз або подзвоніть');
+      btn.disabled=false; btn.innerHTML='<span>Надіслати замовлення</span>';
+      return;
+    }
+  }
 
   if(SHOP.tg.token && SHOP.tg.chat){
     try{

@@ -131,7 +131,7 @@ function renderCats(){
   $('#cats').innerHTML = [{id:'all',n:CATALL.n},...live].map(c=>
     `<button class="cat" data-c="${c.id}">${
       c.id==='all'
-        ? pic({t:'set',ing:['losos','krev','avo'],n:c.n,img:CATIMG.all},40)
+        ? picDraw({t:'set',ing:['losos','krev','avo'],n:c.n,img:CATIMG.all},40)
         : catIcon(c)
     }${c.n}</button>`).join('');
 }

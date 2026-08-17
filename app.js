@@ -27,7 +27,18 @@ function thumb(m,cls){
   return `<div class="${cls}"><img class="pic" src="${esc(u)}" alt="" loading="lazy" decoding="async"></div>`;
 }
 
+/* Страва: тільки справжнє фото. Немає фото — місце лишається порожнім,
+   а не заповнюється намальованою заглушкою. Розмір блока від цього не
+   змінюється, тож картки в ряду однакової висоти. */
 function pic(m,size){
+  const u = m && m.img;
+  if(u && /^https?:\/\//.test(u))
+    return `<img class="pic" src="${esc(u)}" alt="${esc(m.n)}" loading="lazy" decoding="async">`;
+  return '';
+}
+
+/* Там, де малюнок доречний і без фото — іконки розділів у стрічці. */
+function picDraw(m,size){
   const u = m && m.img;
   if(u && /^https?:\/\//.test(u))
     return `<img class="pic" src="${esc(u)}" alt="${esc(m.n)}" loading="lazy" decoding="async">`;
@@ -69,7 +80,7 @@ const CATIMG = {};
 // Назву й картинку їй теж задають в адмінці — рядком з catkey «all».
 const CATALL = { n:'Усі' };
 const catIcon = c =>
-  pic({ ...(CAT_ART[c.id] || {t:'roll',ing:['losos']}), n:c.n, img:CATIMG[c.id] }, 40);
+  picDraw({ ...(CAT_ART[c.id] || {t:'roll',ing:['losos']}), n:c.n, img:CATIMG[c.id] }, 40);
 
 /* ---------- режим роботи ---------- */
 const hm = s => { const m=/^(\d{1,2}):(\d{2})$/.exec(String(s||'').trim());

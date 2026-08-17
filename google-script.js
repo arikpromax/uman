@@ -53,26 +53,25 @@ function doPost(e) {
   // 2. те саме в Telegram
   if (TOKEN && CHAT) {
     var tel = normPhone(d.phone);
-    // у тексті ставимо номер міжнародним — тоді Telegram сам робить
-    // його натисним, і по ньому можна подзвонити прямо з повідомлення
-    var text = d.text || 'Нове замовлення';
-    if (tel && d.phone) text = text.split(d.phone).join(tel);
+    var text = esc(d.text || 'Нове замовлення');
+    // номер міжнародним — тоді Telegram сам робить його натисним
+    if (tel && d.phone) text = text.split(esc(d.phone)).join(tel);
+    // Посилання для дзвінка прямо під замовленням. Кнопкою це зробити
+    // не можна: tel: в інлайн-клавіатурі Telegram відхиляє, а в тексті
+    // приймає. Тому саме посиланням, і саме тут, а не окремою карткою.
+    if (tel) text += '\n\n<a href="tel:' + tel + '">Подзвонити замовнику</a>';
 
-    tg('sendMessage', { chat_id: CHAT, text: text });
-
-    // Картка контакту: у ній кнопка «Подзвонити» вбудована.
-    // Звичайною кнопкою це не зробити — Telegram не приймає tel: у них.
-    if (tel) {
-      tg('sendContact', {
-        chat_id: CHAT,
-        phone_number: tel,
-        first_name: d.name || 'Замовник',
-        last_name: d.mode === 'Самовиніс' ? '· самовиніс' : '· доставка'
-      });
-    }
+    tg('sendMessage', { chat_id: CHAT, text: text, parse_mode: 'HTML' });
   }
 
   return ContentService.createTextOutput('ok');
+}
+
+/* Текст іде як HTML, тож кутові дужки з імені чи коментаря
+   треба знешкодити — інакше Telegram відмовиться його показати. */
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function tg(method, payload) {

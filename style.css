@@ -652,7 +652,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   color:var(--ink-2);font-size:14px;cursor:pointer;transition:color .25s,border-color .25s}
 .promo__b:hover{color:var(--red-hi);border-color:var(--red)}
 .promo__f{display:flex;gap:8px}
-.promo__f input{flex:1;min-width:0;padding:11px 13px;background:var(--glass-2);border:1px solid transparent;
+.promo__f input{flex:1;min-width:0;padding:11px 13px;background:var(--glass-2);border:1px solid rgba(255,255,255,.30);
   border-radius:var(--r-s);font-size:15px;text-transform:uppercase}
 .promo__f input:focus{outline:0;border-color:var(--red)}
 .promo__f .btn{padding:11px 16px;font-size:13px}
@@ -664,13 +664,13 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .fld label,.fld__l{display:block;font-size:12px;color:var(--ink-3);font-weight:500}
 .fld input,.fld select,.fld textarea{
   width:100%;margin-top:5px;padding:12px 14px;background:var(--glass-2);
-  border:1px solid transparent;border-radius:var(--r-s);font-size:15px;resize:vertical;
+  border:1px solid rgba(255,255,255,.30);border-radius:var(--r-s);font-size:15px;resize:vertical;
 }
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:0;border-color:var(--red)}
 .fld .bad{border-color:var(--red-hi)}
 /* свій лічильник: системні стрілочки в number виглядають чужорідно */
 .stp{display:flex;align-items:center;margin-top:5px;height:46px;
-  background:var(--glass-2);border:1px solid transparent;border-radius:var(--r-s);overflow:hidden}
+  background:var(--glass-2);border:1px solid rgba(255,255,255,.30);border-radius:var(--r-s);overflow:hidden}
 .stp button{width:46px;align-self:stretch;background:none;border:0;cursor:pointer;
   color:var(--ink-2);font-size:20px;line-height:1;transition:background .25s,color .25s}
 .stp button:hover{background:var(--red-soft);color:#fff}
@@ -683,6 +683,8 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .addr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .fld__l+.pay{margin-top:6px}
+/* поле часу стоїть у тій самій колонці, що й «Коли» */
+#timeBox{margin-top:10px}
 .fld__l--2{display:block;margin-top:10px}
 /* підказка під лічильниками паличок */
 .fld__h{margin:8px 0 0;font-size:12.5px;color:var(--ink-3);line-height:1.35}
@@ -699,7 +701,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .sum b{font-size:24px}
 .frm{display:grid;gap:9px}
 .frm input,.frm textarea{
-  width:100%;padding:12px 14px;background:var(--glass-2);border:1px solid transparent;
+  width:100%;padding:12px 14px;background:var(--glass-2);border:1px solid rgba(255,255,255,.30);
   border-radius:var(--r-s);font-size:15px;resize:vertical;
 }
 .frm input:focus,.frm textarea:focus{outline:0;border-color:var(--red)}
@@ -709,7 +711,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .pay label{
   flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:11px 8px;
   background:var(--glass-2);border-radius:var(--r-s);cursor:pointer;font-size:13.5px;
-  border:1px solid transparent;
+  border:1px solid rgba(255,255,255,.30);
 }
 .pay input{display:none}
 .pay input:checked+span{color:var(--red-hi);font-weight:600}

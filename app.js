@@ -835,7 +835,10 @@ function mountShell(page){
             </div>
           </div>
           <div class="fld two">
-            <label>Коли<select id="fWhen"><option>Якнайшвидше</option><option>Через 1 годину</option><option>Через 2 години</option><option>На конкретний час</option></select></label>
+            <div>
+              <label>Коли<select id="fWhen"><option>Якнайшвидше</option><option>Через 1 годину</option><option>Через 2 години</option><option>На конкретний час</option></select></label>
+              <div id="timeBox" hidden><label>Час<input id="fTime" type="time" min="10:00" max="21:30" step="900"></label></div>
+            </div>
             <div>
               <span class="fld__l">Приборів</span>
               <div class="stp">
@@ -859,9 +862,6 @@ function mountShell(page){
               <p class="fld__h" id="sticksLeft"></p>
               </div>
             </div>
-          </div>
-          <div class="fld" id="timeBox" hidden>
-            <label>Час<input id="fTime" type="time" min="10:00" max="21:30" step="900"></label>
           </div>
           <div class="fld">
             <span class="fld__l">Оплата</span>

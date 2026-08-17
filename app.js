@@ -485,7 +485,7 @@ document.addEventListener('click',e=>{
   if(del){ delete cart[del.dataset.del]; save(); renderCart(); return; }
   const ps=e.target.closest('[data-pers]');
   if(ps){
-    const el=$('#fPers');
+    const el=$('#'+(ps.dataset.for||'fPers'));
     el.value = Math.max(0, Math.min(20, (parseInt(el.value,10)||0) + (+ps.dataset.pers)));
     return;
   }
@@ -570,6 +570,8 @@ function orderData(){
     when : v('fWhen')==='На конкретний час' ? 'на '+(v('fTime')||'—') : v('fWhen'),
     pay  : $('input[name=pay]:checked')?.value || '',
     pers : v('fPers'),
+    stick : v('fStick'),
+    stickL: v('fStickL'),
     promo: promo ? promo.code : '',
     sum  : payable(),
     items: Object.entries(cart).map(([id,q])=>{
@@ -603,6 +605,7 @@ function orderText(){
     `Оплата: ${pay}`,
     `Коли: ${when}`,
     `Приборів: ${v('fPers')||'—'}`,
+    `Палички: ${v('fStick')||'0'} звич.` + (+v('fStickL') ? `, ${v('fStickL')} навч.` : ''),
     '',
     `Імʼя: ${v('fName')||'—'}`,
     `Телефон: ${v('fTel')||'—'}`,
@@ -814,9 +817,21 @@ function mountShell(page){
             <div>
               <span class="fld__l">Приборів</span>
               <div class="stp">
-                <button type="button" data-pers="-1" aria-label="Менше">−</button>
+                <button type="button" data-pers="-1" data-for="fPers" aria-label="Менше">−</button>
                 <input id="fPers" type="text" inputmode="numeric" value="2" aria-label="Кількість приборів">
-                <button type="button" data-pers="1" aria-label="Більше">+</button>
+                <button type="button" data-pers="1" data-for="fPers" aria-label="Більше">+</button>
+              </div>
+              <span class="fld__l fld__l--2">Палички звичайні</span>
+              <div class="stp">
+                <button type="button" data-pers="-1" data-for="fStick" aria-label="Менше">−</button>
+                <input id="fStick" type="text" inputmode="numeric" value="2" aria-label="Звичайні палички">
+                <button type="button" data-pers="1" data-for="fStick" aria-label="Більше">+</button>
+              </div>
+              <span class="fld__l fld__l--2">Палички навчальні</span>
+              <div class="stp">
+                <button type="button" data-pers="-1" data-for="fStickL" aria-label="Менше">−</button>
+                <input id="fStickL" type="text" inputmode="numeric" value="0" aria-label="Навчальні палички">
+                <button type="button" data-pers="1" data-for="fStickL" aria-label="Більше">+</button>
               </div>
             </div>
           </div>

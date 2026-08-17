@@ -216,7 +216,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;margin:6px 0 18px;padding:9px 22px}
 .sec-h h2{padding:7px 18px}
-.footer__c b,.hours,.sec-h a{text-shadow:0 2px 10px rgba(0,0,0,.85)}
+
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}
@@ -462,18 +462,24 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .center{display:flex;justify-content:center;padding:26px 0 0}
 
 /* ---------- ГОДИНИ РОБОТИ ---------- */
+/* Рядок графіка теж стоїть просто на ілюстрації. Той самий прийом,
+   що й у підвалі: ореол на літерах, без плашки. */
 .hours{
   display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
   padding:38px 0 6px;text-align:center;font-size:clamp(15px,2vw,19px);font-weight:600;
+  text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.75);
 }
 .hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal;flex-shrink:0}
 .hours em{font-style:normal;color:var(--ink-3);font-weight:400;font-size:14px}
 /* зараз відчинено / зачинено — рахується за годинами з адмінки */
 .hours--open i{background:#4E9A3A;box-shadow:0 0 0 4px rgba(78,154,58,.18)}
 .hours--shut i{background:var(--ink-3)}
+/* позначка «зараз відчинено» — щільніша, бо напівпрозора зеленню на
+   світлому тумані розпливалася в пляму */
 .hours__st{font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;
-  background:var(--glass-2);color:var(--ink-2)}
-.hours--open .hours__st{background:rgba(78,154,58,.16);color:#8FD478}
+  background:rgba(18,12,13,.82);color:var(--ink-2);text-shadow:none}
+.hours--open .hours__st{background:rgba(30,58,24,.88);color:#9EE083}
+
 
 /* ---------- ІНФО-КАРТКИ ---------- */
 .info{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:8px}
@@ -491,18 +497,32 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .info dd{margin:0;font-weight:600;text-align:right}
 
 /* ---------- КОНТАКТИ / ФУТЕР ---------- */
+/* Підвал лежить просто на ілюстрації, а вона внизу світла — туман і
+   гори. Тому не плашка, а темний ореол навколо самих літер: він не
+   малює прямокутника, але відриває текст від будь-якого тла. */
 .footer{
   margin-top:44px;padding:26px 0 calc(var(--nav-h) + 34px);
-  border-top:1px solid var(--line);
+  border-top:1px solid rgba(40,28,29,.22);
 }
 @media(min-width:861px){.footer{padding-bottom:120px}}
+/* Підвал на темних плашках — тим самим прийомом, що заголовок і
+   рядок графіка. На світлому тумані інакше не читається, а тіні
+   на літерах виглядали брудно. */
+.footer__in,.copy{background:rgba(12,8,9,.78);border-radius:var(--r-m);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:22px 24px}
+.copy{margin-top:12px;padding:14px 22px;border-top:0}
 .footer__in{display:flex;gap:30px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start}
 .footer h4{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px;font-weight:600}
 .footer ul{list-style:none;margin:0;padding:0;font-size:15px;color:var(--ink-2)}
 .footer li{padding:4px 0}
 .footer a:hover{color:var(--red-hi)}
 .footer__big{font-size:22px;font-weight:700;color:var(--ink)}
-.copy{padding-top:22px;margin-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-3);display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
+.copy{padding-top:22px;margin-top:22px;border-top:1px solid var(--line);font-size:12.5px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
+/* Ці правила стоять після базових навмисно: дрібні сірі підписи на
+   світлому тумані тонули найперше, тож у підвалі вони світлішають. */
+.footer h4{color:var(--ink-2)}
+.footer ul{color:var(--ink)}
+.copy{color:var(--ink-2)}
 
 /* ---------- КОШИК ----------
    Обгортка обрізає засунуту панель: інакше translateX(101%)
@@ -663,6 +683,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .addr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .fld__l+.pay{margin-top:6px}
+.fld__l--2{display:block;margin-top:10px}
 .cart__empty{display:grid;place-items:center;gap:12px;height:100%;text-align:center;color:var(--ink-3);padding:40px 0}
 .cart__empty svg{width:56px;height:56px;opacity:.4;stroke-width:1.4}
 .cart__f{padding:16px 20px 20px;border-top:1px solid var(--line)}

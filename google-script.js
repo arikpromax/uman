@@ -52,17 +52,49 @@ function doPost(e) {
 
   // 2. те саме в Telegram
   if (TOKEN && CHAT) {
-    try {
-      UrlFetchApp.fetch('https://api.telegram.org/bot' + TOKEN + '/sendMessage', {
-        method: 'post',
-        contentType: 'application/json',
-        muteHttpExceptions: true,
-        payload: JSON.stringify({ chat_id: CHAT, text: d.text || 'Нове замовлення' })
+    var tel = normPhone(d.phone);
+    // у тексті ставимо номер міжнародним — тоді Telegram сам робить
+    // його натисним, і по ньому можна подзвонити прямо з повідомлення
+    var text = d.text || 'Нове замовлення';
+    if (tel && d.phone) text = text.split(d.phone).join(tel);
+
+    tg('sendMessage', { chat_id: CHAT, text: text });
+
+    // Картка контакту: у ній кнопка «Подзвонити» вбудована.
+    // Звичайною кнопкою це не зробити — Telegram не приймає tel: у них.
+    if (tel) {
+      tg('sendContact', {
+        chat_id: CHAT,
+        phone_number: tel,
+        first_name: d.name || 'Замовник',
+        last_name: d.mode === 'Самовиніс' ? '· самовиніс' : '· доставка'
       });
-    } catch (err) {}
+    }
   }
 
   return ContentService.createTextOutput('ok');
+}
+
+function tg(method, payload) {
+  try {
+    UrlFetchApp.fetch('https://api.telegram.org/bot' + TOKEN + '/' + method, {
+      method: 'post',
+      contentType: 'application/json',
+      muteHttpExceptions: true,
+      payload: JSON.stringify(payload)
+    });
+  } catch (err) {}
+}
+
+/* 0971234567 → +380971234567. Без міжнародного формату Telegram
+   не впізнає номер і не дасть по ньому подзвонити. */
+function normPhone(s) {
+  var d = String(s || '').replace(/\D/g, '');
+  if (!d) return '';
+  if (d.length === 10 && d.charAt(0) === '0') return '+38' + d;
+  if (d.length === 12 && d.substring(0, 2) === '38') return '+' + d;
+  if (d.length === 9) return '+380' + d;
+  return '+' + d;
 }
 
 /* Відкриття посилання в браузері — щоб можна було перевірити,

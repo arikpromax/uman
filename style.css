@@ -684,6 +684,8 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .addr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .fld__l+.pay{margin-top:6px}
 .fld__l--2{display:block;margin-top:10px}
+/* підказка під лічильниками паличок */
+.fld__h{margin:8px 0 0;font-size:12.5px;color:var(--ink-3);line-height:1.35}
 .cart__empty{display:grid;place-items:center;gap:12px;height:100%;text-align:center;color:var(--ink-3);padding:40px 0}
 .cart__empty svg{width:56px;height:56px;opacity:.4;stroke-width:1.4}
 .cart__f{padding:16px 20px 20px;border-top:1px solid var(--line)}

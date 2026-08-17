@@ -487,6 +487,7 @@ document.addEventListener('click',e=>{
   if(ps){
     const el=$('#'+(ps.dataset.for||'fPers'));
     el.value = Math.max(0, Math.min(20, (parseInt(el.value,10)||0) + (+ps.dataset.pers)));
+    syncSticks();
     return;
   }
   const op=e.target.closest('[data-open]');
@@ -511,10 +512,31 @@ function openCart(v){
 }
 
 /* ---------- повноекранне оформлення ---------- */
+/* Палички зʼявляються тільки коли є прибори, і разом їх не може бути
+   більше, ніж приборів: інакше в замовленні виходила б нісенітниця
+   на кшталт «1 прибор, 5 паличок». Зайве зрізається саме тут. */
+function syncSticks(){
+  const box = $('#sticksBox'); if(!box) return;
+  const n = Math.max(0, parseInt($('#fPers')?.value, 10) || 0);
+  box.hidden = n === 0;
+  const a = $('#fStick'), b = $('#fStickL');
+  if(!a || !b) return;
+  let av = Math.max(0, parseInt(a.value,10) || 0);
+  let bv = Math.max(0, parseInt(b.value,10) || 0);
+  if(av > n) av = n;
+  if(av + bv > n) bv = n - av;
+  a.value = av; b.value = bv;
+  const hint = $('#sticksLeft');
+  if(hint) hint.textContent = n
+    ? 'Разом ' + (av + bv) + ' із ' + n + ' — більше, ніж приборів, покласти не можемо'
+    : '';
+}
+
 function openCheckout(){
   if(total()<minSum()){ toast('Мінімальне замовлення '+SHOP.minOrder+' ₴'); return; }
   $('#addrBox').hidden = mode==='Самовиніс';
   renderCheckout();
+  syncSticks();
   const co=$('#checkout'); co.hidden=false;
   requestAnimationFrame(()=>co.classList.add('on'));
   syncLock();
@@ -821,6 +843,7 @@ function mountShell(page){
                 <input id="fPers" type="text" inputmode="numeric" value="2" aria-label="Кількість приборів">
                 <button type="button" data-pers="1" data-for="fPers" aria-label="Більше">+</button>
               </div>
+              <div id="sticksBox" hidden>
               <span class="fld__l fld__l--2">Палички звичайні</span>
               <div class="stp">
                 <button type="button" data-pers="-1" data-for="fStick" aria-label="Менше">−</button>
@@ -832,6 +855,8 @@ function mountShell(page){
                 <button type="button" data-pers="-1" data-for="fStickL" aria-label="Менше">−</button>
                 <input id="fStickL" type="text" inputmode="numeric" value="0" aria-label="Навчальні палички">
                 <button type="button" data-pers="1" data-for="fStickL" aria-label="Більше">+</button>
+              </div>
+              <p class="fld__h" id="sticksLeft"></p>
               </div>
             </div>
           </div>

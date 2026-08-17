@@ -2,3 +2,6 @@
 _old-index.html
 _t*.html
 _probe.html
+
+# заповнений скрипт із токеном — у репозиторій не потрапляє
+google-script-ready.js

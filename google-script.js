@@ -56,12 +56,20 @@ function doPost(e) {
     var text = esc(d.text || 'Нове замовлення');
     // номер міжнародним — тоді Telegram сам робить його натисним
     if (tel && d.phone) text = text.split(esc(d.phone)).join(tel);
-    // Посилання для дзвінка прямо під замовленням. Кнопкою це зробити
-    // не можна: tel: в інлайн-клавіатурі Telegram відхиляє, а в тексті
-    // приймає. Тому саме посиланням, і саме тут, а не окремою карткою.
-    if (tel) text += '\n\n<a href="tel:' + tel + '">Подзвонити замовнику</a>';
-
     tg('sendMessage', { chat_id: CHAT, text: text, parse_mode: 'HTML' });
+
+    /* Кнопки для дзвінка в Telegram не буває: посилання tel: він
+       відхиляє в клавіатурі й мовчки викидає з тексту — перевірено,
+       у збережених сутностях його немає. Працює лише картка
+       контакту: кнопку дзвінка в ній малює сам Telegram. */
+    if (tel) {
+      tg('sendContact', {
+        chat_id: CHAT,
+        phone_number: tel,
+        first_name: d.name || 'Замовник',
+        last_name: d.mode === 'Самовиніс' ? '· самовиніс' : '· доставка'
+      });
+    }
   }
 
   return ContentService.createTextOutput('ok');

@@ -470,7 +470,9 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.75);
 }
 .hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal;flex-shrink:0}
-.hours em{font-style:normal;color:var(--ink-3);font-weight:400;font-size:14px}
+/* «Понеділок — санітарний день» виглядає так само, як графік ліворуч:
+   раніше він був дрібніший і сірий, і читався як другорядна примітка */
+.hours em{font-style:normal}
 /* зараз відчинено / зачинено — рахується за годинами з адмінки */
 .hours--open i{background:#4E9A3A;box-shadow:0 0 0 4px rgba(78,154,58,.18)}
 .hours--shut i{background:var(--ink-3)}

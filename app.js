@@ -941,9 +941,15 @@ function openProduct(id){
     <div class="pv__info">
       ${badges(m).length?`<div class="pv__tags">${badges(m).join('')}</div>`:''}
       <h1>${m.n}</h1>
-      ${m.d?`<p class="pv__d">${m.d}</p>`:''}
-      ${m.list?`<ul class="pv__list">${m.list.map(x=>`<li>${x}</li>`).join('')}</ul>`
-              :ing?`<p class="pv__d">${ing}</p>`:''}
+      ${/* Склад завжди списком — і в сетів, і в звичайних страв.
+            У страв він написаний через кому, тож ріжемо по ній. */''}
+      ${(() => {
+        const rows = m.list && m.list.length ? m.list
+                   : String(m.d || ing || '').split(/[,;]/).map(s=>s.trim()).filter(Boolean);
+        return rows.length
+          ? `<ul class="pv__list">${rows.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`
+          : '';
+      })()}
       <div class="pv__meta">${m.w||''}</div>
       <div class="pv__b">
         <span class="pv__p${sale(m)?' sale':''}">${sale(m)?`<s>${m.p}</s>`:''}${P(m)}<em> ₴</em></span>

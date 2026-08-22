@@ -100,7 +100,7 @@ function renderBanners(){
 
   $('#banners').innerHTML = BAN.map(b=>{
     const m = b.m, was = sale(m) ? m.p : null;
-    return `<div class="banner">
+    return `<div class="banner" data-open="${m.id}" role="button" tabindex="0">
       <div class="banner__art">${pic(m, 300)}</div>
       <div class="banner__in">
         ${was?`<span class="banner__tag">Акція</span>`:''}

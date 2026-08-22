@@ -461,8 +461,12 @@ function cardHTML(m){
   return `<article class="card" data-open="${m.id}" role="button" tabindex="0">
     <div class="card__img">${pic(m,320)}</div>
     <div class="card__in">
-      ${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}
-      <h3 class="card__n">${m.n}</h3>
+      ${/* плашки стоять у рядку з назвою, а не висять над фото:
+            так картка виглядає однаково і зі знімком, і без нього */''}
+      <div class="card__head">
+        <h3 class="card__n">${m.n}</h3>
+        ${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}
+      </div>
       <p class="card__d">${d}</p>
       <div class="card__w">${m.w||''}</div>
       <div class="card__p${sale(m)?' sale':''}">${

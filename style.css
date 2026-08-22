@@ -208,10 +208,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* ---------- ГЕРОЙ ---------- */
 /* Заголовки — просто текст, без плашки, на вимогу власника.
    На світлих ділянках ілюстрації вони бліднуть — це свідомий вибір. */
-/* Заголовки на плашках. Колір суцільний, без прозорості й розмиття:
-   напівпрозора плашка пропускала світле небо ілюстрації і сіріла. */
-.h1,.sec-h h2,.hours em{display:inline-block;border-radius:999px;background:#100B0C}
-.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;margin:6px 0 18px;padding:9px 22px}
+.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
 
 
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
@@ -338,7 +335,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 /* ---------- ЗАГОЛОВКИ РОЗДІЛІВ ---------- */
 .sec-h{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:34px 0 16px}
-.sec-h h2{font-size:clamp(20px,2.6vw,26px);font-weight:600;padding:7px 18px}
+.sec-h h2{font-size:clamp(20px,2.6vw,26px);font-weight:600}
 .sec-h a{font-size:14px;color:var(--red-hi);font-weight:600;white-space:nowrap}
 
 /* ---------- КАРТКИ СТРАВ ---------- */
@@ -471,7 +468,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal;flex-shrink:0}
 /* «Понеділок — санітарний день» виглядає так само, як графік ліворуч:
    раніше він був дрібніший і сірий, і читався як другорядна примітка */
-.hours em{font-style:normal;padding:5px 14px}
+.hours em{font-style:normal}
 /* зараз відчинено / зачинено — рахується за годинами з адмінки */
 .hours--open i{background:#4E9A3A;box-shadow:0 0 0 4px rgba(78,154,58,.18)}
 .hours--shut i{background:var(--ink-3)}

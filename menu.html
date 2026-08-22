@@ -30,15 +30,10 @@
   .cats--pill .cat svg,.cats--pill .cat .pic{width:24px;height:24px}
   .grp{padding-top:12px}
   /* Назва розділу висить під смугою категорій, доки розділ не скінчиться.
-     width:max-content — щоб плашка обтискала текст, а не тягнулась на
-     всю ширину й не перекривала картки праворуч. */
+     Плашки немає — просто текст, як і решта заголовків сайту. */
   .grp h2{position:sticky;top:138px;z-index:30;width:max-content;
-    font-size:clamp(19px,2.4vw,24px);font-weight:600;
-    margin:26px 0 14px;padding:9px 18px;border-radius:999px;
-    background:rgba(13,9,10,.90);backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    box-shadow:0 10px 26px -14px rgba(0,0,0,.95)}
-  @media(max-width:600px){.grp h2{top:126px;padding:8px 15px}}
+    font-size:clamp(19px,2.4vw,24px);font-weight:600;margin:26px 0 14px}
+  @media(max-width:600px){.grp h2{top:126px}}
 </style>
 </head>
 <body>

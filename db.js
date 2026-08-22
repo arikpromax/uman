@@ -51,15 +51,25 @@ Promise.all([
   /* токен Telegram свідомо НЕ беремо з бази: тексти читаються публічно,
      тож в адмінці йому не місце — він лишається в data.js */
 
-  /* ---------- 2. Розділи меню: назва і власна іконка ---------- */
-  (by.cats || []).forEach(r=>{
-    const k = str((r.extra||{}).catkey); if(!k) return;
-    if(r.image_url) CATIMG[k] = r.image_url;
-    // «Усі» — не розділ меню, а перша кнопка стрічки; свого списку страв не має
-    if(k === 'all'){ if(str(r.title)) CATALL.n = str(r.title); return; }
-    const c = CATS.find(x => x.id === k);
-    if(c && str(r.title)) c.n = str(r.title);
-  });
+  /* ---------- 2. Розділи меню ----------
+     Список будується з адмінки цілком, а не лише перейменовує вбудований:
+     інакше доданий там розділ ніде б не зʼявився. Порядок теж звідти. */
+  const catRows = by.cats || [];
+  if(catRows.length){
+    const fresh = [];
+    catRows.forEach(r=>{
+      const k = str((r.extra||{}).catkey); if(!k) return;
+      if(r.image_url) CATIMG[k] = r.image_url;
+      // «Усі» — не розділ меню, а перша кнопка стрічки; свого списку страв не має
+      if(k === 'all'){ if(str(r.title)) CATALL.n = str(r.title); return; }
+      fresh.push({ id:k, n: str(r.title) || k });
+    });
+    // якщо в базі самі порожні рядки — лишаємо вбудований список
+    if(fresh.length){
+      CATS.length = 0;
+      Array.prototype.push.apply(CATS, fresh);
+    }
+  }
 
   /* ---------- 2б. Промокоди ---------- */
   const promos = by.promos || [];

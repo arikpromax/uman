@@ -206,16 +206,10 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 
 /* ---------- ГЕРОЙ ---------- */
-/* Заголовки стоять просто на ілюстрації, а небо в неї світле — тож
-   вони отримують темну плашку. Сама тінь не рятувала: білий на
-   кремовому лишався блідим. */
-.h1,.sec-h h2{
-  display:inline-block;border-radius:999px;
-  background:rgba(13,9,10,.90);backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-}
-.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;margin:6px 0 18px;padding:9px 22px}
-.sec-h h2{padding:7px 18px}
+/* Заголовки — просто текст, без плашки, на вимогу власника.
+   На світлих ділянках ілюстрації вони бліднуть — це свідомий вибір. */
+.h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
+
 
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
@@ -472,11 +466,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal;flex-shrink:0}
 /* «Понеділок — санітарний день» виглядає так само, як графік ліворуч:
    раніше він був дрібніший і сірий, і читався як другорядна примітка */
-/* примітка про санітарний день — на такій самій темній плашці,
-   як заголовки: сам текст на світлому тлі губився */
-.hours em{font-style:normal;padding:5px 14px;border-radius:999px;
-  background:rgba(13,9,10,.90);backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px)}
+.hours em{font-style:normal}
 /* зараз відчинено / зачинено — рахується за годинами з адмінки */
 .hours--open i{background:#4E9A3A;box-shadow:0 0 0 4px rgba(78,154,58,.18)}
 .hours--shut i{background:var(--ink-3)}
@@ -511,12 +501,6 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   border-top:1px solid rgba(40,28,29,.22);
 }
 @media(min-width:861px){.footer{padding-bottom:120px}}
-/* Підвал на темних плашках — тим самим прийомом, що заголовок і
-   рядок графіка. На світлому тумані інакше не читається, а тіні
-   на літерах виглядали брудно. */
-.footer__in,.copy{background:rgba(12,8,9,.78);border-radius:var(--r-m);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:22px 24px}
-.copy{margin-top:12px;padding:14px 22px;border-top:0}
 .footer__in{display:flex;gap:30px;flex-wrap:wrap;justify-content:space-between;align-items:flex-start}
 .footer h4{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px;font-weight:600}
 .footer ul{list-style:none;margin:0;padding:0;font-size:15px;color:var(--ink-2)}

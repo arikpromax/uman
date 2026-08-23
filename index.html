@@ -154,9 +154,20 @@ window.rerender = () => { renderCats(); renderBanners(); renderTops(); };
 
 
 /* ---------- пошук веде на сторінку меню ---------- */
-$('#q').addEventListener('keydown',e=>{
-  if(e.key==='Enter' && e.target.value.trim())
-    location.href='menu.html?q='+encodeURIComponent(e.target.value.trim());
+/* Пошук на головній веде на сторінку меню. Раніше це працювало
+   лише по Enter — на телефоні його майже ніхто не тисне, і поле
+   здавалося зламаним. Тепер переходимо і під час набору. */
+let qgo;
+function goSearch(v){
+  const s = String(v||'').trim();
+  if(s.length < 2) return;
+  location.href = 'menu.html?q=' + encodeURIComponent(s);
+}
+$('#q').addEventListener('keydown',e=>{ if(e.key==='Enter') goSearch(e.target.value); });
+$('#q').addEventListener('input',e=>{
+  clearTimeout(qgo);
+  const v = e.target.value;
+  qgo = setTimeout(()=>goSearch(v), 700);
 });
 </script>
 <script src="fx.js"></script>

@@ -80,6 +80,7 @@ let cat = par.get('c') || 'all';
 let q   = par.get('q') || '';
 $('#q').value = q;
 $('#qx').hidden = !q;
+if(q) setTimeout(()=>{ const e=$('#q'); e.focus(); e.setSelectionRange(q.length,q.length); },0);
 
 $('#filtSlot').outerHTML = sortBtnHTML();
 wireSort(render);

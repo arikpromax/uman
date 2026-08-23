@@ -352,7 +352,6 @@ function renderCond(){
          <div class="cond__r"><span>Мінімальна сума</span><b>${SHOP.minOrder} ₴</b></div>
          <div class="cond__r ${free?'ok':''}"><span>Безкоштовно від</span><b>${SHOP.freeFrom} ₴</b></div>
          <div class="cond__r"><span>По місту</span><b>${free?'безкоштовно':'за тарифом'}</b></div>
-         <div class="cond__r"><span>Понад ${SHOP.farKm} км</span><b>+${SHOP.farFee} ₴ за км</b></div>
          <p class="cond__n">${free
             ? 'Доставка по Умані безкоштовна — сума вже достатня.'
             : `Додайте ще ${uah(SHOP.freeFrom-t)}, щоб доставка стала безкоштовною.`}</p>

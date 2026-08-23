@@ -17,6 +17,15 @@ const ROOT = window.SITE_ROOT || '';
 const FILE = location.protocol === 'file:';
 const HOME = FILE ? ROOT + 'index.html'      : '/';
 const MENU = FILE ? ROOT + 'menu/index.html' : '/menu/';
+
+/* Браузер підставляє з історії стару адресу з index.html — сторінка та
+   сама, але напис у рядку негарний. Тихо виправляємо його, без
+   перезавантаження. На файлі з диска не чіпаємо: там index.html
+   потрібен по-справжньому. */
+if(!FILE && location.pathname.endsWith('/index.html')){
+  history.replaceState(null, '',
+    location.pathname.slice(0, -'index.html'.length) + location.search + location.hash);
+}
 const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 const uah = n => n.toLocaleString('uk-UA') + ' ₴';
 const byId = id => ITEMS.find(i=>i.id===id);

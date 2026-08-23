@@ -42,12 +42,12 @@
 
   <div class="sec-h">
     <h2>Топові позиції</h2>
-    <a href="/menu/">Усе меню</a>
+    <a href="menu.html">Усе меню</a>
   </div>
   <div class="row-slider" id="tops"></div>
 
   <div class="center">
-    <a class="btn btn--wide" href="/menu/">Перейти до меню</a>
+    <a class="btn btn--wide" href="menu.html">Перейти до меню</a>
   </div>
 
   <div class="hours" id="hoursLine"><i></i><b>Працюємо вт–нд з 10:00 до 22:00</b><em>Понеділок — санітарний день</em></div>
@@ -141,7 +141,7 @@ bx.addEventListener('pointerdown',()=>clearInterval(auto));
 function renderCats(){
   // порожні розділи не показуємо: клік по них вів би на порожній екран
   $('#cats').innerHTML = CATS.filter(c => ITEMS.some(i => i.c === c.id)).map(c=>
-    `<a class="cat" href="/menu/?c=${c.id}">${catIcon(c)}${c.n}</a>`).join('');
+    `<a class="cat" href="menu.html?c=${c.id}">${catIcon(c)}${c.n}</a>`).join('');
 }
 if(!DB_WAIT) renderCats();
 
@@ -161,7 +161,7 @@ let qgo;
 function goSearch(v){
   const s = String(v||'').trim();
   if(s.length < 2) return;
-  location.href = '/menu/?q=' + encodeURIComponent(s);
+  location.href = 'menu.html?q=' + encodeURIComponent(s);
 }
 $('#q').addEventListener('keydown',e=>{ if(e.key==='Enter') goSearch(e.target.value); });
 $('#q').addEventListener('input',e=>{

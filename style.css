@@ -375,7 +375,10 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 /* плашки сидять на верхньому краї скляної панелі, тобто поверх фото
    і вище за назву, щоб її не перекривати */
 .card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
-.card__tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
+/* Плашки сидять на межі фото й панелі — трохи на знімку, трохи на
+   тексті. Так вони помітні й не забирають місця в рядку з назвою. */
+.card__tags{position:absolute;top:-13px;right:14px;z-index:3;
+  display:flex;gap:6px;flex-wrap:nowrap;justify-content:flex-end}
 .tag{
   padding:5px 9px;border-radius:var(--r-s);background:var(--red-tag);color:#fff;
   font-size:11px;font-weight:600;box-shadow:var(--sh-tag);
@@ -986,9 +989,7 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
    Тепер плашки за потреби переходять під назву, а перекреслена ціна
    стає над поточною. Коли все вміщається, вигляд не змінюється. */
 @media(max-width:520px){
-  /* плашки лишаються праворуч від назви, а не під нею: дозволяємо
-     їм стискатися й переноситися одна під одну всередині свого кутка */
-  .card__tags{flex-shrink:1;min-width:0}
+  .card__tags{top:-11px;right:11px;gap:5px}
   .tag{padding:3px 6px;font-size:9.5px}
   .card__p s{display:block;margin:0 0 1px}
   .card__p{padding-right:78px}

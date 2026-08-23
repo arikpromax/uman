@@ -6,10 +6,17 @@
 
 const $  = (s,r=document) => r.querySelector(s);
 
-/* Адреса головної. На сайті це просто «/», щоб в адресному рядку не
-   світилося index.html. Але коли сторінку відкривають прямо з файла на
-   диску, «/» веде в корінь диска — там лишаємо імʼя файла. */
-const HOME = location.protocol === 'file:' ? 'index.html' : '/';
+/* Де лежить сторінка відносно кореня сайту. Сторінка каже це сама
+   (menu/index.html виставляє '../'), бо шапку й підвал малює цей
+   спільний скрипт — і з підпапки відносні шляхи вели б у нікуди.
+
+   Адреси сторінок: на сервері чисті, без імен файлів. З файла на диску
+   так не можна — «/» повело б у корінь диска, а тека без сервера не
+   віддає свій index.html, тому там пишемо шлях повністю. */
+const ROOT = window.SITE_ROOT || '';
+const FILE = location.protocol === 'file:';
+const HOME = FILE ? ROOT + 'index.html'      : '/';
+const MENU = FILE ? ROOT + 'menu/index.html' : '/menu/';
 const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 const uah = n => n.toLocaleString('uk-UA') + ' ₴';
 const byId = id => ITEMS.find(i=>i.id===id);
@@ -831,12 +838,12 @@ async function sendOrder(){
 function mountShell(page){
   $('#hdr').innerHTML=`
     <a class="logo" href="${HOME}" aria-label="${SHOP.name}">
-      <img src="logo.jpg" alt="" width="46" height="46">
+      <img src="${ROOT}logo.jpg" alt="" width="46" height="46">
       <span><b>FUJI</b><span>суші · ${SHOP.city}</span></span>
     </a>
     <nav class="nav-desk">
       <a href="${HOME}" class="${page==='home'?'on':''}">Головна</a>
-      <a href="menu.html" class="${page==='menu'?'on':''}">Меню</a>
+      <a href="${MENU}" class="${page==='menu'?'on':''}">Меню</a>
     </nav>
     <div class="head-right">
       <a class="phone-pill" href="tel:${SHOP.phone}">${icon('phone')}<span>${SHOP.phoneView}</span></a>
@@ -845,7 +852,7 @@ function mountShell(page){
 
   $('#nav').innerHTML=`
     <a href="${HOME}" class="${page==='home'?'on':''}">${icon('home')}Головна</a>
-    <a href="menu.html" class="${page==='menu'?'on':''}">${icon('menu')}Меню</a>
+    <a href="${MENU}" class="${page==='menu'?'on':''}">${icon('menu')}Меню</a>
     <span class="nb-cart"><button class="cart-btn" aria-label="Кошик">${icon('cart')}<i>0</i></button></span>
     <a href="${HOME}#delivery">${icon('truck')}Доставка</a>
     <a href="tel:${SHOP.phone}">${icon('phone')}Телефон</a>`;
@@ -1065,7 +1072,7 @@ function footerHTML(){
     <div>
       <h4>Ще</h4>
       <ul>
-        <li><a href="menu.html">Меню</a></li>
+        <li><a href="${MENU}">Меню</a></li>
         <li><a href="${HOME}#delivery">Доставка та оплата</a></li>
         <li><a href="${SHOP.ig}" target="_blank" rel="noopener">Instagram</a></li>
       </ul>

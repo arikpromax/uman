@@ -131,7 +131,7 @@ function renderCats(){
         : catIcon(c)
     }${c.n}</button>`).join('');
 }
-renderCats();
+if(!DB_WAIT) renderCats();
 
 $('#cats').addEventListener('click',e=>{
   const b=e.target.closest('.cat'); if(!b) return;
@@ -147,7 +147,8 @@ $('#q').addEventListener('input',e=>{
 });
 $('#qx').onclick=()=>{ q=''; $('#q').value=''; $('#qx').hidden=true; render(); };
 
-render();
+if(DB_WAIT) $('#list').innerHTML = '<div class="empty">Завантажуємо меню…</div>';
+else render();
 if(cat!=='all' && !q) setTimeout(()=>window.scrollTo({top:$('.catbar').offsetTop-70,behavior:'instant'}),0);
 
 /* db.js викликає це після завантаження меню з адмінки */

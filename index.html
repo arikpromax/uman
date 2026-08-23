@@ -128,7 +128,7 @@ function syncDots(){
   const i = Math.round(bx.scrollLeft / bx.clientWidth);
   $$('#dots b').forEach((d,k)=>d.classList.toggle('on',k===i));
 }
-renderBanners();
+if(!DB_WAIT) renderBanners();
 bx.addEventListener('scroll',()=>requestAnimationFrame(syncDots),{passive:true});
 let auto = setInterval(()=>{
   if(BAN.length < 2) return;
@@ -143,11 +143,11 @@ function renderCats(){
   $('#cats').innerHTML = CATS.filter(c => ITEMS.some(i => i.c === c.id)).map(c=>
     `<a class="cat" href="menu.html?c=${c.id}">${catIcon(c)}${c.n}</a>`).join('');
 }
-renderCats();
+if(!DB_WAIT) renderCats();
 
 /* ---------- топові ---------- */
 function renderTops(){ $('#tops').innerHTML = ITEMS.filter(i=>i.top).map(cardHTML).join(''); }
-renderTops();
+if(!DB_WAIT) renderTops();
 
 /* db.js викликає це після завантаження меню з адмінки */
 window.rerender = () => { renderCats(); renderBanners(); renderTops(); };

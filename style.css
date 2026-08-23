@@ -374,7 +374,9 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .pv__art .pic{border-radius:var(--r-m);box-shadow:0 30px 60px rgba(0,0,0,.8)}
 /* плашки сидять на верхньому краї скляної панелі, тобто поверх фото
    і вище за назву, щоб її не перекривати */
-.card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+/* плашки тепер стоять окремо, тож рядок назви більше не потребує
+   власного відступу знизу — від нього лишалася пустка */
+.card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
 /* Плашки сидять на межі фото й панелі — трохи на знімку, трохи на
    тексті. Так вони помітні й не забирають місця в рядку з назвою. */
 .card__tags{position:absolute;top:-13px;right:14px;z-index:3;
@@ -411,7 +413,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .card__n{font-size:18px;font-weight:600;line-height:1.2}
 /* склад розтягується на вільне місце, щоб ціна в усіх картках рядка
    стояла на одній висоті */
-.card__d{flex:1;margin:12px 0 18px;font-size:13.5px;color:var(--ink-2);line-height:1.62;
+.card__d{flex:1;margin:9px 0 18px;font-size:13.5px;color:var(--ink-2);line-height:1.62;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card__w{font-size:13.5px;color:var(--ink-3);margin-bottom:12px;min-height:19px}
 .card__p{font-size:27px;font-weight:500;white-space:nowrap;padding-right:108px;letter-spacing:-.01em}
@@ -438,8 +440,8 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .row-slider .card{flex:0 0 168px}
   .card__img svg{width:80%;margin-bottom:38px}
   .card__in{margin-top:-18px;padding:14px;min-height:151px}
-  .card__n{font-size:14px;margin-bottom:8px}
-  .card__d{font-size:11.5px;margin:9px 0 12px;line-height:1.55}
+  .card__n{font-size:14px}
+  .card__d{font-size:11.5px;margin:8px 0 12px;line-height:1.55}
   .card__w{font-size:11.5px;min-height:15px;margin-bottom:9px}
   .card__p{font-size:21px;padding-right:86px}
   .card__add{right:11px;bottom:13px;min-width:82px;height:36px;padding:0 14px;font-size:14px}

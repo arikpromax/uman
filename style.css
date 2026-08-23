@@ -228,17 +228,15 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   background:#0E0A0B;
   display:flex;align-items:center;
 }
-.banner__art{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(52%,420px);opacity:.95}
+.banner__art{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(52%,420px)}
 .banner__art svg{width:100%;height:auto;filter:drop-shadow(0 24px 50px rgba(0,0,0,.6))}
 /* завантажене фото сета на банері */
 /* contain, а не cover: у банері показуємо знімок цілком, як він є */
 .banner__art .pic{width:100%;height:auto;aspect-ratio:1;object-fit:contain;
   border-radius:var(--r-m);box-shadow:0 24px 50px rgba(0,0,0,.6)}
-.banner::after{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(120% 90% at 78% 50%,rgba(180,54,55,.26),transparent 62%);
-  pointer-events:none;
-}
+/* Червоного світіння тут більше немає: воно лежало саме над фото
+   праворуч і фарбувало страву в червоне — одна й та сама позиція
+   на банері й на картці виглядала по-різному. */
 .banner__in{position:relative;z-index:2;padding:clamp(24px,4vw,44px);max-width:58%}
 .banner__in h2{font-size:clamp(26px,4.4vw,44px);white-space:pre-line}
 .banner__in p{margin:12px 0 0;color:var(--ink-2);font-size:clamp(13px,1.5vw,16px);white-space:pre-line}

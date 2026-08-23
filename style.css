@@ -986,8 +986,10 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
    Тепер плашки за потреби переходять під назву, а перекреслена ціна
    стає над поточною. Коли все вміщається, вигляд не змінюється. */
 @media(max-width:520px){
-  .card__head{flex-wrap:wrap}
-  .card__tags{justify-content:flex-start}
+  /* плашки лишаються праворуч від назви, а не під нею: дозволяємо
+     їм стискатися й переноситися одна під одну всередині свого кутка */
+  .card__tags{flex-shrink:1;min-width:0}
+  .tag{padding:3px 6px;font-size:9.5px}
   .card__p s{display:block;margin:0 0 1px}
   .card__p{padding-right:78px}
   .card__add{min-width:74px;padding:0 10px}

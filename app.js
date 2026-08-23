@@ -825,12 +825,12 @@ async function sendOrder(){
    ============================================================ */
 function mountShell(page){
   $('#hdr').innerHTML=`
-    <a class="logo" href="index.html" aria-label="${SHOP.name}">
+    <a class="logo" href="/" aria-label="${SHOP.name}">
       <img src="logo.jpg" alt="" width="46" height="46">
       <span><b>FUJI</b><span>суші · ${SHOP.city}</span></span>
     </a>
     <nav class="nav-desk">
-      <a href="index.html" class="${page==='home'?'on':''}">Головна</a>
+      <a href="/" class="${page==='home'?'on':''}">Головна</a>
       <a href="menu.html" class="${page==='menu'?'on':''}">Меню</a>
     </nav>
     <div class="head-right">
@@ -839,10 +839,10 @@ function mountShell(page){
     </div>`;
 
   $('#nav').innerHTML=`
-    <a href="index.html" class="${page==='home'?'on':''}">${icon('home')}Головна</a>
+    <a href="/" class="${page==='home'?'on':''}">${icon('home')}Головна</a>
     <a href="menu.html" class="${page==='menu'?'on':''}">${icon('menu')}Меню</a>
     <span class="nb-cart"><button class="cart-btn" aria-label="Кошик">${icon('cart')}<i>0</i></button></span>
-    <a href="index.html#delivery">${icon('truck')}Доставка</a>
+    <a href="/#delivery">${icon('truck')}Доставка</a>
     <a href="tel:${SHOP.phone}">${icon('phone')}Телефон</a>`;
 
   $('#cartWrap').innerHTML=`
@@ -1061,7 +1061,7 @@ function footerHTML(){
       <h4>Ще</h4>
       <ul>
         <li><a href="menu.html">Меню</a></li>
-        <li><a href="index.html#delivery">Доставка та оплата</a></li>
+        <li><a href="/#delivery">Доставка та оплата</a></li>
         <li><a href="${SHOP.ig}" target="_blank" rel="noopener">Instagram</a></li>
       </ul>
     </div>

@@ -924,16 +924,20 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
 /* ---------- Банер на телефоні ----------
-   На вузькому екрані фото стояло абсолютно праворуч і виїжджало за
-   край — його зрізало, а опис заходив просто під нього. Тому на
-   телефоні розкладаємо банер у стовпчик: фото зверху цілком, текст
-   під ним. contain, а не cover: показуємо страву, а не її середину. */
+   Розкладка та сама, що й на компʼютері: текст ліворуч, фото праворуч.
+   Виправлено тільки те, що ламалося на вузькому екрані — фото звисало
+   за край банера (right:-4%) і його зрізало, а опис не мав де стати
+   й заходив під нього. Тепер фото вміщається цілком, а текстовій
+   колонці відведено рівно свою половину. */
 @media(max-width:640px){
-  .banner{height:auto;display:block}
-  .banner__art{position:static;transform:none;width:auto;margin:0}
-  .banner__art .pic{width:100%;aspect-ratio:4/3;object-fit:contain;
-    border-radius:var(--r-m) var(--r-m) 0 0;box-shadow:none}
-  .banner__in{max-width:100%;padding:16px 18px 20px}
-  .banner__in h2{font-size:24px}
-  .banner__b{margin-top:14px}
+  .banner{height:auto;min-height:clamp(240px,60vw,300px)}
+  .banner__art{right:12px;width:38%}
+  .banner__art .pic{aspect-ratio:1;object-fit:contain;border-radius:14px;
+    box-shadow:0 14px 30px rgba(0,0,0,.55)}
+  .banner__in{max-width:56%;padding:20px 8px 20px 18px}
+  .banner__in h2{font-size:21px}
+  .banner__in p{font-size:12.5px;margin-top:8px}
+  .banner__b{gap:10px;margin-top:14px}
+  .banner__p{font-size:22px}
+  .banner__b .btn{padding:11px 16px;font-size:13px}
 }

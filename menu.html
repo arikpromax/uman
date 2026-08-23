@@ -92,14 +92,22 @@ const fold = s => s.toLowerCase().split('').map(ch=>FOLD[ch]??ch).join('');
 
 function render(){
   const nq = fold(q.trim());
-  const hit = m => {
-    if(nq){
-      const hay = fold(m.n+' '+(m.d||'')+' '+(m.list||[]).join(' ')+' '+(m.ing||[]).map(k=>(ING[k]||{}).n).join(' '));
-      if(!hay.includes(nq)) return false;
-    }
-    return nq ? true : (cat==='all' || m.c===cat);
-  };
-  const found = applySort(ITEMS.filter(hit));
+  /* Шукаємо по перших буквах слів у назві: «ка» має давати «Каліфорнію»,
+     а не пів меню, де ця пара букв випадково трапилася в описі.
+     Якщо за назвою нічого не знайшлося — шукаємо ширше, щоб людина
+     не впиралася в порожній екран через одруківку. */
+  const words = m => fold(m.n).split(/[^a-z0-9]+/).filter(Boolean);
+  const byName = m => words(m).some(w => w.startsWith(nq));
+  const byAll  = m => fold(m.n+' '+(m.d||'')+' '+(m.list||[]).join(' ')+' '+(m.ing||[]).map(k=>(ING[k]||{}).n).join(' ')).includes(nq);
+
+  let raw;
+  if(nq){
+    raw = ITEMS.filter(byName);
+    if(!raw.length) raw = ITEMS.filter(byAll);
+  } else {
+    raw = ITEMS.filter(m => cat==='all' || m.c===cat);
+  }
+  const found = applySort(raw);
 
   $$('#cats .cat').forEach(a=>a.classList.toggle('on', !nq && a.dataset.c===cat));
 

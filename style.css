@@ -293,6 +293,9 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .search svg{width:20px;height:20px;color:var(--ink-3);flex-shrink:0}
 .search input{flex:1;min-width:0;background:none;border:0;font-size:16px;font-weight:500}
+/* у браузера свій хрестик очищення — виходило два поруч */
+.search input::-webkit-search-cancel-button,
+.search input::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
 .search input::placeholder{color:var(--ink-3)}
 .search input:focus{outline:0}
 .search button{background:none;border:0;cursor:pointer;color:var(--ink-3);padding:4px}

@@ -223,9 +223,9 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   cursor:pointer;
   position:relative;flex:0 0 min(100%,var(--max));scroll-snap-align:center;
   height:clamp(300px,44vw,420px);border-radius:var(--r-m);overflow:hidden;
-  background:rgba(9,6,7,.84);
-  backdrop-filter:blur(26px) saturate(115%);
-  -webkit-backdrop-filter:blur(26px) saturate(115%);
+  /* суцільний колір: крізь напівпрозорий банер просвічувала фонова
+     ілюстрація, і на її червоних ділянках він віддавав червоним */
+  background:#0E0A0B;
   display:flex;align-items:center;
 }
 .banner__art{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(52%,420px);opacity:.95}

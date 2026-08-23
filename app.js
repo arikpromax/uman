@@ -137,24 +137,71 @@ const applySort = list => {
   return [...(s.only ? list.filter(s.only) : list)].sort(s.f);
 };
 
-/* Звичайний select, а не власне меню: перелік малює сама система, тому
-   на айфоні він айфонівський, на ноуті — системний, і поводиться саме
-   так, як людина звикла. Кнопкою лишається тільки зовнішній вигляд. */
+/* На телефоні перелік малює сама система: айфон покаже свій рідний,
+   до якого людина звикла, і жодна підробка його не перевершить.
+   На компʼютері системний список виглядає казенно, тому там малюємо
+   своє меню в тому ж айфонівському стилі. */
+const TOUCH = matchMedia('(pointer:coarse)').matches;
+
 function sortBtnHTML(){
-  return `<label class="filt-btn" id="sortBtn">
+  if(TOUCH) return `<label class="filt-btn" id="sortBtn">
     ${icon('slid')}
     <select id="sortSel" aria-label="Сортування">
       ${SORTS.map((s,i)=>`<option value="${i}">${s.n}</option>`).join('')}
     </select>
   </label>`;
+
+  const tick = '<svg class="sortmenu__ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" '+
+               'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7"/></svg>';
+  return `<div class="sortwrap">
+    <button class="filt-btn" id="sortBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Сортування">
+      ${icon('slid')}<span id="sortLbl">${SORTS[0].n}</span>
+    </button>
+    <div class="sortmenu" id="sortMenu" role="listbox" hidden>
+      ${SORTS.map((s,i)=>
+        `<button class="sortmenu__i${i===0?' on':''}" role="option" aria-selected="${i===0}" data-i="${i}">
+          ${tick}<span>${s.n}</span>
+        </button>`).join('')}
+    </div>
+  </div>`;
 }
+
 function wireSort(onChange){
-  const s = $('#sortSel'); if(!s) return;
-  s.onchange = ()=>{
-    sortI = +s.value;
-    $('#sortBtn').classList.toggle('on', sortI !== 0);
+  if(TOUCH){
+    const s = $('#sortSel'); if(!s) return;
+    s.onchange = ()=>{
+      sortI = +s.value;
+      $('#sortBtn').classList.toggle('on', sortI !== 0);
+      onChange();
+    };
+    return;
+  }
+
+  const b = $('#sortBtn'), m = $('#sortMenu'); if(!b || !m) return;
+  const close = ()=>{ m.hidden = true; b.setAttribute('aria-expanded','false'); };
+
+  b.onclick = e=>{
+    e.stopPropagation();
+    m.hidden = !m.hidden;
+    b.setAttribute('aria-expanded', String(!m.hidden));
+  };
+  m.onclick = e=>{
+    const it = e.target.closest('[data-i]'); if(!it) return;
+    sortI = +it.dataset.i;
+    $('#sortLbl').textContent = SORTS[sortI].n;
+    b.classList.toggle('on', sortI !== 0);
+    $$('.sortmenu__i').forEach((x,i)=>{
+      x.classList.toggle('on', i === sortI);
+      x.setAttribute('aria-selected', String(i === sortI));
+    });
+    close();
     onChange();
   };
+  // тик повз меню і Esc — закриваємо, як і належить випадному переліку
+  document.addEventListener('click', ev=>{
+    if(!m.hidden && !ev.target.closest('.sortwrap')) close();
+  });
+  document.addEventListener('keydown', ev=>{ if(ev.key === 'Escape') close(); });
 }
 
 /* ---------- ІКОНКИ (без емодзі) ---------- */

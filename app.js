@@ -464,9 +464,15 @@ function badges(m){
 function cardHTML(m){
   // плашок максимум дві, інакше картка перетворюється на ялинку
   const tags = badges(m).slice(0,2);
+  /* Начинка — технічне поле, ним малюється ілюстрація. Як опис вона
+     годиться тільки складом із кількох позицій («Лосось, крем-сир,
+     огірок»). Одне слово опису не робить: під «Колою» стояло
+     «яловичина», під «Соєвим соусом» — «вугор». */
+  const ings = (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean);
   const d = m.d ? m.d
           : m.list ? m.list.slice(0,3).join(' · ')+(m.list.length>3?` · +${m.list.length-3}`:'')
-          : (m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
+          : ings.length > 1 ? ings.join(', ')
+          : '';
   // Будова як у меню, з якого брали приклад: фото зверху, а скляна
   // панель із текстом наїжджає на нього знизу.
   return `<article class="card" data-open="${m.id}" role="button" tabindex="0">
@@ -478,7 +484,7 @@ function cardHTML(m){
         <h3 class="card__n">${m.n}</h3>
         ${tags.length?`<div class="card__tags">${tags.join('')}</div>`:''}
       </div>
-      <p class="card__d">${d}</p>
+      ${d?`<p class="card__d">${d}</p>`:''}
       <div class="card__w">${m.w||''}</div>
       <div class="card__p${sale(m)?' sale':''}">${
         sale(m)?`<s><span class="cur">₴</span>${m.p}</s>`:''

@@ -979,3 +979,16 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
 .sortmenu__ok{width:17px;height:17px;flex-shrink:0;opacity:0}
 .sortmenu__i.on .sortmenu__ok{opacity:1}
 @media(prefers-reduced-motion:reduce){.sortmenu{animation:none}}
+
+/* ---------- Вузька картка на телефоні ----------
+   У 168 пікселів не влазили назва з двома плашками в один рядок і
+   стара ціна поруч із новою — зайве зрізалося краєм картки.
+   Тепер плашки за потреби переходять під назву, а перекреслена ціна
+   стає над поточною. Коли все вміщається, вигляд не змінюється. */
+@media(max-width:520px){
+  .card__head{flex-wrap:wrap}
+  .card__tags{justify-content:flex-start}
+  .card__p s{display:block;margin:0 0 1px}
+  .card__p{padding-right:78px}
+  .card__add{min-width:74px;padding:0 10px}
+}

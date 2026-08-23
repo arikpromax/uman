@@ -1040,7 +1040,11 @@ function openProduct(id){
   const m=byId(id); if(!m) return;
   seenPv.add(id);
   const pv=$('#prod');
-  const ing=(m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean).join(', ');
+  /* Начинка як опис годиться лише складом із кількох позицій — те саме
+     правило, що й на картці: інакше під «Полуничним морсом» стоїть
+     самотнє «спайсі», а під «Соєвим соусом» — «вугор». */
+  const ings=(m.ing||[]).map(k=>(ING[k]||{}).n).filter(Boolean);
+  const ing = ings.length > 1 ? ings.join(', ') : '';
   $('#pvTitle').textContent=m.n;
   $('#pvIn').innerHTML=`
     <div class="pv__art">${pic(m,420)}</div>

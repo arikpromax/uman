@@ -922,3 +922,18 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
 .empty{padding:60px 0;text-align:center;color:var(--ink-3)}
 .page{padding-bottom:calc(var(--nav-h) + 10px)}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ---------- Банер на телефоні ----------
+   На вузькому екрані фото стояло абсолютно праворуч і виїжджало за
+   край — його зрізало, а опис заходив просто під нього. Тому на
+   телефоні розкладаємо банер у стовпчик: фото зверху цілком, текст
+   під ним. contain, а не cover: показуємо страву, а не її середину. */
+@media(max-width:640px){
+  .banner{height:auto;display:block}
+  .banner__art{position:static;transform:none;width:auto;margin:0}
+  .banner__art .pic{width:100%;aspect-ratio:4/3;object-fit:contain;
+    border-radius:var(--r-m) var(--r-m) 0 0;box-shadow:none}
+  .banner__in{max-width:100%;padding:16px 18px 20px}
+  .banner__in h2{font-size:24px}
+  .banner__b{margin-top:14px}
+}

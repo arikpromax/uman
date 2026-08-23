@@ -941,3 +941,29 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
   .banner__p{font-size:20px}
   .banner__b .btn{padding:10px 12px;font-size:12px}
 }
+
+/* ---------- Випадний перелік сортування ---------- */
+.sortwrap{position:relative;flex-shrink:0}
+.sortmenu{
+  position:absolute;right:0;top:calc(100% + 9px);z-index:70;min-width:210px;
+  padding:6px;border-radius:var(--r-m);
+  background:#1B1415;
+  border:1px solid var(--line);
+  box-shadow:0 24px 50px -14px rgba(0,0,0,.85);
+  animation:sortIn .18s var(--ease);
+}
+/* тільки рух, без прозорості: напівпрозора панель у польоті
+   показувала кнопки розділів під собою */
+@keyframes sortIn{from{transform:translateY(-7px)}to{transform:none}}
+.sortmenu__i{
+  display:flex;align-items:center;gap:10px;width:100%;
+  padding:11px 12px;border:0;border-radius:var(--r-s);
+  background:none;color:var(--ink-2);font-size:15px;font-weight:500;
+  text-align:left;cursor:pointer;
+}
+.sortmenu__i:hover{background:rgba(255,255,255,.06);color:var(--ink)}
+.sortmenu__i.on{color:var(--ink);font-weight:600}
+/* галочка тримає місце завжди, інакше рядки стрибають при виборі */
+.sortmenu__ok{width:17px;height:17px;flex-shrink:0;opacity:0;color:var(--red-hi)}
+.sortmenu__i.on .sortmenu__ok{opacity:1}
+@media(prefers-reduced-motion:reduce){.sortmenu{animation:none}}

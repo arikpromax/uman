@@ -931,11 +931,11 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
    колонці відведено рівно свою половину. */
 @media(max-width:640px){
   .banner{height:auto;min-height:clamp(240px,60vw,300px)}
-  .banner__art{right:12px;width:38%}
+  .banner__art{right:10px;width:46%}
   .banner__art .pic{aspect-ratio:1;object-fit:contain;border-radius:14px;
     box-shadow:0 14px 30px rgba(0,0,0,.55)}
-  .banner__in{max-width:56%;padding:20px 8px 20px 18px}
-  .banner__in h2{font-size:21px}
+  .banner__in{max-width:50%;padding:18px 6px 18px 16px}
+  .banner__in h2{font-size:19px}
   .banner__in p{font-size:12.5px;margin-top:8px}
   .banner__b{gap:10px;margin-top:14px}
   .banner__p{font-size:22px}

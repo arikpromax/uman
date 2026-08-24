@@ -158,7 +158,7 @@ Promise.all([
   const okTime = v => /^\d{1,2}:\d{2}$/.test(str(v));
   if(okTime(xs.open_from)) SHOP.openFrom = str(xs.open_from);
   if(okTime(xs.open_to))   SHOP.openTo   = str(xs.open_to);
-  try{ applyTimeBounds(); renderHours(); }catch(e){}
+  try{ applyTimeBounds(); applyWhenChoices(); renderHours(); }catch(e){}
 
   if(xs.dayoff) dayOffScreen(str(xs.msg) || 'Сьогодні санітарний день', str(xs.msg2) || SHOP.dayOff);
 })

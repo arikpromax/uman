@@ -163,6 +163,32 @@ function applyTimeBounds(){
   if(hm(SHOP.openTo)!=null)   t.max=SHOP.openTo;
 }
 
+/* Поза робочими годинами «якнайшвидше» і «через годину-дві» безглузді:
+   кухня зачинена, і замовлення все одно готуватимуть з відкриття.
+   Тому до відкриття лишаємо тільки вибір конкретного часу. */
+const WHEN_AT = 'На конкретний час';
+function applyWhenChoices(){
+  const w = $('#fWhen'); if(!w) return;
+  const st = openState();
+  const shut = !!st && !st.open;
+
+  [...w.options].forEach(o=>{
+    if(o.value === WHEN_AT) return;
+    o.disabled = shut;
+    o.hidden   = shut;
+  });
+  if(shut && w.value !== WHEN_AT){
+    w.value = WHEN_AT;
+    w.dispatchEvent(new Event('change'));
+  }
+  // підказка, чому вибору немає
+  const h = $('#whenHint');
+  if(h){
+    h.hidden = !shut;
+    if(shut) h.textContent = 'Зараз зачинено — оберіть час від ' + st.from;
+  }
+}
+
 /* ---------- сортування: одна кнопка-перемикач, без панелі ---------- */
 /* only — не сортування, а відбір: лишає в списку тільки те, що підходить.
    Так «Акції» стають окремим станом тієї ж кнопки, без другої панелі. */
@@ -952,6 +978,7 @@ function mountShell(page){
           <div class="fld two">
             <div>
               <label>Коли<select id="fWhen"><option>Якнайшвидше</option><option>Через 1 годину</option><option>Через 2 години</option><option>На конкретний час</option></select></label>
+              <p class="fld__h" id="whenHint" hidden></p>
               <div id="timeBox" hidden><label>Час<input id="fTime" type="time" min="10:00" max="21:30" step="900"></label></div>
             </div>
             <div>
@@ -1022,6 +1049,9 @@ function mountShell(page){
   $('#fWhen').onchange=e=>{ $('#timeBox').hidden = e.target.value!=='На конкретний час'; };
   $('#pvBack').onclick=closeProduct;
   applyTimeBounds();
+  applyWhenChoices();
+  // година може перетнути час відкриття, поки сторінка відкрита
+  setInterval(applyWhenChoices, 60000);
   renderHours();
   renderCart();
 }

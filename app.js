@@ -137,6 +137,15 @@ function openState(){
   const d=new Date(), now=d.getHours()*60+d.getMinutes();
   return { open: now>=f && now<t, from:SHOP.openFrom, to:SHOP.openTo };
 }
+/* Умови доставки на головній. Числа були вписані просто в розмітку,
+   тому зміна в адмінці міняла лише розрахунок у кошику, а на сторінці
+   лишалися старі. Тепер беремо їх звідти ж, звідки й кошик. */
+function renderDelivery(){
+  const f=$('#dFree'), u=$('#dUnder'), m=$('#dMin');
+  if(f) f.textContent = SHOP.freeFrom + ' ₴';
+  if(u) u.textContent = 'До ' + SHOP.freeFrom + ' ₴';
+  if(m) m.textContent = SHOP.minOrder + ' ₴';
+}
 function renderHours(){
   const el=$('#hoursLine'); if(!el) return;
   const st=openState();

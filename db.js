@@ -47,7 +47,7 @@ Promise.all([
   if(T.far_km)     SHOP.farKm     = num(T.far_km)    || SHOP.farKm;
   if(T.far_fee)    SHOP.farFee    = num(T.far_fee)   || SHOP.farFee;
   if(T.pickup_time)SHOP.pickupTime= T.pickup_time;
-  try{ renderHours(); }catch(e){}
+  try{ renderHours(); renderDelivery(); }catch(e){}
   /* токен Telegram свідомо НЕ беремо з бази: тексти читаються публічно,
      тож в адмінці йому не місце — він лишається в data.js */
 

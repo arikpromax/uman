@@ -185,7 +185,14 @@ function applyWhenChoices(){
   const h = $('#whenHint');
   if(h){
     h.hidden = !shut;
-    if(shut) h.textContent = 'Зараз зачинено — оберіть час від ' + st.from;
+    if(shut){
+      // після закриття найближчий можливий час — уже завтра вранці,
+      // а вдосвіта — ще сьогодні; людині це треба сказати прямо
+      const d = new Date(), now = d.getHours()*60 + d.getMinutes();
+      const tomorrow = now >= hm(SHOP.openTo);
+      h.textContent = 'Зараз зачинено — оберіть час від ' + st.from +
+                      (tomorrow ? ' завтра' : '');
+    }
   }
 }
 

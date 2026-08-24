@@ -191,7 +191,7 @@ function applyWhenChoices(){
       const d = new Date(), now = d.getHours()*60 + d.getMinutes();
       const tomorrow = now >= hm(SHOP.openTo);
       h.textContent = 'Зараз зачинено — оберіть час від ' + st.from +
-                      (tomorrow ? ' завтра' : '');
+                      ' і до ' + st.to + (tomorrow ? ' завтра' : '');
     }
   }
 }

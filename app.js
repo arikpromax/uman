@@ -794,8 +794,29 @@ function validate(){
     const bad=el.value.trim().length<min;
     el.classList.toggle('bad',bad); if(bad) ok=false;
   });
-  if(!ok) toast(mode==='Доставка' ? 'Заповніть імʼя, телефон, вулицю і будинок' : 'Заповніть імʼя і телефон');
-  return ok;
+  if(!ok){
+    toast(mode==='Доставка' ? 'Заповніть імʼя, телефон, вулицю і будинок' : 'Заповніть імʼя і телефон');
+    return false;
+  }
+
+  /* Час поза графіком кухні ніхто не приготує, а порожнє поле
+     перетворює замовлення на «на —». Обмеження min/max у полі браузер
+     не змушує дотримуватись, коли надсилання йде своїм кодом, тож
+     перевіряємо самі. */
+  const w = $('#fWhen');
+  if(w && w.value === WHEN_AT){
+    const t = $('#fTime'), val = hm(t && t.value);
+    const f = hm(SHOP.openFrom), to = hm(SHOP.openTo);
+    const bad = val == null || (f != null && to != null && (val < f || val > to));
+    if(t) t.classList.toggle('bad', bad);
+    if(bad){
+      toast(val == null
+        ? 'Вкажіть, на яку годину'
+        : 'Приймаємо з ' + SHOP.openFrom + ' до ' + SHOP.openTo);
+      return false;
+    }
+  }
+  return true;
 }
 /* Екран після замовлення. Раніше на цьому місці був тост унизу екрана —
    у найважливіший момент людина не бачила підтвердження.

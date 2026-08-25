@@ -86,6 +86,10 @@ Promise.all([
       PROMO[code] = { off, type, n: type === '%' ? '-'+off+'%' : '-'+off+' ₴' };
       // скільки разів код узагалі може спрацювати; 0 — без обмежень
       if(uses > 0) PROMO[code].uses = uses;
+      // код може діяти лише на одну позицію: в адмінці обирають страву
+      // або сет, сюди приходить номер рядка — на сайті це id вигляду db12
+      const only = str(x.only_menu) || str(x.only_set);
+      if(only) PROMO[code].only = 'db' + only;
     });
   }
 

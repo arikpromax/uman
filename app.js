@@ -431,10 +431,18 @@ try{ cart=JSON.parse(localStorage.getItem('fuji_cart')||'{}'); }catch(e){ cart={
 const save  = ()=>localStorage.setItem('fuji_cart',JSON.stringify(cart));
 const count = ()=>Object.values(cart).reduce((a,b)=>a+b,0);
 const total = ()=>Object.entries(cart).reduce((a,[id,q])=>a+P(byId(id))*q,0);
+/* Сума, з якої рахується знижка. Зазвичай це весь кошик, але код може
+   бути привʼязаний до однієї позиції — тоді береться тільки вона. */
+const promoBase = ()=>{
+  if(!promo || !promo.only) return total();
+  const q = cart[promo.only] || 0;
+  return q ? P(byId(promo.only))*q : 0;
+};
 const discount = ()=>{
   if(!promo) return 0;
-  const t=total();
-  return promo.type==='%' ? Math.round(t*promo.off/100) : Math.min(promo.off,t);
+  const b = promoBase();
+  if(b <= 0) return 0;
+  return promo.type==='%' ? Math.round(b*promo.off/100) : Math.min(promo.off,b);
 };
 const payable = ()=>total()-discount();
 
@@ -741,6 +749,14 @@ async function applyPromo(){
   const p=PROMO[code];
   if(!p){
     promo=null; msg.className='promo__m'; msg.textContent='Такого промокоду немає';
+    renderCheckout(); renderCart(); return;
+  }
+
+  // код на одну позицію — без неї в кошику він безглуздий
+  if(p.only && !cart[p.only]){
+    const m = byId(p.only);
+    promo=null; msg.className='promo__m';
+    msg.textContent = m ? 'Цей код діє тільки на «'+m.n+'»' : 'Цей код діє тільки на окрему позицію';
     renderCheckout(); renderCart(); return;
   }
 

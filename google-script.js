@@ -104,7 +104,28 @@ function normPhone(s) {
 }
 
 /* Відкриття посилання в браузері — щоб можна було перевірити,
-   що розгортання живе. Замовлення сюди не приходять. */
-function doGet() {
-  return ContentService.createTextOutput('Fuji Sushi — приймання замовлень працює');
+   що розгортання живе. Замовлення сюди не приходять.
+
+   Ще сюди приходить питання «скільки разів уже спрацював код X».
+   Сайт питає це перед тим, як прийняти обмежений промокод: у самому
+   сайті лічильника немає, а таблиця з замовленнями є тільки тут. */
+function doGet(e) {
+  var code = String((e && e.parameter && e.parameter.promo) || '').trim().toUpperCase();
+  if (!code) return ContentService.createTextOutput('Fuji Sushi — приймання замовлень працює');
+
+  var used = 0;
+  try {
+    var sh = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    var last = sh.getLastRow();
+    if (last > 1) {
+      // 9 — стовпчик «Промокод», див. HEAD
+      var col = sh.getRange(2, 9, last - 1, 1).getValues();
+      for (var i = 0; i < col.length; i++)
+        if (String(col[i][0]).trim().toUpperCase() === code) used++;
+    }
+  } catch (err) {}
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ code: code, used: used }))
+    .setMimeType(ContentService.MimeType.JSON);
 }

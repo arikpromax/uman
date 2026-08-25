@@ -720,13 +720,46 @@ function renderCheckout(){
     `<div class="co__l"><span>${mode}</span><b>${mode==='Доставка'?(total()>=SHOP.freeFrom?'безкоштовно':'за тарифом'):SHOP.pickupTime}</b></div>` +
     `<div class="co__l co__l--big"><span>До сплати</span><b>${uah(payable())}</b></div>`;
 }
-function applyPromo(){
+/* Скільки разів код уже спрацював. Лічильника в сайті немає й бути не
+   може: він читає базу тільки на перегляд. Рахує скрипт у Google за
+   таблицею замовлень — там кожне замовлення записане з промокодом.
+   Не відповів (немає звʼязку, скрипт не оновлений) — код приймаємо:
+   краще зайва знижка, ніж покупець, який не може оформити замовлення. */
+async function promoUsed(code){
+  if(!SHOP.hook) return 0;
+  try{
+    const r = await fetch(SHOP.hook + '?promo=' + encodeURIComponent(code));
+    const j = await r.json();
+    return Number(j && j.used) || 0;
+  }catch(e){ return 0; }
+}
+
+async function applyPromo(){
   const code=($('#fPromo').value||'').trim().toUpperCase();
   const msg=$('#promoMsg');
   if(!code){ msg.textContent=''; return; }
   const p=PROMO[code];
-  if(p){ promo={...p,code}; msg.className='promo__m ok'; msg.textContent='Промокод застосовано: '+(p.n||code); }
-  else  { promo=null;       msg.className='promo__m';    msg.textContent='Такого промокоду немає'; }
+  if(!p){
+    promo=null; msg.className='promo__m'; msg.textContent='Такого промокоду немає';
+    renderCheckout(); renderCart(); return;
+  }
+
+  // обмежений код — питаємо, чи лишилися використання
+  if(p.uses){
+    msg.className='promo__m'; msg.textContent='Перевіряємо код…';
+    const used = await promoUsed(code);
+    if(used >= p.uses){
+      promo=null; msg.className='promo__m';
+      msg.textContent = p.uses === 1
+        ? 'Цей код уже використали'
+        : 'Цей код уже використали ' + p.uses + ' раз(и)';
+      renderCheckout(); renderCart(); return;
+    }
+  }
+
+  promo={...p,code};
+  msg.className='promo__m ok';
+  msg.textContent='Промокод застосовано: '+(p.n||code);
   renderCheckout(); renderCart();
 }
 
@@ -876,6 +909,17 @@ function thanksScreen(sum, sent){
 
 async function sendOrder(){
   if(!validate()) return;
+
+  /* Код міг вичерпатися, поки людина заповнювала форму: обмежені коди
+     дістаються тому, хто перший устиг оформити, а не тому, хто перший
+     його вписав. */
+  if(promo && promo.uses && await promoUsed(promo.code) >= promo.uses){
+    promo = null;
+    renderCheckout(); renderCart();
+    toast('Промокод уже використали — суму перерахували');
+    return;
+  }
+
   const btn=$('#send'), txt=orderText();
   btn.disabled=true; btn.textContent='Надсилаємо…';
 

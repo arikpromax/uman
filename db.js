@@ -82,7 +82,10 @@ Promise.all([
       const off  = num(x.off);
       if(!code || off <= 0) return;
       const type = str(x.type) === '%' ? '%' : 'uah';
+      const uses = num(x.uses);
       PROMO[code] = { off, type, n: type === '%' ? '-'+off+'%' : '-'+off+' ₴' };
+      // скільки разів код узагалі може спрацювати; 0 — без обмежень
+      if(uses > 0) PROMO[code].uses = uses;
     });
   }
 

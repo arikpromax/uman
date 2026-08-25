@@ -26,7 +26,7 @@ const SHOP = {
      і сам пересилає замовлення в Telegram. Токен бота лежить у скрипті,
      тому в код сайту не потрапляє: цей файл бачить кожен, а публічний
      токен GitHub до того ж відкликає автоматично.                       */
-  hook: 'https://script.google.com/macros/s/AKfycbx6Xi-tc2haLPjaHODQSCfXUz_UWcQ54nYeAnGDXHa0pV3lkdBerGq3AWgemWKyOVFP5w/exec',
+  hook: 'https://script.google.com/macros/s/AKfycbzXLxImeZA9_bQgfIGGpDlQyAG-ugR3NMAjoYxfr47kBIu1aTZnUIhWmZHQOV2HKI544Q/exec',
 
   /* ---------- ЗАПАСНИЙ ШЛЯХ ----------
      Працює, поки hook порожній: кнопка копіює замовлення й відкриває чат.

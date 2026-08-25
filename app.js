@@ -130,11 +130,26 @@ const catIcon = c =>
 const hm = s => { const m=/^(\d{1,2}):(\d{2})$/.exec(String(s||'').trim());
   return m ? (+m[1])*60 + (+m[2]) : null; };
 
+/* Скільки зараз хвилин від опівночі — за Києвом, а не за годинником
+   пристрою. Людина може дивитися сайт із Польщі, де на годину менше:
+   тоді о 22:30 за Києвом сайт вважав би, що заклад ще працює.
+   Якщо браузер не вміє рахувати за поясом — беремо його час. */
+function nowMin(){
+  try{
+    const s = new Date().toLocaleString('en-GB',
+      { timeZone:'Europe/Kyiv', hour12:false, hour:'2-digit', minute:'2-digit' });
+    const m = /(\d{1,2}):(\d{2})/.exec(s);
+    if(m) return (+m[1] % 24)*60 + (+m[2]);
+  }catch(e){}
+  const d = new Date();
+  return d.getHours()*60 + d.getMinutes();
+}
+
 /* null — години не задані; інакше кажемо, відчинено зараз чи ні */
 function openState(){
   const f=hm(SHOP.openFrom), t=hm(SHOP.openTo);
   if(f==null||t==null||t<=f) return null;
-  const d=new Date(), now=d.getHours()*60+d.getMinutes();
+  const now = nowMin();
   return { open: now>=f && now<t, from:SHOP.openFrom, to:SHOP.openTo };
 }
 /* Умови доставки на головній. Числа були вписані просто в розмітку,
@@ -188,8 +203,7 @@ function applyWhenChoices(){
     if(shut){
       // після закриття найближчий можливий час — уже завтра вранці,
       // а вдосвіта — ще сьогодні; людині це треба сказати прямо
-      const d = new Date(), now = d.getHours()*60 + d.getMinutes();
-      const tomorrow = now >= hm(SHOP.openTo);
+      const tomorrow = nowMin() >= hm(SHOP.openTo);
       h.textContent = 'Зараз зачинено — оберіть час від ' + st.from +
                       ' і до ' + st.to + (tomorrow ? ' завтра' : '');
     }

@@ -42,8 +42,6 @@ Promise.all([
   if(T.phone_view) SHOP.phoneView = T.phone_view;
   if(T.hours)      SHOP.hours     = T.hours;
   if(T.dayoff_note)SHOP.dayOff    = T.dayoff_note;
-  if(T.open_msg)   SHOP.openMsg   = T.open_msg;
-  if(T.shut_msg)   SHOP.shutMsg   = T.shut_msg;
   if(T.free_from)  SHOP.freeFrom  = num(T.free_from) || SHOP.freeFrom;
   if(T.min_order)  SHOP.minOrder  = num(T.min_order) || SHOP.minOrder;
   if(T.far_km)     SHOP.farKm     = num(T.far_km)    || SHOP.farKm;
@@ -167,6 +165,9 @@ Promise.all([
   const okTime = v => /^\d{1,2}:\d{2}$/.test(str(v));
   if(okTime(xs.open_from)) SHOP.openFrom = str(xs.open_from);
   if(okTime(xs.open_to))   SHOP.openTo   = str(xs.open_to);
+  // написи біля графіка живуть тут же, поруч із самими годинами
+  if(str(xs.open_msg)) SHOP.openMsg = str(xs.open_msg);
+  if(str(xs.shut_msg)) SHOP.shutMsg = str(xs.shut_msg);
   try{ applyTimeBounds(); applyWhenChoices(); renderHours(); }catch(e){}
 
   if(xs.dayoff) dayOffScreen(str(xs.msg) || 'Сьогодні санітарний день', str(xs.msg2) || SHOP.dayOff);

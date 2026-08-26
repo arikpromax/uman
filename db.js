@@ -24,7 +24,8 @@ const csv  = v => str(v).split(/[,\n;]/).map(s=>s.trim()).filter(Boolean);
 Promise.all([
   fetch(DB_URL+'/items?site_id=eq.'+SITE_ID+
         '&collection=in.(menu,sets,settings,cats,promos)&order=sort_order'+
-        '&select=id,collection,title,price,image_url,extra',{headers:{apikey:DB_KEY}}),
+        // sort_order потрібен саме тут: за ним сортуємо розділи вручну
+        '&select=id,collection,title,price,image_url,extra,sort_order',{headers:{apikey:DB_KEY}}),
   fetch(DB_URL+'/texts?site_id=eq.'+SITE_ID+'&select=key,value',{headers:{apikey:DB_KEY}})
 ])
 .then(rs=>{ if(rs.some(r=>!r.ok)) throw 0; return Promise.all(rs.map(r=>r.json())); })

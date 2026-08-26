@@ -42,6 +42,8 @@ Promise.all([
   if(T.phone_view) SHOP.phoneView = T.phone_view;
   if(T.hours)      SHOP.hours     = T.hours;
   if(T.dayoff_note)SHOP.dayOff    = T.dayoff_note;
+  if(T.open_msg)   SHOP.openMsg   = T.open_msg;
+  if(T.shut_msg)   SHOP.shutMsg   = T.shut_msg;
   if(T.free_from)  SHOP.freeFrom  = num(T.free_from) || SHOP.freeFrom;
   if(T.min_order)  SHOP.minOrder  = num(T.min_order) || SHOP.minOrder;
   if(T.far_km)     SHOP.farKm     = num(T.far_km)    || SHOP.farKm;

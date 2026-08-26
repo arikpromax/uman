@@ -166,9 +166,10 @@ function renderHours(){
   const st=openState();
   el.className = 'hours' + (st ? (st.open?' hours--open':' hours--shut') : '');
   el.innerHTML = `<i></i><b>${esc(SHOP.hours)}</b>` +
-    (st ? `<span class="hours__st">${st.open
-            ? 'зараз відчинено, приймаємо до '+esc(st.to)
-            : 'зараз зачинено, відкриємось о '+esc(st.from)}</span>` : '') +
+    (st ? `<span class="hours__st">${esc(
+            (st.open ? SHOP.openMsg : SHOP.shutMsg)
+              .replace(/\{час\}/g, st.open ? st.to : st.from)
+          )}</span>` : '') +
     `<em>${esc(SHOP.dayOff)}</em>`;
 }
 /* межі поля «на конкретний час» в оформленні */

@@ -161,15 +161,21 @@ function renderDelivery(){
   if(u) u.textContent = 'До ' + SHOP.freeFrom + ' ₴';
   if(m) m.textContent = SHOP.minOrder + ' ₴';
 }
+/* Позначка біля графіка. У налаштуваннях лежить тільки текст — годину
+   дописуємо самі з годин прийому, щоб власник міняв її в одному місці.
+   Хоче поставити її не в кінці — може вписати {час} посеред тексту. */
+function statusLine(st){
+  const msg = String((st.open ? SHOP.openMsg : SHOP.shutMsg) || '').trim();
+  const t   = st.open ? st.to : st.from;
+  if(/\{час\}/.test(msg)) return msg.replace(/\{час\}/g, t);
+  return msg ? msg + ' ' + t : t;
+}
 function renderHours(){
   const el=$('#hoursLine'); if(!el) return;
   const st=openState();
   el.className = 'hours' + (st ? (st.open?' hours--open':' hours--shut') : '');
   el.innerHTML = `<i></i><b>${esc(SHOP.hours)}</b>` +
-    (st ? `<span class="hours__st">${esc(
-            (st.open ? SHOP.openMsg : SHOP.shutMsg)
-              .replace(/\{час\}/g, st.open ? st.to : st.from)
-          )}</span>` : '') +
+    (st ? `<span class="hours__st">${esc(statusLine(st))}</span>` : '') +
     `<em>${esc(SHOP.dayOff)}</em>`;
 }
 /* межі поля «на конкретний час» в оформленні */

@@ -1228,6 +1228,13 @@ function closeProduct(){
   setTimeout(()=>{ pv.hidden=true; syncLock(); },300);
 }
 
+/* Підвал малюється на початку, ще до відповіді адмінки, і в ньому
+   стоїть графік роботи. Тому після завантаження даних його треба
+   перемалювати — інакше внизу лишається старий час. */
+function renderFooter(){
+  const f = $('#ftr');
+  if(f) f.innerHTML = footerHTML();
+}
 function footerHTML(){
   return `<div class="footer__in">
     <div>

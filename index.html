@@ -11,12 +11,12 @@
 <meta property="og:description" content="Роли, сети та вок з доставкою по Умані. Безкоштовно від 499 ₴.">
 <meta property="og:image" content="logo.jpg">
 <meta property="og:locale" content="uk_UA">
-<link rel="icon" href="favicon.png?v=20260826-1021" sizes="144x144" type="image/png">
+<link rel="icon" href="favicon.png?v=20260826-1106" sizes="144x144" type="image/png">
 <link rel="apple-touch-icon" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20260826-1021">
+<link rel="stylesheet" href="style.css?v=20260826-1106">
 </head>
 <body>
 
@@ -83,13 +83,13 @@
 <nav class="navbar" id="nav"></nav>
 <div id="cartWrap"></div>
 
-<script src="data.js?v=20260826-1021"></script>
-<script src="app.js?v=20260826-1021"></script>
+<script src="data.js?v=20260826-1106"></script>
+<script src="app.js?v=20260826-1106"></script>
 <script>
 mountShell('home');
 /* адресу меню проставляє скрипт; у розмітці вона стоїть лише як запасна */
 $$('[data-menu]').forEach(a => a.href = MENU);
-$('#ftr').innerHTML = footerHTML();
+renderFooter();
 
 /* ---------- банери ----------
    Це позиції, у яких в адмінці стоїть галочка «в банер». Усе своє
@@ -173,7 +173,7 @@ $('#q').addEventListener('input',e=>{
   qgo = setTimeout(()=>goSearch(v), 700);
 });
 </script>
-<script src="fx.js?v=20260826-1021"></script>
-<script src="db.js?v=20260826-1021"></script>
+<script src="fx.js?v=20260826-1106"></script>
+<script src="db.js?v=20260826-1106"></script>
 </body>
 </html>

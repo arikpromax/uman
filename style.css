@@ -1,25 +1,25 @@
-/* ============================================================
-   FUJI SUSHI · Умань
-   Структура й пропорції — за extaz-sushi.com.ua.
-   Палітра — з логотипа закладу: чорний, червоний #B43637, білий.
-   Неону приблизно на 20% менше, ніж в оригіналі (див. .glow).
+﻿/* ============================================================
+   FUJI SUSHI В· РЈРјР°РЅСЊ
+   РЎС‚СЂСѓРєС‚СѓСЂР° Р№ РїСЂРѕРїРѕСЂС†С–С— вЂ” Р·Р° extaz-sushi.com.ua.
+   РџР°Р»С–С‚СЂР° вЂ” Р· Р»РѕРіРѕС‚РёРїР° Р·Р°РєР»Р°РґСѓ: С‡РѕСЂРЅРёР№, С‡РµСЂРІРѕРЅРёР№ #B43637, Р±С–Р»РёР№.
+   РќРµРѕРЅСѓ РїСЂРёР±Р»РёР·РЅРѕ РЅР° 20% РјРµРЅС€Рµ, РЅС–Р¶ РІ РѕСЂРёРіС–РЅР°Р»С– (РґРёРІ. .glow).
    ============================================================ */
 
 :root{
   --bg:#0C0A0B;
   --ink:#F4F2F2;
-  /* приглушені сірі підняті: на склі поверх світлої ілюстрації
-     старі #A8A6A6 і #6E6C6E ледь читалися */
+  /* РїСЂРёРіР»СѓС€РµРЅС– СЃС–СЂС– РїС–РґРЅСЏС‚С–: РЅР° СЃРєР»С– РїРѕРІРµСЂС… СЃРІС–С‚Р»РѕС— С–Р»СЋСЃС‚СЂР°С†С–С—
+     СЃС‚Р°СЂС– #A8A6A6 С– #6E6C6E Р»РµРґСЊ С‡РёС‚Р°Р»РёСЃСЏ */
   --ink-2:#CBC7C8;
   --ink-3:#9C9799;
 
-  --red:#B43637;          /* точний колір із логотипа */
+  --red:#B43637;          /* С‚РѕС‡РЅРёР№ РєРѕР»С–СЂ С–Р· Р»РѕРіРѕС‚РёРїР° */
   --red-hi:#D8464A;
   --red-soft:rgba(180,54,55,.20);
   --red-tag:rgba(180,54,55,.92);
 
-  /* скло темне: фон сайту — світла ілюстрація, і на прозорому склі
-     світлий текст на ній зникав */
+  /* СЃРєР»Рѕ С‚РµРјРЅРµ: С„РѕРЅ СЃР°Р№С‚Сѓ вЂ” СЃРІС–С‚Р»Р° С–Р»СЋСЃС‚СЂР°С†С–СЏ, С– РЅР° РїСЂРѕР·РѕСЂРѕРјСѓ СЃРєР»С–
+     СЃРІС–С‚Р»РёР№ С‚РµРєСЃС‚ РЅР° РЅС–Р№ Р·РЅРёРєР°РІ */
   --glass:rgba(18,12,13,.72);
   --glass-2:rgba(18,12,13,.58);
   --line:rgba(238,238,238,.10);
@@ -38,17 +38,17 @@
 }
 
 *,*::before,*::after{box-sizing:border-box}
-/* інакше display:grid/flex перебиває атрибут hidden */
+/* С–РЅР°РєС€Рµ display:grid/flex РїРµСЂРµР±РёРІР°С” Р°С‚СЂРёР±СѓС‚ hidden */
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:clip}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:'Onest','Manrope',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
   font-size:16px;line-height:1.45;font-weight:400;
-  /* НЕ ставити тут overflow-x:hidden: воно робить body контейнером
-     прокрутки і мовчки ламає position:sticky всередині — шапка й смуга
-     розділів переставали липнути. Від горизонтального зсуву достатньо
-     overflow-x:clip на html вище. */
+  /* РќР• СЃС‚Р°РІРёС‚Рё С‚СѓС‚ overflow-x:hidden: РІРѕРЅРѕ СЂРѕР±РёС‚СЊ body РєРѕРЅС‚РµР№РЅРµСЂРѕРј
+     РїСЂРѕРєСЂСѓС‚РєРё С– РјРѕРІС‡РєРё Р»Р°РјР°С” position:sticky РІСЃРµСЂРµРґРёРЅС– вЂ” С€Р°РїРєР° Р№ СЃРјСѓРіР°
+     СЂРѕР·РґС–Р»С–РІ РїРµСЂРµСЃС‚Р°РІР°Р»Рё Р»РёРїРЅСѓС‚Рё. Р’С–Рґ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРіРѕ Р·СЃСѓРІСѓ РґРѕСЃС‚Р°С‚РЅСЊРѕ
+     overflow-x:clip РЅР° html РІРёС‰Рµ. */
   min-height:100vh;
 }
 body.locked{overflow:hidden}
@@ -61,28 +61,28 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .wrap{width:min(100% - 32px,var(--max));margin-inline:auto;position:relative;z-index:2}
 
-/* ---------- ФОТО-ФОН ---------- */
-/* fon.jpg лежить у папці сайту й показується як є: ні фільтрів,
-   ні притемнення поверх. cover — щоб укривала весь екран. */
+/* ---------- Р¤РћРўРћ-Р¤РћРќ ---------- */
+/* fon.jpg Р»РµР¶РёС‚СЊ Сѓ РїР°РїС†С– СЃР°Р№С‚Сѓ Р№ РїРѕРєР°Р·СѓС”С‚СЊСЃСЏ СЏРє С”: РЅС– С„С–Р»СЊС‚СЂС–РІ,
+   РЅС– РїСЂРёС‚РµРјРЅРµРЅРЅСЏ РїРѕРІРµСЂС…. cover вЂ” С‰РѕР± СѓРєСЂРёРІР°Р»Р° РІРµСЃСЊ РµРєСЂР°РЅ. */
 .glows{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:#0A0708}
 .glows::before{
   content:'';position:absolute;inset:0;
   background:url(fon.jpg) center / cover no-repeat;
 }
-/* Плями світла вимкнено: вони лягали кольоровими хмарами поверх
-   ілюстрації й міняли її вигляд. */
+/* РџР»СЏРјРё СЃРІС–С‚Р»Р° РІРёРјРєРЅРµРЅРѕ: РІРѕРЅРё Р»СЏРіР°Р»Рё РєРѕР»СЊРѕСЂРѕРІРёРјРё С…РјР°СЂР°РјРё РїРѕРІРµСЂС…
+   С–Р»СЋСЃС‚СЂР°С†С–С— Р№ РјС–РЅСЏР»Рё С—С— РІРёРіР»СЏРґ. */
 .glow{display:none}
 
-/* ---------- ХЕДЕР ---------- */
+/* ---------- РҐР•Р”Р•Р  ---------- */
 .header{
   position:sticky;top:0;z-index:50;
   display:flex;align-items:center;gap:22px;
   width:min(100% - 32px,var(--max));margin-inline:auto;
   padding:14px 0 16px;
 }
-/* фіксована, а не -50vw: інакше сторінка їде вбік по горизонталі.
-   Маска гасить не лише колір, а й розмиття — без неї внизу шторки
-   лишалася б різка межа, де розмиття обривається. */
+/* С„С–РєСЃРѕРІР°РЅР°, Р° РЅРµ -50vw: С–РЅР°РєС€Рµ СЃС‚РѕСЂС–РЅРєР° С—РґРµ РІР±С–Рє РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»С–.
+   РњР°СЃРєР° РіР°СЃРёС‚СЊ РЅРµ Р»РёС€Рµ РєРѕР»С–СЂ, Р° Р№ СЂРѕР·РјРёС‚С‚СЏ вЂ” Р±РµР· РЅРµС— РІРЅРёР·Сѓ С€С‚РѕСЂРєРё
+   Р»РёС€Р°Р»Р°СЃСЏ Р± СЂС–Р·РєР° РјРµР¶Р°, РґРµ СЂРѕР·РјРёС‚С‚СЏ РѕР±СЂРёРІР°С”С‚СЊСЃСЏ. */
 .header::before{
   content:'';position:fixed;top:0;left:0;right:0;height:118px;z-index:-1;
   background:linear-gradient(rgba(9,6,7,.92) 42%,rgba(9,6,7,0));
@@ -129,7 +129,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .phone-pill{padding:11px 13px}
 }
 
-/* ---------- НИЖНЯ ПАНЕЛЬ ---------- */
+/* ---------- РќРР–РќРЇ РџРђРќР•Р›Р¬ ---------- */
 .navbar{
   position:fixed;left:0;right:0;bottom:0;z-index:60;
   height:calc(var(--nav-h) + env(safe-area-inset-bottom));
@@ -147,8 +147,8 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .navbar a svg{width:22px;height:22px}
 .navbar a.on{color:var(--red-hi)}
 .navbar .nb-cart{width:62px;position:relative}
-/* Тепле сяйво під кнопкою — окремим шаром на обгортці, тому лягає
-   під саму кнопку й повільно «дихає». */
+/* РўРµРїР»Рµ СЃСЏР№РІРѕ РїС–Рґ РєРЅРѕРїРєРѕСЋ вЂ” РѕРєСЂРµРјРёРј С€Р°СЂРѕРј РЅР° РѕР±РіРѕСЂС‚С†С–, С‚РѕРјСѓ Р»СЏРіР°С”
+   РїС–Рґ СЃР°РјСѓ РєРЅРѕРїРєСѓ Р№ РїРѕРІС–Р»СЊРЅРѕ В«РґРёС…Р°С”В». */
 .navbar .nb-cart::before{
   content:'';position:absolute;left:-9px;top:-33px;width:80px;height:80px;
   border-radius:50%;pointer-events:none;
@@ -157,9 +157,9 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 @keyframes cartglow{0%,100%{opacity:.5;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
 @media(prefers-reduced-motion:reduce){.navbar .nb-cart::before{animation:none}}
-/* Головна кнопка сайту. Обідок навколо — темний, кольору панелі, і
-   поверх нього тонка золота нитка: біле кільце на темній панелі
-   впадало в око більше за саму кнопку. */
+/* Р“РѕР»РѕРІРЅР° РєРЅРѕРїРєР° СЃР°Р№С‚Сѓ. РћР±С–РґРѕРє РЅР°РІРєРѕР»Рѕ вЂ” С‚РµРјРЅРёР№, РєРѕР»СЊРѕСЂСѓ РїР°РЅРµР»С–, С–
+   РїРѕРІРµСЂС… РЅСЊРѕРіРѕ С‚РѕРЅРєР° Р·РѕР»РѕС‚Р° РЅРёС‚РєР°: Р±С–Р»Рµ РєС–Р»СЊС†Рµ РЅР° С‚РµРјРЅС–Р№ РїР°РЅРµР»С–
+   РІРїР°РґР°Р»Рѕ РІ РѕРєРѕ Р±С–Р»СЊС€Рµ Р·Р° СЃР°РјСѓ РєРЅРѕРїРєСѓ. */
 .navbar .nb-cart .cart-btn{
   width:56px;height:56px;margin-top:-21px;
   background:
@@ -172,7 +172,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
     0 14px 32px -8px rgba(216,70,74,.9);
   transition:transform .3s var(--ease),box-shadow .3s var(--ease);
 }
-/* полиск скла у верхній частині — те, що робить кружок обʼємним */
+/* РїРѕР»РёСЃРє СЃРєР»Р° Сѓ РІРµСЂС…РЅС–Р№ С‡Р°СЃС‚РёРЅС– вЂ” С‚Рµ, С‰Рѕ СЂРѕР±РёС‚СЊ РєСЂСѓР¶РѕРє РѕР±КјС”РјРЅРёРј */
 .navbar .nb-cart .cart-btn::after{
   content:'';position:absolute;left:15%;top:8%;width:70%;height:40%;
   border-radius:50%;pointer-events:none;
@@ -193,7 +193,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   box-shadow:0 0 0 2.5px rgba(0,0,0,.92),0 3px 10px -2px rgba(240,193,59,.9);
 }
 @media(min-width:861px){
-  /* на десктопі — плаваюча пігулка по центру, як в оригіналі */
+  /* РЅР° РґРµСЃРєС‚РѕРїС– вЂ” РїР»Р°РІР°СЋС‡Р° РїС–РіСѓР»РєР° РїРѕ С†РµРЅС‚СЂСѓ, СЏРє РІ РѕСЂРёРіС–РЅР°Р»С– */
   .navbar{
     left:50%;right:auto;transform:translateX(-50%);
     bottom:18px;width:auto;height:auto;gap:6px;
@@ -205,11 +205,11 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .navbar .nb-cart::before{left:-5px;top:-26px;width:72px;height:72px}
 }
 
-/* ---------- ГЕРОЙ ---------- */
-/* Заголовки — просто текст, без плашки, на вимогу власника.
-   На світлих ділянках ілюстрації вони бліднуть — це свідомий вибір. */
-/* тінь така сама, як у рядка графіка: текст лежить просто на
-   ілюстрації, а вона місцями світла */
+/* ---------- Р“Р•Р РћР™ ---------- */
+/* Р—Р°РіРѕР»РѕРІРєРё вЂ” РїСЂРѕСЃС‚Рѕ С‚РµРєСЃС‚, Р±РµР· РїР»Р°С€РєРё, РЅР° РІРёРјРѕРіСѓ РІР»Р°СЃРЅРёРєР°.
+   РќР° СЃРІС–С‚Р»РёС… РґС–Р»СЏРЅРєР°С… С–Р»СЋСЃС‚СЂР°С†С–С— РІРѕРЅРё Р±Р»С–РґРЅСѓС‚СЊ вЂ” С†Рµ СЃРІС–РґРѕРјРёР№ РІРёР±С–СЂ. */
+/* С‚С–РЅСЊ С‚Р°РєР° СЃР°РјР°, СЏРє Сѓ СЂСЏРґРєР° РіСЂР°С„С–РєР°: С‚РµРєСЃС‚ Р»РµР¶РёС‚СЊ РїСЂРѕСЃС‚Рѕ РЅР°
+   С–Р»СЋСЃС‚СЂР°С†С–С—, Р° РІРѕРЅР° РјС–СЃС†СЏРјРё СЃРІС–С‚Р»Р° */
 .h1,.sec-h h2,.sec-h a,.grp h2{text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.75)}
 .h1{font-size:clamp(23px,4.2vw,34px);font-weight:700;padding:6px 0 18px}
 
@@ -217,38 +217,38 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .banners{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;
   overscroll-behavior-x:contain}
 .banners::-webkit-scrollbar{display:none}
-/* Темне скло: власного фото банер не має, крізь нього ледь проглядає
-   фон сторінки. Розмиття сильне, щоб гори не сперечалися з текстом. */
+/* РўРµРјРЅРµ СЃРєР»Рѕ: РІР»Р°СЃРЅРѕРіРѕ С„РѕС‚Рѕ Р±Р°РЅРµСЂ РЅРµ РјР°С”, РєСЂС–Р·СЊ РЅСЊРѕРіРѕ Р»РµРґСЊ РїСЂРѕРіР»СЏРґР°С”
+   С„РѕРЅ СЃС‚РѕСЂС–РЅРєРё. Р РѕР·РјРёС‚С‚СЏ СЃРёР»СЊРЅРµ, С‰РѕР± РіРѕСЂРё РЅРµ СЃРїРµСЂРµС‡Р°Р»РёСЃСЏ Р· С‚РµРєСЃС‚РѕРј. */
 .banner{
   cursor:pointer;
   position:relative;flex:0 0 min(100%,var(--max));scroll-snap-align:center;
   height:clamp(300px,44vw,420px);border-radius:var(--r-m);overflow:hidden;
-  /* суцільний колір: крізь напівпрозорий банер просвічувала фонова
-     ілюстрація, і на її червоних ділянках він віддавав червоним */
+  /* СЃСѓС†С–Р»СЊРЅРёР№ РєРѕР»С–СЂ: РєСЂС–Р·СЊ РЅР°РїС–РІРїСЂРѕР·РѕСЂРёР№ Р±Р°РЅРµСЂ РїСЂРѕСЃРІС–С‡СѓРІР°Р»Р° С„РѕРЅРѕРІР°
+     С–Р»СЋСЃС‚СЂР°С†С–СЏ, С– РЅР° С—С— С‡РµСЂРІРѕРЅРёС… РґС–Р»СЏРЅРєР°С… РІС–РЅ РІС–РґРґР°РІР°РІ С‡РµСЂРІРѕРЅРёРј */
   background:#0E0A0B;
   display:flex;align-items:center;
 }
 .banner__art{position:absolute;right:-4%;top:50%;transform:translateY(-50%);width:min(52%,420px)}
 .banner__art svg{width:100%;height:auto;filter:drop-shadow(0 24px 50px rgba(0,0,0,.6))}
-/* завантажене фото сета на банері */
-/* contain, а не cover: у банері показуємо знімок цілком, як він є */
+/* Р·Р°РІР°РЅС‚Р°Р¶РµРЅРµ С„РѕС‚Рѕ СЃРµС‚Р° РЅР° Р±Р°РЅРµСЂС– */
+/* contain, Р° РЅРµ cover: Сѓ Р±Р°РЅРµСЂС– РїРѕРєР°Р·СѓС”РјРѕ Р·РЅС–РјРѕРє С†С–Р»РєРѕРј, СЏРє РІС–РЅ С” */
 .banner__art .pic{width:100%;height:auto;aspect-ratio:1;object-fit:contain;
   border-radius:var(--r-m);box-shadow:0 24px 50px rgba(0,0,0,.6)}
-/* Червоного світіння тут більше немає: воно лежало саме над фото
-   праворуч і фарбувало страву в червоне — одна й та сама позиція
-   на банері й на картці виглядала по-різному. */
+/* Р§РµСЂРІРѕРЅРѕРіРѕ СЃРІС–С‚С–РЅРЅСЏ С‚СѓС‚ Р±С–Р»СЊС€Рµ РЅРµРјР°С”: РІРѕРЅРѕ Р»РµР¶Р°Р»Рѕ СЃР°РјРµ РЅР°Рґ С„РѕС‚Рѕ
+   РїСЂР°РІРѕСЂСѓС‡ С– С„Р°СЂР±СѓРІР°Р»Рѕ СЃС‚СЂР°РІСѓ РІ С‡РµСЂРІРѕРЅРµ вЂ” РѕРґРЅР° Р№ С‚Р° СЃР°РјР° РїРѕР·РёС†С–СЏ
+   РЅР° Р±Р°РЅРµСЂС– Р№ РЅР° РєР°СЂС‚С†С– РІРёРіР»СЏРґР°Р»Р° РїРѕ-СЂС–Р·РЅРѕРјСѓ. */
 .banner__in{position:relative;z-index:2;padding:clamp(24px,4vw,44px);max-width:58%}
 .banner__in h2{font-size:clamp(26px,4.4vw,44px);white-space:pre-line}
 .banner__in p{margin:12px 0 0;color:var(--ink-2);font-size:clamp(13px,1.5vw,16px);white-space:pre-line}
-/* плашка над назвою, щоб акція читалась одразу, а не тільки з ціни */
+/* РїР»Р°С€РєР° РЅР°Рґ РЅР°Р·РІРѕСЋ, С‰РѕР± Р°РєС†С–СЏ С‡РёС‚Р°Р»Р°СЃСЊ РѕРґСЂР°Р·Сѓ, Р° РЅРµ С‚С–Р»СЊРєРё Р· С†С–РЅРё */
 .banner__tag{
   display:inline-block;margin-bottom:10px;padding:5px 11px;border-radius:var(--r-s);
   background:#F0C13B;color:#141414;font-size:12px;font-weight:800;
   letter-spacing:.04em;text-transform:uppercase;box-shadow:var(--sh-tag);
 }
 .banner__b{display:flex;align-items:center;gap:14px;margin-top:clamp(16px,2.6vw,26px);flex-wrap:wrap}
-/* стару ціну відсуваємо від нової і робимо дрібнішою: злиті в одне
-   число «111122 ₴» їх було не розрізнити */
+/* СЃС‚Р°СЂСѓ С†С–РЅСѓ РІС–РґСЃСѓРІР°С”РјРѕ РІС–Рґ РЅРѕРІРѕС— С– СЂРѕР±РёРјРѕ РґСЂС–Р±РЅС–С€РѕСЋ: Р·Р»РёС‚С– РІ РѕРґРЅРµ
+   С‡РёСЃР»Рѕ В«111122 в‚ґВ» С—С… Р±СѓР»Рѕ РЅРµ СЂРѕР·СЂС–Р·РЅРёС‚Рё */
 .banner__p{display:inline-flex;align-items:baseline;gap:10px;
   font-size:clamp(22px,3vw,30px);font-weight:700;white-space:nowrap}
 .banner__p s{font-size:.6em;font-weight:400;color:var(--ink-3);
@@ -265,10 +265,10 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .dots b{width:7px;height:7px;border-radius:50%;background:var(--ink-3);opacity:.5;cursor:pointer;transition:all .3s}
 .dots b.on{background:var(--red-hi);opacity:1;width:20px;border-radius:4px}
 
-/* ---------- КАТЕГОРІЇ ---------- */
-/* overscroll-behavior-x стримує бокове перетягування сторінки.
-   touch-action тут НЕ чіпаємо: pan-x забороняє вертикальний рух
-   пальця, і сторінка перестає гортатися над стрічкою. */
+/* ---------- РљРђРўР•Р“РћР Р†Р‡ ---------- */
+/* overscroll-behavior-x СЃС‚СЂРёРјСѓС” Р±РѕРєРѕРІРµ РїРµСЂРµС‚СЏРіСѓРІР°РЅРЅСЏ СЃС‚РѕСЂС–РЅРєРё.
+   touch-action С‚СѓС‚ РќР• С‡С–РїР°С”РјРѕ: pan-x Р·Р°Р±РѕСЂРѕРЅСЏС” РІРµСЂС‚РёРєР°Р»СЊРЅРёР№ СЂСѓС…
+   РїР°Р»СЊС†СЏ, С– СЃС‚РѕСЂС–РЅРєР° РїРµСЂРµСЃС‚Р°С” РіРѕСЂС‚Р°С‚РёСЃСЏ РЅР°Рґ СЃС‚СЂС–С‡РєРѕСЋ. */
 .cats{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:22px 0 4px;
   overscroll-behavior-x:contain}
 .cats::-webkit-scrollbar{display:none}
@@ -283,7 +283,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .cat.on{background:var(--red);border-color:var(--red-hi)}
 .cat svg,.cat .pic{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
 
-/* ---------- ПОШУК ---------- */
+/* ---------- РџРћРЁРЈРљ ---------- */
 .searchbar{display:flex;gap:11px;padding:18px 0 0}
 .search{
   flex:1;display:flex;align-items:center;gap:11px;height:58px;padding:0 18px;
@@ -291,7 +291,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .search svg{width:20px;height:20px;color:var(--ink-3);flex-shrink:0}
 .search input{flex:1;min-width:0;background:none;border:0;font-size:16px;font-weight:500}
-/* у браузера свій хрестик очищення — виходило два поруч */
+/* Сѓ Р±СЂР°СѓР·РµСЂР° СЃРІС–Р№ С…СЂРµСЃС‚РёРє РѕС‡РёС‰РµРЅРЅСЏ вЂ” РІРёС…РѕРґРёР»Рѕ РґРІР° РїРѕСЂСѓС‡ */
 .search input::-webkit-search-cancel-button,
 .search input::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
 .search input::placeholder{color:var(--ink-3)}
@@ -299,7 +299,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .search button{background:none;border:0;cursor:pointer;color:var(--ink-3);padding:4px}
 .search button:hover{color:var(--red-hi)}
 
-/* ---------- КНОПКА СОРТУВАННЯ ---------- */
+/* ---------- РљРќРћРџРљРђ РЎРћР РўРЈР’РђРќРќРЇ ---------- */
 .filt-btn{
   display:flex;align-items:center;gap:9px;flex-shrink:0;height:58px;padding:0 22px;
   border:0;border-radius:var(--r-s);cursor:pointer;
@@ -309,10 +309,10 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .filt-btn svg{width:19px;height:19px}
 .filt-btn:hover{background:var(--red-soft)}
 .filt-btn.on{background:var(--red);color:#fff}
-/* підпис лишається завжди: кнопка-перемикач тільки ним і читається */
+/* РїС–РґРїРёСЃ Р»РёС€Р°С”С‚СЊСЃСЏ Р·Р°РІР¶РґРё: РєРЅРѕРїРєР°-РїРµСЂРµРјРёРєР°С‡ С‚С–Р»СЊРєРё РЅРёРј С– С‡РёС‚Р°С”С‚СЊСЃСЏ */
 @media(max-width:600px){.filt-btn{padding:0 15px;font-size:14px;gap:7px}.filt-btn svg{width:17px;height:17px}}
 
-/* ---------- СТОРІНКА ПОЗИЦІЇ ---------- */
+/* ---------- РЎРўРћР Р†РќРљРђ РџРћР—РР¦Р†Р‡ ---------- */
 .pv{position:fixed;inset:0;z-index:100;background:var(--bg);
   overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   opacity:0;transform:translateY(16px);transition:opacity .3s var(--ease),transform .3s var(--ease)}
@@ -338,12 +338,12 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .pv__also h3{font-size:clamp(18px,2.4vw,23px);font-weight:600;margin-bottom:14px}
 .card[data-open]{cursor:pointer}
 
-/* ---------- ЗАГОЛОВКИ РОЗДІЛІВ ---------- */
+/* ---------- Р—РђР“РћР›РћР’РљР Р РћР—Р”Р†Р›Р†Р’ ---------- */
 .sec-h{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:34px 0 16px}
 .sec-h h2{font-size:clamp(20px,2.6vw,26px);font-weight:600}
 .sec-h a{font-size:14px;color:var(--red-hi);font-weight:600;white-space:nowrap}
 
-/* ---------- КАРТКИ СТРАВ ---------- */
+/* ---------- РљРђР РўРљР РЎРўР РђР’ ---------- */
 .row-slider{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:6px;
   overscroll-behavior-x:contain}
 .row-slider::-webkit-scrollbar{display:none}
@@ -351,34 +351,34 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(214px,1fr));gap:18px;
   align-items:stretch}
 
-/* Картка: фото зверху, скляна панель наїжджає на нього знизу */
-/* напівпрозорий, щоб фонове фото просвічувало крізь картку.
-   Розмиття тут навмисно не ставимо: карток під сотню, і на телефоні
-   стільки шарів backdrop-filter відчутно гальмують. */
-/* колонка + flex:1 на панелі — так картки в ряду однакової висоти,
-   а ціни й кнопки стоять на одній лінії */
+/* РљР°СЂС‚РєР°: С„РѕС‚Рѕ Р·РІРµСЂС…Сѓ, СЃРєР»СЏРЅР° РїР°РЅРµР»СЊ РЅР°С—Р¶РґР¶Р°С” РЅР° РЅСЊРѕРіРѕ Р·РЅРёР·Сѓ */
+/* РЅР°РїС–РІРїСЂРѕР·РѕСЂРёР№, С‰РѕР± С„РѕРЅРѕРІРµ С„РѕС‚Рѕ РїСЂРѕСЃРІС–С‡СѓРІР°Р»Рѕ РєСЂС–Р·СЊ РєР°СЂС‚РєСѓ.
+   Р РѕР·РјРёС‚С‚СЏ С‚СѓС‚ РЅР°РІРјРёСЃРЅРѕ РЅРµ СЃС‚Р°РІРёРјРѕ: РєР°СЂС‚РѕРє РїС–Рґ СЃРѕС‚РЅСЋ, С– РЅР° С‚РµР»РµС„РѕРЅС–
+   СЃС‚С–Р»СЊРєРё С€Р°СЂС–РІ backdrop-filter РІС–РґС‡СѓС‚РЅРѕ РіР°Р»СЊРјСѓСЋС‚СЊ. */
+/* РєРѕР»РѕРЅРєР° + flex:1 РЅР° РїР°РЅРµР»С– вЂ” С‚Р°Рє РєР°СЂС‚РєРё РІ СЂСЏРґСѓ РѕРґРЅР°РєРѕРІРѕС— РІРёСЃРѕС‚Рё,
+   Р° С†С–РЅРё Р№ РєРЅРѕРїРєРё СЃС‚РѕСЏС‚СЊ РЅР° РѕРґРЅС–Р№ Р»С–РЅС–С— */
 .card{position:relative;border-radius:18px;overflow:hidden;
   display:flex;flex-direction:column;
   background:linear-gradient(rgba(10,7,8,.72) 45%,rgba(10,7,8,0))}
-/* overflow ховає все зайве: під курсором з картки нічого не вилазить */
+/* overflow С…РѕРІР°С” РІСЃРµ Р·Р°Р№РІРµ: РїС–Рґ РєСѓСЂСЃРѕСЂРѕРј Р· РєР°СЂС‚РєРё РЅС–С‡РѕРіРѕ РЅРµ РІРёР»Р°Р·РёС‚СЊ */
 .card__img{aspect-ratio:1;display:grid;place-items:center;overflow:hidden;
   border-radius:18px 18px 0 0}
-/* намальовану страву підіймаємо, щоб панель з текстом її не перекривала */
+/* РЅР°РјР°Р»СЊРѕРІР°РЅСѓ СЃС‚СЂР°РІСѓ РїС–РґС–Р№РјР°С”РјРѕ, С‰РѕР± РїР°РЅРµР»СЊ Р· С‚РµРєСЃС‚РѕРј С—С— РЅРµ РїРµСЂРµРєСЂРёРІР°Р»Р° */
 .card__img svg{width:76%;height:auto;aspect-ratio:1;margin-bottom:52px}
 .card__img .pic{width:100%;height:100%;object-fit:contain;border-radius:18px}
 
-/* Завантажене в адмінці фото. Стоїть на місці намальованої картинки
-   в усіх списках, тож достатньо одного правила на всі розміри. */
+/* Р—Р°РІР°РЅС‚Р°Р¶РµРЅРµ РІ Р°РґРјС–РЅС†С– С„РѕС‚Рѕ. РЎС‚РѕС—С‚СЊ РЅР° РјС–СЃС†С– РЅР°РјР°Р»СЊРѕРІР°РЅРѕС— РєР°СЂС‚РёРЅРєРё
+   РІ СѓСЃС–С… СЃРїРёСЃРєР°С…, С‚РѕР¶ РґРѕСЃС‚Р°С‚РЅСЊРѕ РѕРґРЅРѕРіРѕ РїСЂР°РІРёР»Р° РЅР° РІСЃС– СЂРѕР·РјС–СЂРё. */
 .pic{width:100%;height:100%;object-fit:cover;display:block}
 .ci__a .pic,.ad__a .pic{border-radius:10px}
 .pv__art .pic{border-radius:var(--r-m);box-shadow:0 30px 60px rgba(0,0,0,.8)}
-/* плашки сидять на верхньому краї скляної панелі, тобто поверх фото
-   і вище за назву, щоб її не перекривати */
-/* плашки тепер стоять окремо, тож рядок назви більше не потребує
-   власного відступу знизу — від нього лишалася пустка */
+/* РїР»Р°С€РєРё СЃРёРґСЏС‚СЊ РЅР° РІРµСЂС…РЅСЊРѕРјСѓ РєСЂР°С— СЃРєР»СЏРЅРѕС— РїР°РЅРµР»С–, С‚РѕР±С‚Рѕ РїРѕРІРµСЂС… С„РѕС‚Рѕ
+   С– РІРёС‰Рµ Р·Р° РЅР°Р·РІСѓ, С‰РѕР± С—С— РЅРµ РїРµСЂРµРєСЂРёРІР°С‚Рё */
+/* РїР»Р°С€РєРё С‚РµРїРµСЂ СЃС‚РѕСЏС‚СЊ РѕРєСЂРµРјРѕ, С‚РѕР¶ СЂСЏРґРѕРє РЅР°Р·РІРё Р±С–Р»СЊС€Рµ РЅРµ РїРѕС‚СЂРµР±СѓС”
+   РІР»Р°СЃРЅРѕРіРѕ РІС–РґСЃС‚СѓРїСѓ Р·РЅРёР·Сѓ вЂ” РІС–Рґ РЅСЊРѕРіРѕ Р»РёС€Р°Р»Р°СЃСЏ РїСѓСЃС‚РєР° */
 .card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-/* Плашки сидять на межі фото й панелі — трохи на знімку, трохи на
-   тексті. Так вони помітні й не забирають місця в рядку з назвою. */
+/* РџР»Р°С€РєРё СЃРёРґСЏС‚СЊ РЅР° РјРµР¶С– С„РѕС‚Рѕ Р№ РїР°РЅРµР»С– вЂ” С‚СЂРѕС…Рё РЅР° Р·РЅС–РјРєСѓ, С‚СЂРѕС…Рё РЅР°
+   С‚РµРєСЃС‚С–. РўР°Рє РІРѕРЅРё РїРѕРјС–С‚РЅС– Р№ РЅРµ Р·Р°Р±РёСЂР°СЋС‚СЊ РјС–СЃС†СЏ РІ СЂСЏРґРєСѓ Р· РЅР°Р·РІРѕСЋ. */
 .card__tags{position:absolute;top:-13px;right:14px;z-index:3;
   display:flex;gap:6px;flex-wrap:nowrap;justify-content:flex-end}
 .tag{
@@ -391,28 +391,28 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .tag--hot{background:rgba(150,32,32,.95)}
 .tag--sale{background:#F0C13B;color:#141414;font-weight:800}
 
-/* акційна ціна: стару перекреслюємо, нову підсвічуємо */
+/* Р°РєС†С–Р№РЅР° С†С–РЅР°: СЃС‚Р°СЂСѓ РїРµСЂРµРєСЂРµСЃР»СЋС”РјРѕ, РЅРѕРІСѓ РїС–РґСЃРІС–С‡СѓС”РјРѕ */
 .card__p s,.pv__p s,.ci__t s,.ad__t s{
   color:var(--ink-3);text-decoration-color:var(--red-hi);
   font-size:.62em;font-weight:400;margin-right:6px;
 }
 .card__p.sale,.pv__p.sale{color:#F0C13B}
 .pv__tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
-/* Панель із текстом наїжджає на фото. Скло не рівне, а з градієнтом:
-   згори світліше й прозоріше, донизу гусне — так її верхній край не
-   читається як наліплений прямокутник, але сама панель лишається. */
-/* Розмиття тут навмисно прибране: карток під сотню, і стільки шарів
-   backdrop-filter змушували телефон захлинатися на прокрутці.
-   Щільніший градієнт дає той самий вигляд без цієї ціни. */
-/* Панель щільна, і на фото заходить лише краєм: крізь напівпрозору
-   було видно знімок, і текст читався поверх ролів. */
+/* РџР°РЅРµР»СЊ С–Р· С‚РµРєСЃС‚РѕРј РЅР°С—Р¶РґР¶Р°С” РЅР° С„РѕС‚Рѕ. РЎРєР»Рѕ РЅРµ СЂС–РІРЅРµ, Р° Р· РіСЂР°РґС–С”РЅС‚РѕРј:
+   Р·РіРѕСЂРё СЃРІС–С‚Р»С–С€Рµ Р№ РїСЂРѕР·РѕСЂС–С€Рµ, РґРѕРЅРёР·Сѓ РіСѓСЃРЅРµ вЂ” С‚Р°Рє С—С— РІРµСЂС…РЅС–Р№ РєСЂР°Р№ РЅРµ
+   С‡РёС‚Р°С”С‚СЊСЃСЏ СЏРє РЅР°Р»С–РїР»РµРЅРёР№ РїСЂСЏРјРѕРєСѓС‚РЅРёРє, Р°Р»Рµ СЃР°РјР° РїР°РЅРµР»СЊ Р»РёС€Р°С”С‚СЊСЃСЏ. */
+/* Р РѕР·РјРёС‚С‚СЏ С‚СѓС‚ РЅР°РІРјРёСЃРЅРѕ РїСЂРёР±СЂР°РЅРµ: РєР°СЂС‚РѕРє РїС–Рґ СЃРѕС‚РЅСЋ, С– СЃС‚С–Р»СЊРєРё С€Р°СЂС–РІ
+   backdrop-filter Р·РјСѓС€СѓРІР°Р»Рё С‚РµР»РµС„РѕРЅ Р·Р°С…Р»РёРЅР°С‚РёСЃСЏ РЅР° РїСЂРѕРєСЂСѓС‚С†С–.
+   Р©С–Р»СЊРЅС–С€РёР№ РіСЂР°РґС–С”РЅС‚ РґР°С” С‚РѕР№ СЃР°РјРёР№ РІРёРіР»СЏРґ Р±РµР· С†С–С”С— С†С–РЅРё. */
+/* РџР°РЅРµР»СЊ С‰С–Р»СЊРЅР°, С– РЅР° С„РѕС‚Рѕ Р·Р°С…РѕРґРёС‚СЊ Р»РёС€Рµ РєСЂР°С”Рј: РєСЂС–Р·СЊ РЅР°РїС–РІРїСЂРѕР·РѕСЂСѓ
+   Р±СѓР»Рѕ РІРёРґРЅРѕ Р·РЅС–РјРѕРє, С– С‚РµРєСЃС‚ С‡РёС‚Р°РІСЃСЏ РїРѕРІРµСЂС… СЂРѕР»С–РІ. */
 .card__in{position:relative;z-index:2;flex:1;margin-top:-22px;padding:20px;
   display:flex;flex-direction:column;border-radius:18px;
   background:var(--glass);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
 .card__n{font-size:18px;font-weight:600;line-height:1.2}
-/* склад розтягується на вільне місце, щоб ціна в усіх картках рядка
-   стояла на одній висоті */
+/* СЃРєР»Р°Рґ СЂРѕР·С‚СЏРіСѓС”С‚СЊСЃСЏ РЅР° РІС–Р»СЊРЅРµ РјС–СЃС†Рµ, С‰РѕР± С†С–РЅР° РІ СѓСЃС–С… РєР°СЂС‚РєР°С… СЂСЏРґРєР°
+   СЃС‚РѕСЏР»Р° РЅР° РѕРґРЅС–Р№ РІРёСЃРѕС‚С– */
 .card__d{flex:1;margin:9px 0 18px;font-size:13.5px;color:var(--ink-2);line-height:1.62;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card__w{font-size:13.5px;color:var(--ink-3);margin-bottom:12px;min-height:19px}
@@ -434,7 +434,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .add:hover{background:var(--red-hi);transform:scale(1.08)}
 .add svg{width:19px;height:19px}
-/* на телефоні дві картки в ряд — так само, як у меню-зразку */
+/* РЅР° С‚РµР»РµС„РѕРЅС– РґРІС– РєР°СЂС‚РєРё РІ СЂСЏРґ вЂ” С‚Р°Рє СЃР°РјРѕ, СЏРє Сѓ РјРµРЅСЋ-Р·СЂР°Р·РєСѓ */
 @media(max-width:520px){
   .grid{grid-template-columns:1fr 1fr;gap:12px}
   .row-slider .card{flex:0 0 168px}
@@ -447,15 +447,15 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
   .card__add{right:11px;bottom:13px;min-width:82px;height:36px;padding:0 14px;font-size:14px}
 
   .tag{padding:4px 7px;font-size:10px}
-  /* Шахматка тільки на телефоні: на комп'ютері сітка лишається рівною.
-     Зроблено як у сайті-зразку — там опущена вся ліва колонка на 54 px,
-     а не кожна друга картка почергово. Зсув живе у змінній, бо саме
-     поле transform зайняте появою картки. */
+  /* РЁР°С…РјР°С‚РєР° С‚С–Р»СЊРєРё РЅР° С‚РµР»РµС„РѕРЅС–: РЅР° РєРѕРјРї'СЋС‚РµСЂС– СЃС–С‚РєР° Р»РёС€Р°С”С‚СЊСЃСЏ СЂС–РІРЅРѕСЋ.
+     Р—СЂРѕР±Р»РµРЅРѕ СЏРє Сѓ СЃР°Р№С‚С–-Р·СЂР°Р·РєСѓ вЂ” С‚Р°Рј РѕРїСѓС‰РµРЅР° РІСЃСЏ Р»С–РІР° РєРѕР»РѕРЅРєР° РЅР° 54 px,
+     Р° РЅРµ РєРѕР¶РЅР° РґСЂСѓРіР° РєР°СЂС‚РєР° РїРѕС‡РµСЂРіРѕРІРѕ. Р—СЃСѓРІ Р¶РёРІРµ Сѓ Р·РјС–РЅРЅС–Р№, Р±Рѕ СЃР°РјРµ
+     РїРѕР»Рµ transform Р·Р°Р№РЅСЏС‚Рµ РїРѕСЏРІРѕСЋ РєР°СЂС‚РєРё. */
   .grid{padding-bottom:54px}
   .grid > .card:nth-child(odd){--sy:54px}
 }
 
-/* ---------- КНОПКИ ---------- */
+/* ---------- РљРќРћРџРљР ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:9px;
   padding:15px 28px;border-radius:var(--r-s);border:0;cursor:pointer;
@@ -470,29 +470,29 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .btn--wide{padding:17px 46px;font-size:16px}
 .center{display:flex;justify-content:center;padding:26px 0 0}
 
-/* ---------- ГОДИНИ РОБОТИ ---------- */
-/* Рядок графіка теж стоїть просто на ілюстрації. Той самий прийом,
-   що й у підвалі: ореол на літерах, без плашки. */
+/* ---------- Р“РћР”РРќР Р РћР‘РћРўР ---------- */
+/* Р СЏРґРѕРє РіСЂР°С„С–РєР° С‚РµР¶ СЃС‚РѕС—С‚СЊ РїСЂРѕСЃС‚Рѕ РЅР° С–Р»СЋСЃС‚СЂР°С†С–С—. РўРѕР№ СЃР°РјРёР№ РїСЂРёР№РѕРј,
+   С‰Рѕ Р№ Сѓ РїС–РґРІР°Р»С–: РѕСЂРµРѕР» РЅР° Р»С–С‚РµСЂР°С…, Р±РµР· РїР»Р°С€РєРё. */
 .hours{
   display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;
   padding:38px 0 6px;text-align:center;font-size:clamp(15px,2vw,19px);font-weight:600;
   text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 14px rgba(0,0,0,.75);
 }
 .hours i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--red-hi);font-style:normal;flex-shrink:0}
-/* «Понеділок — санітарний день» виглядає так само, як графік ліворуч:
-   раніше він був дрібніший і сірий, і читався як другорядна примітка */
+/* В«РџРѕРЅРµРґС–Р»РѕРє вЂ” СЃР°РЅС–С‚Р°СЂРЅРёР№ РґРµРЅСЊВ» РІРёРіР»СЏРґР°С” С‚Р°Рє СЃР°РјРѕ, СЏРє РіСЂР°С„С–Рє Р»С–РІРѕСЂСѓС‡:
+   СЂР°РЅС–С€Рµ РІС–РЅ Р±СѓРІ РґСЂС–Р±РЅС–С€РёР№ С– СЃС–СЂРёР№, С– С‡РёС‚Р°РІСЃСЏ СЏРє РґСЂСѓРіРѕСЂСЏРґРЅР° РїСЂРёРјС–С‚РєР° */
 .hours em{font-style:normal}
-/* зараз відчинено / зачинено — рахується за годинами з адмінки */
+/* Р·Р°СЂР°Р· РІС–РґС‡РёРЅРµРЅРѕ / Р·Р°С‡РёРЅРµРЅРѕ вЂ” СЂР°С…СѓС”С‚СЊСЃСЏ Р·Р° РіРѕРґРёРЅР°РјРё Р· Р°РґРјС–РЅРєРё */
 .hours--open i{background:#4E9A3A;box-shadow:0 0 0 4px rgba(78,154,58,.18)}
 .hours--shut i{background:var(--ink-3)}
-/* позначка «зараз відчинено» — щільніша, бо напівпрозора зеленню на
-   світлому тумані розпливалася в пляму */
+/* РїРѕР·РЅР°С‡РєР° В«Р·Р°СЂР°Р· РІС–РґС‡РёРЅРµРЅРѕВ» вЂ” С‰С–Р»СЊРЅС–С€Р°, Р±Рѕ РЅР°РїС–РІРїСЂРѕР·РѕСЂР° Р·РµР»РµРЅРЅСЋ РЅР°
+   СЃРІС–С‚Р»РѕРјСѓ С‚СѓРјР°РЅС– СЂРѕР·РїР»РёРІР°Р»Р°СЃСЏ РІ РїР»СЏРјСѓ */
 .hours__st{font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;
   background:rgba(18,12,13,.82);color:var(--ink-2);text-shadow:none}
 .hours--open .hours__st{background:rgba(30,58,24,.88);color:#9EE083}
 
 
-/* ---------- ІНФО-КАРТКИ ---------- */
+/* ---------- Р†РќР¤Рћ-РљРђР РўРљР ---------- */
 .info{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:8px}
 @media(max-width:760px){.info{grid-template-columns:1fr}}
 .info>div{
@@ -507,18 +507,18 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .info dt{color:var(--ink-2)}
 .info dd{margin:0;font-weight:600;text-align:right}
 
-/* ---------- КОНТАКТИ / ФУТЕР ---------- */
-/* Підвал лежить просто на ілюстрації, а вона внизу світла — туман і
-   гори. Тому не плашка, а темний ореол навколо самих літер: він не
-   малює прямокутника, але відриває текст від будь-якого тла. */
+/* ---------- РљРћРќРўРђРљРўР / Р¤РЈРўР•Р  ---------- */
+/* РџС–РґРІР°Р» Р»РµР¶РёС‚СЊ РїСЂРѕСЃС‚Рѕ РЅР° С–Р»СЋСЃС‚СЂР°С†С–С—, Р° РІРѕРЅР° РІРЅРёР·Сѓ СЃРІС–С‚Р»Р° вЂ” С‚СѓРјР°РЅ С–
+   РіРѕСЂРё. РўРѕРјСѓ РЅРµ РїР»Р°С€РєР°, Р° С‚РµРјРЅРёР№ РѕСЂРµРѕР» РЅР°РІРєРѕР»Рѕ СЃР°РјРёС… Р»С–С‚РµСЂ: РІС–РЅ РЅРµ
+   РјР°Р»СЋС” РїСЂСЏРјРѕРєСѓС‚РЅРёРєР°, Р°Р»Рµ РІС–РґСЂРёРІР°С” С‚РµРєСЃС‚ РІС–Рґ Р±СѓРґСЊ-СЏРєРѕРіРѕ С‚Р»Р°. */
 .footer{
   margin-top:44px;padding:26px 0 calc(var(--nav-h) + 34px);
   border-top:1px solid rgba(40,28,29,.22);
 }
 @media(min-width:861px){.footer{padding-bottom:120px}}
-/* підвал лежить на світлому тумані — тому теж на плашці */
-/* те саме скло, що в картках «Доставка» й «Оплата» вище —
-   суцільний чорний виглядав важчим за решту сторінки */
+/* РїС–РґРІР°Р» Р»РµР¶РёС‚СЊ РЅР° СЃРІС–С‚Р»РѕРјСѓ С‚СѓРјР°РЅС– вЂ” С‚РѕРјСѓ С‚РµР¶ РЅР° РїР»Р°С€С†С– */
+/* С‚Рµ СЃР°РјРµ СЃРєР»Рѕ, С‰Рѕ РІ РєР°СЂС‚РєР°С… В«Р”РѕСЃС‚Р°РІРєР°В» Р№ В«РћРїР»Р°С‚Р°В» РІРёС‰Рµ вЂ”
+   СЃСѓС†С–Р»СЊРЅРёР№ С‡РѕСЂРЅРёР№ РІРёРіР»СЏРґР°РІ РІР°Р¶С‡РёРј Р·Р° СЂРµС€С‚Сѓ СЃС‚РѕСЂС–РЅРєРё */
 .footer__in,.copy{background:var(--glass);backdrop-filter:blur(8px);
   -webkit-backdrop-filter:blur(8px);border-radius:var(--r-s);
   box-shadow:var(--sh);padding:22px 24px}
@@ -530,17 +530,17 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .footer a:hover{color:var(--red-hi)}
 .footer__big{font-size:22px;font-weight:700;color:var(--ink)}
 .copy{padding-top:22px;margin-top:22px;border-top:1px solid var(--line);font-size:12.5px;display:flex;gap:14px;flex-wrap:wrap;justify-content:space-between}
-/* Ці правила стоять після базових навмисно: дрібні сірі підписи на
-   світлому тумані тонули найперше, тож у підвалі вони світлішають. */
+/* Р¦С– РїСЂР°РІРёР»Р° СЃС‚РѕСЏС‚СЊ РїС–СЃР»СЏ Р±Р°Р·РѕРІРёС… РЅР°РІРјРёСЃРЅРѕ: РґСЂС–Р±РЅС– СЃС–СЂС– РїС–РґРїРёСЃРё РЅР°
+   СЃРІС–С‚Р»РѕРјСѓ С‚СѓРјР°РЅС– С‚РѕРЅСѓР»Рё РЅР°Р№РїРµСЂС€Рµ, С‚РѕР¶ Сѓ РїС–РґРІР°Р»С– РІРѕРЅРё СЃРІС–С‚Р»С–С€Р°СЋС‚СЊ. */
 .footer h4{color:var(--ink-2)}
 .footer ul{color:var(--ink)}
 .copy{color:var(--ink-2)}
 
-/* ---------- КОШИК ----------
-   Обгортка обрізає засунуту панель: інакше translateX(101%)
-   розтягує сторінку вбік і ламає всю мобільну верстку. */
-/* УВАГА: обгортка не ловить кліки, тож КОЖНА панель усередині
-   мусить сама вмикати pointer-events. Забудеш — кнопки мертві. */
+/* ---------- РљРћРЁРРљ ----------
+   РћР±РіРѕСЂС‚РєР° РѕР±СЂС–Р·Р°С” Р·Р°СЃСѓРЅСѓС‚Сѓ РїР°РЅРµР»СЊ: С–РЅР°РєС€Рµ translateX(101%)
+   СЂРѕР·С‚СЏРіСѓС” СЃС‚РѕСЂС–РЅРєСѓ РІР±С–Рє С– Р»Р°РјР°С” РІСЃСЋ РјРѕР±С–Р»СЊРЅСѓ РІРµСЂСЃС‚РєСѓ. */
+/* РЈР’РђР“Рђ: РѕР±РіРѕСЂС‚РєР° РЅРµ Р»РѕРІРёС‚СЊ РєР»С–РєРё, С‚РѕР¶ РљРћР–РќРђ РїР°РЅРµР»СЊ СѓСЃРµСЂРµРґРёРЅС–
+   РјСѓСЃРёС‚СЊ СЃР°РјР° РІРјРёРєР°С‚Рё pointer-events. Р—Р°Р±СѓРґРµС€ вЂ” РєРЅРѕРїРєРё РјРµСЂС‚РІС–. */
 #cartWrap{position:fixed;inset:0;z-index:80;overflow:hidden;pointer-events:none}
 .cart,.co,.pv{pointer-events:auto}
 .veil{position:absolute;inset:0;z-index:106;background:rgba(0,0,0,.66);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .4s}
@@ -578,17 +578,17 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .cart__h h3{flex:1}
 .cart__h .icn:first-child{margin-right:2px}
 
-/* кроки: cart → cond → add */
+/* РєСЂРѕРєРё: cart в†’ cond в†’ add */
 .st.in{animation:stepIn .34s var(--ease)}
 @keyframes stepIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .st__h{margin:2px 0 10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
 
-/* умови доставки — плавно виїжджають під кнопками способу */
+/* СѓРјРѕРІРё РґРѕСЃС‚Р°РІРєРё вЂ” РїР»Р°РІРЅРѕ РІРёС—Р¶РґР¶Р°СЋС‚СЊ РїС–Рґ РєРЅРѕРїРєР°РјРё СЃРїРѕСЃРѕР±Сѓ */
 .condwrap{max-height:0;overflow:hidden;opacity:0;
   transition:max-height .42s var(--ease),opacity .3s var(--ease),margin .42s var(--ease)}
 .condwrap.open{opacity:1;margin-bottom:12px}
 
-/* «набір уже входить» — угорі списку додатків */
+/* В«РЅР°Р±С–СЂ СѓР¶Рµ РІС…РѕРґРёС‚СЊВ» вЂ” СѓРіРѕСЂС– СЃРїРёСЃРєСѓ РґРѕРґР°С‚РєС–РІ */
 .freebie{
   display:flex;gap:11px;align-items:flex-start;margin:0 0 16px;padding:13px 14px;
   background:rgba(99,180,74,.12);border:1px solid rgba(99,180,74,.35);border-radius:var(--r-s);
@@ -605,7 +605,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .cond__r.ok b{color:#63B44A}
 .cond__n{margin:16px 0 0;font-size:13.5px;color:var(--ink-3);line-height:1.5}
 
-/* додатки */
+/* РґРѕРґР°С‚РєРё */
 .ad{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
 .ad__a{width:42px;height:42px;flex-shrink:0}
 .ad__t{flex:1;min-width:0}
@@ -614,7 +614,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .add--sm{width:36px;height:36px}
 .add--sm svg{width:15px;height:15px}
 
-/* вибір способу — перемикач, а не перехід */
+/* РІРёР±С–СЂ СЃРїРѕСЃРѕР±Сѓ вЂ” РїРµСЂРµРјРёРєР°С‡, Р° РЅРµ РїРµСЂРµС…С–Рґ */
 .mode{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px}
 .mbtn{
   display:flex;align-items:center;justify-content:center;gap:8px;
@@ -627,7 +627,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .mbtn:hover{color:var(--ink)}
 .mbtn.on{background:var(--red);border-color:var(--red-hi);color:#fff}
 
-/* ---------- ПОВНОЕКРАННЕ ОФОРМЛЕННЯ ---------- */
+/* ---------- РџРћР’РќРћР•РљР РђРќРќР• РћР¤РћР РњР›Р•РќРќРЇ ---------- */
 .co{
   position:fixed;inset:0;z-index:120;background:var(--bg);
   overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
@@ -680,7 +680,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 }
 .fld input:focus,.fld select:focus,.fld textarea:focus{outline:0;border-color:var(--red)}
 .fld .bad{border-color:var(--red-hi)}
-/* свій лічильник: системні стрілочки в number виглядають чужорідно */
+/* СЃРІС–Р№ Р»С–С‡РёР»СЊРЅРёРє: СЃРёСЃС‚РµРјРЅС– СЃС‚СЂС–Р»РѕС‡РєРё РІ number РІРёРіР»СЏРґР°СЋС‚СЊ С‡СѓР¶РѕСЂС–РґРЅРѕ */
 .stp{display:flex;align-items:center;margin-top:5px;height:46px;
   background:var(--glass-2);border:1px solid rgba(255,255,255,.30);border-radius:var(--r-s);overflow:hidden}
 .stp button{width:46px;align-self:stretch;background:none;border:0;cursor:pointer;
@@ -695,10 +695,10 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 
 .addr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .fld__l+.pay{margin-top:6px}
-/* поле часу стоїть у тій самій колонці, що й «Коли» */
+/* РїРѕР»Рµ С‡Р°СЃСѓ СЃС‚РѕС—С‚СЊ Сѓ С‚С–Р№ СЃР°РјС–Р№ РєРѕР»РѕРЅС†С–, С‰Рѕ Р№ В«РљРѕР»РёВ» */
 #timeBox{margin-top:10px}
 .fld__l--2{display:block;margin-top:10px}
-/* підказка під лічильниками паличок */
+/* РїС–РґРєР°Р·РєР° РїС–Рґ Р»С–С‡РёР»СЊРЅРёРєР°РјРё РїР°Р»РёС‡РѕРє */
 .fld__h{margin:8px 0 0;font-size:12.5px;color:var(--ink-3);line-height:1.35}
 .cart__empty{display:grid;place-items:center;gap:12px;height:100%;text-align:center;color:var(--ink-3);padding:40px 0}
 .cart__empty svg{width:56px;height:56px;opacity:.4;stroke-width:1.4}
@@ -729,7 +729,7 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .pay input:checked+span{color:var(--red-hi);font-weight:600}
 .pay label:has(input:checked){border-color:var(--red)}
 
-/* ---------- ТОСТ ---------- */
+/* ---------- РўРћРЎРў ---------- */
 .toast{
   position:fixed;left:50%;bottom:calc(var(--nav-h) + 18px);transform:translate(-50%,150%);
   z-index:100;opacity:0;pointer-events:none;white-space:nowrap;max-width:calc(100vw - 28px);
@@ -740,21 +740,21 @@ h1,h2,h3{margin:0;font-weight:700;line-height:1.15;letter-spacing:-.01em}
 .toast.on{transform:translate(-50%,0);opacity:1}
 
 /* ============================================================
-   ШАР ЕФЕКТІВ (працює у парі з fx.js; без нього сайт теж живий)
+   РЁРђР  Р•Р¤Р•РљРўР†Р’ (РїСЂР°С†СЋС” Сѓ РїР°СЂС– Р· fx.js; Р±РµР· РЅСЊРѕРіРѕ СЃР°Р№С‚ С‚РµР¶ Р¶РёРІРёР№)
    ============================================================ */
 
-/* поява сторінки */
+/* РїРѕСЏРІР° СЃС‚РѕСЂС–РЅРєРё */
 html.fx body{opacity:0;transition:opacity .5s var(--ease)}
 html.fx-ready body{opacity:1}
 
-/* смуга прогресу прокрутки */
+/* СЃРјСѓРіР° РїСЂРѕРіСЂРµСЃСѓ РїСЂРѕРєСЂСѓС‚РєРё */
 .fx-bar{
   position:fixed;top:0;left:0;right:0;height:2px;z-index:120;
   background:linear-gradient(90deg,var(--red),var(--red-hi),#E8A34A);
   transform:scaleX(0);transform-origin:0 50%;pointer-events:none;
 }
 
-/* зерно плівки */
+/* Р·РµСЂРЅРѕ РїР»С–РІРєРё */
 .fx-grain{
   position:fixed;inset:-120px;z-index:1;pointer-events:none;opacity:.05;
   mix-blend-mode:overlay;
@@ -767,7 +767,7 @@ html.fx-ready body{opacity:1}
   100%{transform:translate(0,0)}
 }
 
-/* світло за курсором */
+/* СЃРІС–С‚Р»Рѕ Р·Р° РєСѓСЂСЃРѕСЂРѕРј */
 .fx-lamp{
   position:fixed;top:0;left:0;width:520px;height:520px;z-index:1;
   pointer-events:none;opacity:0;transition:opacity .8s var(--ease);
@@ -775,37 +775,37 @@ html.fx-ready body{opacity:1}
   filter:blur(26px);
 }
 
-/* поява блоків */
-/* зсув появи тримаємо у змінній, а не в самому transform: інакше це
-   правило (у нього два класи, тобто вища вага) стирає нахил і шахматку */
+/* РїРѕСЏРІР° Р±Р»РѕРєС–РІ */
+/* Р·СЃСѓРІ РїРѕСЏРІРё С‚СЂРёРјР°С”РјРѕ Сѓ Р·РјС–РЅРЅС–Р№, Р° РЅРµ РІ СЃР°РјРѕРјСѓ transform: С–РЅР°РєС€Рµ С†Рµ
+   РїСЂР°РІРёР»Рѕ (Сѓ РЅСЊРѕРіРѕ РґРІР° РєР»Р°СЃРё, С‚РѕР±С‚Рѕ РІРёС‰Р° РІР°РіР°) СЃС‚РёСЂР°С” РЅР°С…РёР» С– С€Р°С…РјР°С‚РєСѓ */
 .fx-rise{--fy:22px;opacity:0;transform:translateY(var(--fy));
   transition:opacity .62s var(--ease) var(--d,0ms),transform .62s var(--ease) var(--d,0ms)}
 .fx-rise.shown{--fy:0px;opacity:1}
 
-/* заголовок по словах */
+/* Р·Р°РіРѕР»РѕРІРѕРє РїРѕ СЃР»РѕРІР°С… */
 .h1 .fx-w{display:inline-block;opacity:0;transform:translateY(18px);
   transition:opacity .6s var(--ease) var(--d),transform .6s var(--ease) var(--d)}
 .h1.shown .fx-w{opacity:1;transform:none}
 
-/* нахил і відблиск карток */
-/* Картка під курсором не рухається: варто їй нахилитися чи підрости —
-   і вона вилазить за свої межі на сусідні. Лишається сама тінь.
-   Зсуви появи й шахматки складаємо в один transform, бо поле одне. */
+/* РЅР°С…РёР» С– РІС–РґР±Р»РёСЃРє РєР°СЂС‚РѕРє */
+/* РљР°СЂС‚РєР° РїС–Рґ РєСѓСЂСЃРѕСЂРѕРј РЅРµ СЂСѓС…Р°С”С‚СЊСЃСЏ: РІР°СЂС‚Рѕ С—Р№ РЅР°С…РёР»РёС‚РёСЃСЏ С‡Рё РїС–РґСЂРѕСЃС‚Рё вЂ”
+   С– РІРѕРЅР° РІРёР»Р°Р·РёС‚СЊ Р·Р° СЃРІРѕС— РјРµР¶С– РЅР° СЃСѓСЃС–РґРЅС–. Р›РёС€Р°С”С‚СЊСЃСЏ СЃР°РјР° С‚С–РЅСЊ.
+   Р—СЃСѓРІРё РїРѕСЏРІРё Р№ С€Р°С…РјР°С‚РєРё СЃРєР»Р°РґР°С”РјРѕ РІ РѕРґРёРЅ transform, Р±Рѕ РїРѕР»Рµ РѕРґРЅРµ. */
 .card{
   transform:translateY(calc(var(--sy,0px) + var(--fy,0px)));
   transition:transform .34s var(--ease),
              opacity .34s var(--ease) var(--d,0ms),
              box-shadow .5s var(--ease);
 }
-/* банер великий і стоїть окремо — йому нахил не заважає */
+/* Р±Р°РЅРµСЂ РІРµР»РёРєРёР№ С– СЃС‚РѕС—С‚СЊ РѕРєСЂРµРјРѕ вЂ” Р№РѕРјСѓ РЅР°С…РёР» РЅРµ Р·Р°РІР°Р¶Р°С” */
 .banner{
   transform:translateY(var(--fy,0px)) perspective(900px)
             rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
   transition:transform .5s var(--ease),box-shadow .5s var(--ease);
 }
-/* will-change тільки на тому банері, що зараз під курсором */
+/* will-change С‚С–Р»СЊРєРё РЅР° С‚РѕРјСѓ Р±Р°РЅРµСЂС–, С‰Рѕ Р·Р°СЂР°Р· РїС–Рґ РєСѓСЂСЃРѕСЂРѕРј */
 .banner.fx-tilt{will-change:transform;transition:transform .12s linear,box-shadow .5s var(--ease)}
-/* картці на наведення — сама тінь, без руху */
+/* РєР°СЂС‚С†С– РЅР° РЅР°РІРµРґРµРЅРЅСЏ вЂ” СЃР°РјР° С‚С–РЅСЊ, Р±РµР· СЂСѓС…Сѓ */
 .card:hover{box-shadow:0 24px 50px -22px rgba(0,0,0,.85),0 0 0 1px rgba(180,54,55,.35)}
 .banner::before{
   content:'';position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
@@ -817,7 +817,7 @@ html.fx-ready body{opacity:1}
 .btn,.mbtn,.add,.cat{position:relative;overflow:hidden}
 .card__add{overflow:hidden}
 
-/* хвиля по кліку */
+/* С…РІРёР»СЏ РїРѕ РєР»С–РєСѓ */
 .fx-wave{
   position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;
   background:rgba(255,255,255,.42);pointer-events:none;transform:scale(0);
@@ -825,21 +825,21 @@ html.fx-ready body{opacity:1}
 }
 @keyframes fxWave{to{transform:scale(22);opacity:0}}
 
-/* банер: повільний дрейф малюнка */
+/* Р±Р°РЅРµСЂ: РїРѕРІС–Р»СЊРЅРёР№ РґСЂРµР№С„ РјР°Р»СЋРЅРєР° */
 .banner__art{transition:transform .5s var(--ease)}
 .banner__art svg{animation:fxFloat 9s ease-in-out infinite}
 @keyframes fxFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(2.5deg)}}
 
-/* акценти */
+/* Р°РєС†РµРЅС‚Рё */
 .cat.on{box-shadow:0 8px 26px -10px rgba(180,54,55,.85)}
 .card:hover .card__p{text-shadow:0 0 18px rgba(216,70,74,.55)}
 .navbar .nb-cart .cart-btn i.on{animation:fxPop .45s var(--ease)}
 @keyframes fxPop{0%{transform:scale(1)}45%{transform:scale(1.45)}100%{transform:scale(1)}}
 
-/* плавний перехід між сторінками там, де браузер це вміє */
+/* РїР»Р°РІРЅРёР№ РїРµСЂРµС…С–Рґ РјС–Р¶ СЃС‚РѕСЂС–РЅРєР°РјРё С‚Р°Рј, РґРµ Р±СЂР°СѓР·РµСЂ С†Рµ РІРјС–С” */
 @view-transition{navigation:auto}
 
-/* смуги прокрутки */
+/* СЃРјСѓРіРё РїСЂРѕРєСЂСѓС‚РєРё */
 *::-webkit-scrollbar{width:10px;height:10px}
 *::-webkit-scrollbar-track{background:transparent}
 *::-webkit-scrollbar-thumb{background:rgba(180,54,55,.35);border-radius:6px;border:3px solid #000}
@@ -849,11 +849,11 @@ html.fx-ready body{opacity:1}
   .fx-rise,.h1 .fx-w{opacity:1;transform:none;transition:none}
   .fx-grain,.fx-lamp{display:none}
   .banner__art svg{animation:none}
-  /* шахматку лишаємо — це верстка, а не анімація */
+  /* С€Р°С…РјР°С‚РєСѓ Р»РёС€Р°С”РјРѕ вЂ” С†Рµ РІРµСЂСЃС‚РєР°, Р° РЅРµ Р°РЅС–РјР°С†С–СЏ */
   .card,.banner{transform:translateY(var(--sy,0px));transition:none}
 }
 
-/* ---------- ЕКРАН «ЗАМОВЛЕННЯ ПРИЙНЯТО» ---------- */
+/* ---------- Р•РљР РђРќ В«Р—РђРњРћР’Р›Р•РќРќРЇ РџР РР™РќРЇРўРћВ» ---------- */
 #thanks{
   position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px;
   background:rgba(6,4,5,.92);backdrop-filter:blur(10px);text-align:center;
@@ -868,7 +868,7 @@ html.fx-ready body{opacity:1}
   transform:translateY(14px) scale(.97);transition:transform .38s var(--ease);
 }
 #thanks.on .thanks__in{transform:none}
-/* галочка малюється сама: спершу коло, потім лінія */
+/* РіР°Р»РѕС‡РєР° РјР°Р»СЋС”С‚СЊСЃСЏ СЃР°РјР°: СЃРїРµСЂС€Сѓ РєРѕР»Рѕ, РїРѕС‚С–Рј Р»С–РЅС–СЏ */
 .thanks__ok{width:76px;height:76px;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .thanks__ok circle{stroke:rgba(120,190,120,.55);stroke-width:3;
   stroke-dasharray:196;stroke-dashoffset:196;animation:okRing .55s var(--ease) .1s forwards}
@@ -884,9 +884,9 @@ html.fx-ready body{opacity:1}
 }
 .thanks__row b{color:var(--ink);font-size:17px}
 .thanks__in .btn{margin-top:4px}
-/* «Готово» — другорядна дія: класу .btn--ghost у проєкті немає,
-   тож задаємо вигляд тут, щоб дві однакові червоні кнопки поруч
-   не сперечалися між собою */
+/* В«Р“РѕС‚РѕРІРѕВ» вЂ” РґСЂСѓРіРѕСЂСЏРґРЅР° РґС–СЏ: РєР»Р°СЃСѓ .btn--ghost Сѓ РїСЂРѕС”РєС‚С– РЅРµРјР°С”,
+   С‚РѕР¶ Р·Р°РґР°С”РјРѕ РІРёРіР»СЏРґ С‚СѓС‚, С‰РѕР± РґРІС– РѕРґРЅР°РєРѕРІС– С‡РµСЂРІРѕРЅС– РєРЅРѕРїРєРё РїРѕСЂСѓС‡
+   РЅРµ СЃРїРµСЂРµС‡Р°Р»РёСЃСЏ РјС–Р¶ СЃРѕР±РѕСЋ */
 .thanks__in .btn--ghost{
   background:transparent;border:1px solid var(--line);color:var(--ink-2);
   box-shadow:none;
@@ -896,7 +896,7 @@ html.fx-ready body{opacity:1}
   .thanks__ok circle,.thanks__ok path{animation:none;stroke-dashoffset:0}
 }
 
-/* ---------- САНІТАРНИЙ ДЕНЬ (вмикається з адмінки) ---------- */
+/* ---------- РЎРђРќР†РўРђР РќРР™ Р”Р•РќР¬ (РІРјРёРєР°С”С‚СЊСЃСЏ Р· Р°РґРјС–РЅРєРё) ---------- */
 #dayoff{
   position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:24px;
   background:rgba(0,0,0,.96);backdrop-filter:blur(6px);text-align:center;
@@ -909,7 +909,7 @@ html.fx-ready body{opacity:1}
 .dayoff__tel{font-size:15px;color:var(--ink-3)}
 .dayoff__tel:hover{color:var(--red-hi)}
 
-/* після «Зрозуміло»: дивитися можна, замовляти — ні */
+/* РїС–СЃР»СЏ В«Р—СЂРѕР·СѓРјС–Р»РѕВ»: РґРёРІРёС‚РёСЃСЏ РјРѕР¶РЅР°, Р·Р°РјРѕРІР»СЏС‚Рё вЂ” РЅС– */
 .dayoff-bar{
   position:fixed;top:0;left:0;right:0;z-index:130;text-align:center;
   padding:9px 14px;font-size:13px;font-weight:600;
@@ -922,18 +922,18 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
   opacity:.45;cursor:not-allowed;
 }
 
-/* ---------- ДРІБНИЦІ ---------- */
+/* ---------- Р”Р Р†Р‘РќРР¦Р† ---------- */
 .fly{position:fixed;z-index:95;pointer-events:none;width:62px;height:62px;transition:all .75s cubic-bezier(.5,-.3,.7,.5)}
 .empty{padding:60px 0;text-align:center;color:var(--ink-3)}
 .page{padding-bottom:calc(var(--nav-h) + 10px)}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-/* ---------- Банер на телефоні ----------
-   Розкладка та сама, що й на компʼютері: текст ліворуч, фото праворуч.
-   Виправлено тільки те, що ламалося на вузькому екрані — фото звисало
-   за край банера (right:-4%) і його зрізало, а опис не мав де стати
-   й заходив під нього. Тепер фото вміщається цілком, а текстовій
-   колонці відведено рівно свою половину. */
+/* ---------- Р‘Р°РЅРµСЂ РЅР° С‚РµР»РµС„РѕРЅС– ----------
+   Р РѕР·РєР»Р°РґРєР° С‚Р° СЃР°РјР°, С‰Рѕ Р№ РЅР° РєРѕРјРїКјСЋС‚РµСЂС–: С‚РµРєСЃС‚ Р»С–РІРѕСЂСѓС‡, С„РѕС‚Рѕ РїСЂР°РІРѕСЂСѓС‡.
+   Р’РёРїСЂР°РІР»РµРЅРѕ С‚С–Р»СЊРєРё С‚Рµ, С‰Рѕ Р»Р°РјР°Р»РѕСЃСЏ РЅР° РІСѓР·СЊРєРѕРјСѓ РµРєСЂР°РЅС– вЂ” С„РѕС‚Рѕ Р·РІРёСЃР°Р»Рѕ
+   Р·Р° РєСЂР°Р№ Р±Р°РЅРµСЂР° (right:-4%) С– Р№РѕРіРѕ Р·СЂС–Р·Р°Р»Рѕ, Р° РѕРїРёСЃ РЅРµ РјР°РІ РґРµ СЃС‚Р°С‚Рё
+   Р№ Р·Р°С…РѕРґРёРІ РїС–Рґ РЅСЊРѕРіРѕ. РўРµРїРµСЂ С„РѕС‚Рѕ РІРјС–С‰Р°С”С‚СЊСЃСЏ С†С–Р»РєРѕРј, Р° С‚РµРєСЃС‚РѕРІС–Р№
+   РєРѕР»РѕРЅС†С– РІС–РґРІРµРґРµРЅРѕ СЂС–РІРЅРѕ СЃРІРѕСЋ РїРѕР»РѕРІРёРЅСѓ. */
 @media(max-width:640px){
   .banner{height:auto;min-height:clamp(240px,60vw,300px)}
   .banner__art{right:8px;width:54%}
@@ -947,9 +947,9 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
   .banner__b .btn{padding:10px 12px;font-size:12px}
 }
 
-/* ---------- Сортування ----------
-   На телефоні перелік малює система, тут лише вигляд закритого
-   елемента: прибираємо стандартну стрілку й тло, лишаючи нашу кнопку. */
+/* ---------- РЎРѕСЂС‚СѓРІР°РЅРЅСЏ ----------
+   РќР° С‚РµР»РµС„РѕРЅС– РїРµСЂРµР»С–Рє РјР°Р»СЋС” СЃРёСЃС‚РµРјР°, С‚СѓС‚ Р»РёС€Рµ РІРёРіР»СЏРґ Р·Р°РєСЂРёС‚РѕРіРѕ
+   РµР»РµРјРµРЅС‚Р°: РїСЂРёР±РёСЂР°С”РјРѕ СЃС‚Р°РЅРґР°СЂС‚РЅСѓ СЃС‚СЂС–Р»РєСѓ Р№ С‚Р»Рѕ, Р»РёС€Р°СЋС‡Рё РЅР°С€Сѓ РєРЅРѕРїРєСѓ. */
 #sortSel{
   appearance:none;-webkit-appearance:none;
   background:none;border:0;padding:0;margin:0;
@@ -958,8 +958,8 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
 }
 #sortSel option{background:#1B1415;color:#F2F2F4}
 
-/* На компʼютері меню наше — у тому ж айфонівському стилі: матове скло,
-   волосяні розділювачі між рядками, галочка ліворуч біля обраного. */
+/* РќР° РєРѕРјРїКјСЋС‚РµСЂС– РјРµРЅСЋ РЅР°С€Рµ вЂ” Сѓ С‚РѕРјСѓ Р¶ Р°Р№С„РѕРЅС–РІСЃСЊРєРѕРјСѓ СЃС‚РёР»С–: РјР°С‚РѕРІРµ СЃРєР»Рѕ,
+   РІРѕР»РѕСЃСЏРЅС– СЂРѕР·РґС–Р»СЋРІР°С‡С– РјС–Р¶ СЂСЏРґРєР°РјРё, РіР°Р»РѕС‡РєР° Р»С–РІРѕСЂСѓС‡ Р±С–Р»СЏ РѕР±СЂР°РЅРѕРіРѕ. */
 .sortwrap{position:relative;flex-shrink:0}
 .sortmenu{
   position:absolute;right:0;top:calc(100% + 8px);z-index:70;min-width:232px;
@@ -969,8 +969,8 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
   box-shadow:0 12px 40px -8px rgba(0,0,0,.7),0 0 0 .5px rgba(255,255,255,.10);
   animation:sortIn .2s var(--ease);
 }
-/* тільки рух, без прозорості: напівпрозора панель у польоті
-   показувала кнопки розділів під собою */
+/* С‚С–Р»СЊРєРё СЂСѓС…, Р±РµР· РїСЂРѕР·РѕСЂРѕСЃС‚С–: РЅР°РїС–РІРїСЂРѕР·РѕСЂР° РїР°РЅРµР»СЊ Сѓ РїРѕР»СЊРѕС‚С–
+   РїРѕРєР°Р·СѓРІР°Р»Р° РєРЅРѕРїРєРё СЂРѕР·РґС–Р»С–РІ РїС–Рґ СЃРѕР±РѕСЋ */
 @keyframes sortIn{from{transform:translateY(-7px)}to{transform:none}}
 .sortmenu__i{
   display:flex;align-items:center;gap:11px;width:100%;
@@ -980,20 +980,52 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
 }
 .sortmenu__i + .sortmenu__i{box-shadow:inset 0 .5px 0 rgba(255,255,255,.14)}
 .sortmenu__i:hover{background:rgba(255,255,255,.10)}
-/* галочка тримає місце завжди, інакше рядки стрибають при виборі */
+/* РіР°Р»РѕС‡РєР° С‚СЂРёРјР°С” РјС–СЃС†Рµ Р·Р°РІР¶РґРё, С–РЅР°РєС€Рµ СЂСЏРґРєРё СЃС‚СЂРёР±Р°СЋС‚СЊ РїСЂРё РІРёР±РѕСЂС– */
 .sortmenu__ok{width:17px;height:17px;flex-shrink:0;opacity:0}
 .sortmenu__i.on .sortmenu__ok{opacity:1}
 @media(prefers-reduced-motion:reduce){.sortmenu{animation:none}}
 
-/* ---------- Вузька картка на телефоні ----------
-   У 168 пікселів не влазили назва з двома плашками в один рядок і
-   стара ціна поруч із новою — зайве зрізалося краєм картки.
-   Тепер плашки за потреби переходять під назву, а перекреслена ціна
-   стає над поточною. Коли все вміщається, вигляд не змінюється. */
+/* ---------- Р’СѓР·СЊРєР° РєР°СЂС‚РєР° РЅР° С‚РµР»РµС„РѕРЅС– ----------
+   РЈ 168 РїС–РєСЃРµР»С–РІ РЅРµ РІР»Р°Р·РёР»Рё РЅР°Р·РІР° Р· РґРІРѕРјР° РїР»Р°С€РєР°РјРё РІ РѕРґРёРЅ СЂСЏРґРѕРє С–
+   СЃС‚Р°СЂР° С†С–РЅР° РїРѕСЂСѓС‡ С–Р· РЅРѕРІРѕСЋ вЂ” Р·Р°Р№РІРµ Р·СЂС–Р·Р°Р»РѕСЃСЏ РєСЂР°С”Рј РєР°СЂС‚РєРё.
+   РўРµРїРµСЂ РїР»Р°С€РєРё Р·Р° РїРѕС‚СЂРµР±Рё РїРµСЂРµС…РѕРґСЏС‚СЊ РїС–Рґ РЅР°Р·РІСѓ, Р° РїРµСЂРµРєСЂРµСЃР»РµРЅР° С†С–РЅР°
+   СЃС‚Р°С” РЅР°Рґ РїРѕС‚РѕС‡РЅРѕСЋ. РљРѕР»Рё РІСЃРµ РІРјС–С‰Р°С”С‚СЊСЃСЏ, РІРёРіР»СЏРґ РЅРµ Р·РјС–РЅСЋС”С‚СЊСЃСЏ. */
 @media(max-width:520px){
   .card__tags{top:-11px;right:11px;gap:5px}
   .tag{padding:3px 6px;font-size:9.5px}
   .card__p s{display:block;margin:0 0 1px}
   .card__p{padding-right:78px}
   .card__add{min-width:74px;padding:0 10px}
+}
+
+/* ---------- РџР»РёС‚РєР° СЂРѕР·РґС–Р»Сѓ РЅР° РіРѕР»РѕРІРЅС–Р№ ----------
+   Р¤РѕС‚Рѕ (Р°Р±Рѕ РЅР°РјР°Р»СЊРѕРІР°РЅР° С–РєРѕРЅРєР°) Р·Р°РїРѕРІРЅСЋС” РІСЃСЋ РїР»РёС‚РєСѓ, РїС–РґРїРёСЃ Р»РµР¶РёС‚СЊ
+   РїРѕРІРµСЂС… РЅСЊРѕРіРѕ РЅР° С‚РµРјРЅРѕРјСѓ РіСЂР°РґС–С”РЅС‚С–. РЎС‚СЂС–С‡РєРё РІ РјРµРЅСЋ С†Рµ РЅРµ СЃС‚РѕСЃСѓС”С‚СЊСЃСЏ:
+   С‚Р°Рј РїС–РіСѓР»РєРё Р· РґСЂС–Р±РЅРѕСЋ С–РєРѕРЅРєРѕСЋ Р·Р±РѕРєСѓ, С– РІРѕРЅРё Р»РёС€Р°СЋС‚СЊСЃСЏ СЏРє Р±СѓР»Рё. */
+.cats:not(.cats--pill) .cat{
+  position:relative;overflow:hidden;
+  width:104px;min-width:104px;height:104px;padding:0;gap:0;
+  justify-content:center;
+}
+/* фото є — підпис іде вниз, поверх знімка; немає — стоїть посередині */
+.cats:not(.cats--pill) .cat:has(.pic){justify-content:flex-end}
+.cats:not(.cats--pill) .cat svg,
+.cats:not(.cats--pill) .cat .pic{
+  position:absolute;inset:0;width:100%;height:100%;
+  border-radius:0;object-fit:cover;
+}
+/* РіСЂР°РґС–С”РЅС‚, С‰РѕР± Р±С–Р»РёР№ РїС–РґРїРёСЃ С‡РёС‚Р°РІСЃСЏ РЅР° Р±СѓРґСЊ-СЏРєРѕРјСѓ С„РѕС‚Рѕ */
+.cats:not(.cats--pill) .cat:has(.pic)::after{
+  content:'';position:absolute;left:0;right:0;bottom:0;height:62%;
+  background:linear-gradient(transparent,rgba(0,0,0,.8));
+  pointer-events:none;
+}
+.cats:not(.cats--pill) .cat__n{
+  position:relative;z-index:2;width:100%;padding:0 7px 9px;
+  text-align:center;font-size:12.5px;line-height:1.18;white-space:normal;
+  text-shadow:0 1px 3px rgba(0,0,0,.95);
+}
+@media(max-width:520px){
+  .cats:not(.cats--pill) .cat{width:92px;min-width:92px;height:92px}
+  .cats:not(.cats--pill) .cat__n{font-size:11.5px;padding:0 6px 8px}
 }

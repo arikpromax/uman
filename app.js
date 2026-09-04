@@ -124,7 +124,7 @@ const CATIMG = {};
 // Назву й картинку їй теж задають в адмінці — рядком з catkey «all».
 const CATALL = { n:'Усі' };
 const catIcon = c =>
-  picDraw({ ...(CAT_ART[c.id] || {t:'roll',ing:['losos']}), n:c.n, img:CATIMG[c.id] }, 40);
+  pic({ n:c.n, img:CATIMG[c.id] }, 40);
 
 /* ---------- режим роботи ---------- */
 const hm = s => { const m=/^(\d{1,2}):(\d{2})$/.exec(String(s||'').trim());

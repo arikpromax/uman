@@ -299,6 +299,50 @@ function wireSort(onChange){
   document.addEventListener('keydown', ev=>{ if(ev.key === 'Escape') close(); });
 }
 
+/* ---------- Стрілки збоку стрічки розділів ----------
+   Пальцем стрічку тягнуть, а мишкою — ні: з компʼютера половина
+   розділів лишалася непоміченою за краєм. Тому там додаємо кнопки.
+   На сенсорному екрані їх немає — вони б тільки закривали плитки. */
+function wireCatsArrows(){
+  if(TOUCH) return;
+  const strip = $('#cats');
+  if(!strip || strip.parentElement.classList.contains('catsnav')) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'catsnav';
+  strip.parentElement.insertBefore(wrap, strip);
+  wrap.appendChild(strip);
+
+  const arrow = dir => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'catsnav__b catsnav__b--' + (dir < 0 ? 'l' : 'r');
+    b.setAttribute('aria-label', dir < 0 ? 'Попередні розділи' : 'Наступні розділи');
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" ' +
+      'stroke-linecap="round" stroke-linejoin="round"><path d="' +
+      (dir < 0 ? 'M15 5 8 12l7 7' : 'M9 5l7 7-7 7') + '"/></svg>';
+    // гортаємо майже на цілий екран стрічки, лишаючи край для орієнтира
+    b.onclick = () => strip.scrollBy({ left: dir * Math.round(strip.clientWidth * .8), behavior: 'smooth' });
+    wrap.appendChild(b);
+    return b;
+  };
+  const left = arrow(-1), right = arrow(1);
+
+  /* кнопка зникає, коли гортати в її бік уже нікуди, і обидві —
+     коли стрічка вміщається цілком */
+  const sync = () => {
+    const max = strip.scrollWidth - strip.clientWidth;
+    left.hidden  = max < 8 || strip.scrollLeft <= 2;
+    right.hidden = max < 8 || strip.scrollLeft >= max - 2;
+  };
+  // без requestAnimationFrame: перевірка дешева, а в неактивній вкладці
+  // кадри не малюються — і кнопки лишалися б у застарілому стані
+  strip.addEventListener('scroll', sync, { passive:true });
+  addEventListener('resize', sync);
+  window.syncCatsArrows = sync;   // сторінка кличе після перемальовування
+  sync();
+}
+
 /* ---------- ІКОНКИ (без емодзі) ---------- */
 const ICON = {
   phone:'<path d="M6.6 3.5h3l1.6 4-2 1.4a12 12 0 0 0 5.9 5.9l1.4-2 4 1.6v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7 2 2 0 0 1 6.6 3.5z"/>',

@@ -1029,3 +1029,22 @@ body.dayoff-on #toCond,body.dayoff-on #toAdd,body.dayoff-on #toCheckout,body.day
   .cats:not(.cats--pill) .cat{width:92px;min-width:92px;height:92px}
   .cats:not(.cats--pill) .cat__n{font-size:11.5px;padding:0 6px 8px}
 }
+
+/* ---------- Стрілки збоку стрічки розділів ----------
+   Тільки для мишки: на сенсорному екрані стрічку гортають пальцем,
+   і кнопки там лише закривали б плитки. */
+.catsnav{position:relative}
+.catsnav__b{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:20;
+  width:36px;height:36px;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line);border-radius:50%;
+  background:rgba(16,11,12,.94);backdrop-filter:blur(8px);
+  color:var(--ink);box-shadow:0 8px 20px -8px rgba(0,0,0,.85);
+  transition:background .25s,border-color .25s,transform .25s var(--ease);
+}
+.catsnav__b:hover{background:var(--red);border-color:var(--red-hi);transform:translateY(-50%) scale(1.08)}
+.catsnav__b svg{width:18px;height:18px}
+.catsnav__b--l{left:-8px}
+.catsnav__b--r{right:-8px}
+/* у вузькому вікні кнопки з'їдали б крайні плитки */
+@media(max-width:600px){.catsnav__b{display:none}}
